@@ -1,2 +1,3 @@
-dync_sns
+Dync
 ========
+SNS for Developer Project
