@@ -9,4 +9,17 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  
+  <servlet>
+		<description></description>
+		<display-name>IssueServlet</display-name>
+		<servlet-name>IssueServlet</servlet-name>
+		<servlet-class>dync.servlet.IssueServlet</servlet-class>
+	</servlet>
+  
+  <servlet-mapping>
+		<servlet-name>IssueServlet</servlet-name>
+		<url-pattern>/issuecontrol</url-pattern>
+  </servlet-mapping>
+
 </web-app>
