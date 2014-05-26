@@ -2,6 +2,11 @@ package dync.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -71,6 +76,11 @@ public class IssueServlet extends HttpServlet {
 				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(jspPath);
 				dispatcher.forward(request, response);
 			}else {
+				/*
+				String jspPath = "/jsp/errorPage.jsp";
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(jspPath);
+				dispatcher.forward(request, response);
+				*/
 				throw new ServletException("DB Query Error");
 			}
 		}
@@ -92,10 +102,22 @@ public class IssueServlet extends HttpServlet {
 		String contents = request.getParameter(Issue.CONTENTS);
 		boolean display = Boolean.parseBoolean(request.getParameter(Issue.DISPLAY));
 		int recommand = Integer.parseInt(request.getParameter(Issue.RECOMMAND));
-		String reg_date = request.getParameter(Issue.REG_DATE);
+		//String reg_date = request.getParameter(Issue.REG_DATE);
 		
 		
-		Issue issue = new Issue(issue_id,user_id,type,subject,contents,display,recommand,reg_date);
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		// get current date time with Date()
+		//Date date = new Date();
+		//System.out.println(dateFormat.format(date));
+
+		// get current date time with Calendar()
+		Calendar cal = Calendar.getInstance();
+		
+		String reg_date = dateFormat.format(cal.getTime());
+		String upload = request.getParameter(Issue.UPLOAD);
+		
+		
+		Issue issue = new Issue(issue_id,user_id,type,subject,contents,display,recommand,reg_date,upload);
 		
 		return issue;
 	}

@@ -51,8 +51,8 @@ public class PersistentManager {
 	
 	public boolean insertIssue(Issue issue){
 		connect();
-		String sql = "insert into issue(ISSUE_ID,USER_ID,TYPE,SUBJECT,CONTENTS,DISPLAY,RECOMMAND,REG_DATE)" +
-					"values(?,?,?,?,?,?,?,?)";
+		String sql = "insert into issue(ISSUE_ID,USER_ID,TYPE,SUBJECT,CONTENTS,DISPLAY,RECOMMAND,REG_DATE,UPLOAD)" +
+					"values(?,?,?,?,?,?,?,?,?)";
 		try{
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, issue.getIssue_id());
@@ -64,7 +64,7 @@ public class PersistentManager {
 			else pstmt.setInt(6, 0);
 			pstmt.setInt(7, issue.getRecommand());
 			pstmt.setTimestamp(8, Timestamp.valueOf(issue.getReg_date()));
-			
+			pstmt.setString(9, issue.getUpload());
 			pstmt.executeUpdate();
 		}catch(SQLException e){
 			System.out.println(pstmt.toString());
@@ -114,6 +114,7 @@ public class PersistentManager {
 			issue.setDisplay(rs.getBoolean("DISPLAY"));
 			issue.setRecommand(rs.getInt("RECOMMAND"));
 			issue.setReg_date(rs.getString("REG_DATE"));
+			issue.setUpload(rs.getString("UPLOAD"));
 			
 		}catch (SQLException e) {
 			e.printStackTrace();
@@ -141,6 +142,7 @@ public class PersistentManager {
 			pstmt.setBoolean(6, issue.isDisplay());
 			pstmt.setInt(7, issue.getRecommand());
 			pstmt.setString(8, issue.getReg_date());
+			pstmt.setString(9, issue.getUpload());
 			
 			pstmt.executeUpdate();
 		}catch (SQLException e) {
