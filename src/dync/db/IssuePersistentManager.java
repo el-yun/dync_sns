@@ -41,15 +41,17 @@ public class IssuePersistentManager extends ConnectDB {
 		return true;
 	}
 	
-	public boolean deleteIssue(int issue_id){
+	public boolean deleteIssue(String columnName, int columnValue){
 		connect();
 		
-		String sql = "delete from issue where ISSUE_ID=?";
+		String sql = "delete from issue where " + columnName + "=?";
 		
 		try{
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, issue_id);
+			pstmt.setInt(1, columnValue);
 			pstmt.executeUpdate();
+			
+			System.out.println(pstmt.toString());
 		}catch(SQLException e){
 			e.printStackTrace();
 			return false;

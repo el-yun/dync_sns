@@ -83,6 +83,19 @@ public class IssueServlet extends HttpServlet {
 				*/
 				throw new ServletException("DB Query Error");
 			}
+		}else if(action.equals(ACTION_DELETE))
+		{
+			
+			System.out.println("delete 요청");
+			String columnName = request.getParameter("COLUMN_NAME");
+			int columnValue = Integer.parseInt(request.getParameter("COLUMN_VALUE"));
+			if(ipm.deleteIssue(columnName, columnValue)){
+				String jspPath = "/jsp/dbTest.jsp";
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(jspPath);
+				dispatcher.forward(request, response);
+			}else{
+				throw new ServletException("DB Query Error");
+			}
 		}
 	}
 	
