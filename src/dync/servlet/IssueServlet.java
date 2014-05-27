@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dync.db.PersistentManager;
+import dync.db.IssuePersistentManager;
 import dync.model.Issue;
 
 /**
@@ -32,7 +32,7 @@ public class IssueServlet extends HttpServlet {
 	private static final String ACTION_UPDATE = "update";
 	private static final String ACTION_DELETE = "delete";
 	
-	private PersistentManager pm = new PersistentManager();
+	private IssuePersistentManager ipm = new IssuePersistentManager();
 	/**
 	 * Default constructor.
 	 */
@@ -71,7 +71,7 @@ public class IssueServlet extends HttpServlet {
 			System.out.println("insert 요청");
 			Issue issue = makeIssueBean(request);
 			PrintWriter out = response.getWriter();
-			if(pm.insertIssue(issue)){
+			if(ipm.insertIssue(issue)){
 				String jspPath = "/jsp/dbTest.jsp";
 				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(jspPath);
 				dispatcher.forward(request, response);

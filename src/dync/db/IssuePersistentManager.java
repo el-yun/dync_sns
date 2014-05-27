@@ -11,43 +11,8 @@ import java.sql.Timestamp;
 
 import dync.model.Issue;
 
-public class PersistentManager {
-	Connection conn = null;
-	PreparedStatement pstmt = null;
+public class IssuePersistentManager extends ConnectDB {
 	
-	/* MySQL 연결정보 */
-	String jdbc_driver = "com.mysql.jdbc.Driver";
-	String jdbc_url = "jdbc:mysql://127.0.0.1:3306/dyncdb"; 
-	
-	// DB연결 메서드
-	void connect() {
-		try {
-			Class.forName(jdbc_driver);
-
-			conn = DriverManager.getConnection(jdbc_url,"root","root");
-			System.out.println("DB 연결 성공");
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("DB 연결 실패");
-		}
-	}
-	
-	void disconnect() {
-		if(pstmt != null) {
-			try {
-				pstmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		} 
-		if(conn != null) {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}
 	
 	public boolean insertIssue(Issue issue){
 		connect();
