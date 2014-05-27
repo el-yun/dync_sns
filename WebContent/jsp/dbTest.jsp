@@ -26,12 +26,6 @@
 				UPLOAD   <input type="file" name="UPLOAD"><br>
 				<input type="submit" value="»ðÀÔ">
 			</form>
-			<form id="deleteIssueForm" name="deleteIssueForm" method="post" action="${pageContext.request.contextPath}/issuecontrol">
-				<input type=hidden id="actionId" name="action" value="delete">
-				COLUMN_NAME <input type="text" name="COLUMN_NAME" ><br>
-				COLUMN_VALUE <input type="text" name="COLUMN_VALUE"><br>
-				<input type="submit" value="»èÁ¦">
-			</form>
 		</div>
 		<div style="border:1pt solid blue; width : 80px; height : 50px;float:left;margin-top:150px;">
 			<input type="button" name="editBtn" value=">>">
