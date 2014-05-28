@@ -39,7 +39,7 @@
 		<div style="border:1pt solid red; width : 300px; height : 600px;float:left;text-align: left;">
 			<h2>DB편집</h2>
 		</div>
-		<div style="border:1pt solid silver; margin-left:20px; width : 300px; height : 300px;float:left;">
+		<div style="border:1pt solid silver; margin-left:20px; width : 300px; height : 400px;float:left;">
 			<h2>Code 추가</h2>
 			<form id="insertCodeForm" name="inserCodeForm" method="post" action="${pageContext.request.contextPath}/codecontrol">
 				<input type=hidden id="actionId" name="action" value="insert">
@@ -51,6 +51,13 @@
 				REVISION <input type="number" name="REVISION"><br>
 				USING <br><input type="radio" name="USING" value="true"> TRUE<br>
 						 <input type="radio" name="USING" value="false"> FALSE<br>
+				<input type="submit" value="삽입">
+			</form>
+			<form id="deleteCodeForm" name="deleteCodeForm" method="post" action="${pageContext.request.contextPath}/codecontrol">
+				<input type=hidden id="actionId" name="action" value="delete">
+				COLUMN_NAME <input type="text" name="COLUMN_NAME" ><br>
+				COLUMN_VALUE <input type="text" name="COLUMN_VALUE"><br>
+				<input type="submit" value="삭제">
 			</form>
 		</div>
 	</div>

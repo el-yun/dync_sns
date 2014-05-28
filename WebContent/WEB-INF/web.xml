@@ -9,6 +9,7 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  
   <servlet>
     <description></description>
     <display-name>IssueServlet</display-name>
@@ -18,5 +19,16 @@
   <servlet-mapping>
     <servlet-name>IssueServlet</servlet-name>
     <url-pattern>/issuecontrol</url-pattern>
+  </servlet-mapping>
+  
+   <servlet>
+    <description></description>
+    <display-name>CodeServlet</display-name>
+    <servlet-name>CodeServlet</servlet-name>
+    <servlet-class>dync.servlet.CodeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CodeServlet</servlet-name>
+    <url-pattern>/codecontrol</url-pattern>
   </servlet-mapping>
 </web-app>
