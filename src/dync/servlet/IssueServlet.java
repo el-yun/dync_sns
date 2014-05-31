@@ -72,44 +72,43 @@ public class IssueServlet extends HttpServlet {
 
 	private void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
-		String savePath = "C:/DEVSNS/saveFile"; // <-
+		File file = null;
+		String savePath = "C:/DEVSNS/saveFile";
 		File dir = new File(savePath);
 		if (!dir.isDirectory()) {
+			System.out.println("폴더를 생성 합니다.");
 			if (!dir.mkdirs()) {
 				System.out.println("폴더 생성 실패");
 			}
 		}
-		File file = null;
 		Enumeration files = null;
 		String action = null;
 		String strIssue_id = request.getParameter(Issue.ISSUE_ID);
-		String upload = request.getParameter("UPLOAD");
-		if (upload == "UPLOAD") {
-			int maxSize = 5 * 1024 * 1024; // 최대 업로드 파일 크기 5MB(메가)로 제한
-			try {
-				multi = new MultipartRequest(request, savePath, maxSize,
-						"utf-8", new DefaultFileRenamePolicy());
-				fileName = multi.getFilesystemName("UPLOAD"); // 파일의 이름 얻기
-				files = multi.getFileNames();
-				String name = (String) files.nextElement();
-				file = multi.getFile(name);
-				if (fileName == null) { // 파일이 업로드 되지 않았을때
-					System.out.print("파일 업로드 되지 않았음");
-					action = request.getParameter(REQ_ACTION);
-					parameter_action(action, request, response); // 액션 처리
-				} else { // 파일이 업로드 되었을때
-					action = multi.getParameter(REQ_ACTION);
-					parameter_action(action, request, response); // 액션 처리
+		int maxSize = 5 * 1024 * 1024; // 최대 업로드 파일 크기 5MB(메가)로 제한
+		try {
+			multi = new MultipartRequest(request, savePath, maxSize, "utf-8",
+					new DefaultFileRenamePolicy());
+			fileName = multi.getFilesystemName("UPLOAD"); // 파일의 이름 얻기
+			files = multi.getFileNames();
+			String name = (String) files.nextElement();
+			file = multi.getFile(name);
+			if (fileName == null) { // 파일이 업로드 되지 않았을때
+				System.out.print("파일 업로드 되지 않았음");
+				action = multi.getParameter(REQ_ACTION);
+				parameter_action(action, request, response); // 액션 처리
+			} else { // 파일이 업로드 되었을때
+				action = multi.getParameter(REQ_ACTION);
+				System.out.println(action);
+				parameter_action(action, request, response); // 액션 처리
 				}// else
-			} catch (Exception e) {
-				System.out.println("예외 발생  : " + e);
-			}
-		} else {
-			action = request.getParameter(REQ_ACTION);
-			parameter_action(action, request, response); // 액션 처리
+		} catch (Exception e) {
+			System.out.print("예외 발생 : " + e);
 		}
-		System.out.println("IssueServlet실행");
+		System.out.println("----------------------------------------------------");
+		if (action == null) {
+			System.out.println("action = null");
+			return;
+		}
 	}
 
 	private void parameter_action(String action, HttpServletRequest request,
