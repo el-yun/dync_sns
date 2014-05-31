@@ -7,6 +7,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-잘못된 요청입니다.
+<jsp:useBean id="errorMessage" scope="request" class="java.lang.String"/>
+<h1>오류 발생</h1>
+<h4>오류 내용</h4>
+<textarea rows="10" cols="50" disabled="disabled">${errorMessage}</textarea>
+
 </body>
 </html>
