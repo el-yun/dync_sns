@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="./css/layout.css" />
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js" type="text/javascript" charset="utf-8"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.5.3/backbone-min.js" type="text/javascript" charset="utf-8"></script>
+<script src="./js/ace.js" type="text/javascript" charset="utf-8"></script>
+
+
+</head>
+<body>
+	<div id="wrap">
+		<div id="newissue" class="popup" style="display: block">
+			<div class="box_top">
+				<p class="box_title">New issue</p>
+			</div>
+			<div class="box_content">
+				<div class="box_text"></div>
+				<div class="box_menu">
+					<p class="left_btn">코드 삽입하기</p>
+					<p class="right_btn">이슈 등록하기</p>
+				</div>
+			</div>
+
+		</div>
+		<div id="repository" class="popup" style="display: none">
+			<div class="box_top">
+				<p class="box_title">Code Repository</p>
+			</div>
+			<div class="box_content">
+				<div class="box_left">
+					<dl id="code_list" class="dotlist">
+						<li>Code</li>
+						<li>Code</li>
+					</dl>
+					<div class="box_menu">
+						<p class="left_btn">목록에서 삭제</p>
+						<p class="right_btn">코드 저장</p>
+					</div>
+				</div>
+				<div class="box_right"></div>
+			</div>
+
+		</div>
+		<header id="layout">
+			<div id="headtop">
+				<div class="headerlayout">
+					<p id="logo">
+						<em>Dync</em>
+					</p>
+					<div id="search"></div>
+					<p class="user">
+						<span class="Question">이용문의</span> <span class="login spandiv">로그인</span>
+						<span class="caption">네이버, 카카오 계정으로 로그인할 수 있습니다.</span>
+					</p>
+				</div>
+			</div>
+			<div id="menu">
+				<ul class="main-menu">
+					<dl id="btn_newissue"></dl>
+					<dl id="btn_timeline"></dl>
+					<dl id="btn_code"></dl>
+					<dl id="btn_setting"></dl>
+				</ul>
+			</div>
+		</header>
+		<div id="container">
+			<aside class="left">
+				<div class="lefttop"></div>
+				<div class="left-menu">
+					<p>타임라인</p>
+				</div>
+				<div class="left-menu">
+					<p>Java</p>
+				</div>
+				<div class="left-menu">
+					<p>Ruby</p>
+				</div>
+				<div class="left-menu">
+					<p>Javascript</p>
+				</div>
+			</aside>
+			<div id="contents">
+				<div id="listtop">
+					<span>목록 정렬 : </span> <select><option>최신 등록 순</option></select>
+				</div>
+				<div id="Issuelist">
+					Loading List...
+				</div>
+			</div>
+		</div>
+		<footer>
+			<p class="copyright">Copyright @ JBNU_ TEAM BUFF All Right
+				Reserved</p>
+		</footer>
+	</div>
+	<!-- 목록 출력 -->
+	<script type='text/template' id='listIssueTemplate'>
+	<% 
+        $.each(issues, function () { %>
+			<div class="issue">
+				<h1><%= this.subject %></h1>
+				<p class="subtext"><%= this.user_id %> | <%= this.reg_date %></p>
+				<article>
+					<%= this.contents %>
+				</article>
+			</div>	
+    <%  });
+       
+    %>
+	</script>
+	<script src="./js/dync.js" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>
