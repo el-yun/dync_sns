@@ -31,13 +31,13 @@
 				UPLOAD   <input type="file" name="UPLOAD"><br>
 				<input type="submit" value="삽입">
 			</form>
-			<form id="deleteIssueForm" name="deleteIssueForm" method="post" action="${pageContext.request.contextPath}/issuecontrol">
+			<form id="deleteIssueForm" name="deleteIssueForm" method="post" action="${pageContext.request.contextPath}/issuecontrol" enctype="multipart/form-data">
 				<input type=hidden id="actionId" name="action" value="delete">
 				COLUMN_NAME <input type="text" name="COLUMN_NAME" ><br>
 				COLUMN_VALUE <input type="text" name="COLUMN_VALUE"><br>
 				<input type="submit" value="삭제">
 			</form>
-			<form id="getIssueForm" name="getIssueForm" method="post" action="${pageContext.request.contextPath}/issuecontrol?action=get_issue">
+			<form id="getIssueForm" name="getIssueForm" method="post" action="${pageContext.request.contextPath}/issuecontrol?action=get_issue" enctype="multipart/form-data">
 				<h5>json 불러오기 ISSUE_ID 입력</h5>
 				<input type="text" name="ISSUE_ID">
 				<input type="submit" value="JSON 불러오기">
@@ -46,11 +46,11 @@
 		</div>
 		<div style="border:1pt solid red; width : 300px; height : 600px;float:left;text-align: left;">
 			<h2>DB편집</h2>
-			<form id="editIssueForm" name="editIssueForm" method="post" action="${pageContext.request.contextPath}/issuecontrol?action=edit">
+			<form id="editIssueForm" name="editIssueForm" method="post" action="${pageContext.request.contextPath}/issuecontrol?action=edit" enctype="multipart/form-data">
 				<input type="number" name="ISSUE_ID">
 				<input type="submit" value="불러오기">
 			</form>
-			<form id="updateIssueForm" name="updateIssueForm" method="post" action="${pageContext.request.contextPath}/issuecontrol">
+			<form id="updateIssueForm" name="updateIssueForm" method="post" action="${pageContext.request.contextPath}/issuecontrol" enctype="multipart/form-data">
 			<!-- <form id="insertIssueForm" name="insertIssueForm" method="post" action="/Dync/dync.servlet.IssueServlet">-->
 				<input type=hidden id="actionId" name="action" value="update">
 				ISSUE_ID <input type="hidden" name="ISSUE_ID" min="0" max="2100000000" value="${issue.getIssue_id()}" ><br>

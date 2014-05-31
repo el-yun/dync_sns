@@ -76,14 +76,15 @@ public class CodeServlet extends HttpServlet {
 			Code code = makeCodeBean(request);
 			PrintWriter out = response.getWriter();
 			if(cpm.insertCode(code)){
-				gotoJsp(request, response, "dbTest.jsp");
+				gotoJsp(request, response, "/jsp/dbTest.jsp");
 			}else {
 				/*
 				String jspPath = "/jsp/errorPage.jsp";
 				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(jspPath);
 				dispatcher.forward(request, response);
 				*/
-				throw new ServletException("DB Query Error");
+				gotoJsp(request, response, "/jsp/errorPage.jsp");
+				//throw new ServletException("DB Query Error");
 			}
 		}else if(action.equals(ACTION_DELETE))
 		{
@@ -92,7 +93,7 @@ public class CodeServlet extends HttpServlet {
 			String columnName = request.getParameter("COLUMN_NAME");
 			int columnValue = Integer.parseInt(request.getParameter("COLUMN_VALUE"));
 			if(cpm.deleteCode(columnName, columnValue)){
-				gotoJsp(request, response, "dbTest.jsp");
+				gotoJsp(request, response, "/jsp/dbTest.jsp");
 			}else{
 				throw new ServletException("DB Query Error");
 			}
@@ -101,7 +102,7 @@ public class CodeServlet extends HttpServlet {
 			System.out.println("update 요청");
 			Code code = makeCodeBean(request);
 			if(cpm.updateCode(code)){
-				gotoJsp(request, response, "dbTest.jsp");
+				gotoJsp(request, response, "/jsp/dbTest.jsp");
 			}else{
 				throw new ServletException("DB Query Error");
 			}
