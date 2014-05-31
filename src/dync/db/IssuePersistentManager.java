@@ -122,7 +122,7 @@ public class IssuePersistentManager extends ConnectDB {
 		connect();
 		ArrayList<Issue> issueList = new ArrayList<Issue>();
 		
-		String sql = "select * from issue order by REG_DATE desc";
+		String sql = "select * from issue order by REG_DATE DESC";
 		try {
 			pstmt = conn.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();

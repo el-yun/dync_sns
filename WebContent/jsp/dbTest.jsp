@@ -88,7 +88,7 @@
 			</div>
 			<div style="border:1pt solid silver; margin-left:20px; width : 350px; height : 400px;float:left;">
 				<h2>유저 추가(repository 자동 생성)</h2>
-				<form id="insertUserForm" name="inserUserForm" method="post" action="${pageContext.request.contextPath}/usercontrol">
+				<form id="insertUserForm" name="inserUserForm" method="post" action="${pageContext.request.contextPath}/usercontrol" >
 					<input type=hidden id="actionId" name="action" value="insert">
 					USER_ID <input type="number" name="USER_ID" min="0" max="2100000000" value=""><br>
 					USER_NAVERHASH <input type="text" name="USER_NAVERHASH"><br>
@@ -100,7 +100,7 @@
 			</div>
 			<div style="height:auto">
 				<p>
-				<form method="post" action="${pageContext.request.contextPath}/issuecontrol?action=list">
+				<form method="post" action="${pageContext.request.contextPath}/issuecontrol?action=list" enctype="multipart/form-data">
 				<input type="submit" value="list 출력">
 				</form>
 				<h3>List 출력</h3>

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import com.oreilly.servlet.MultipartRequest;
@@ -71,36 +72,49 @@ public class IssueServlet extends HttpServlet {
 
 	private void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher rd = null;
-		File file = null;
-		String savePath = "C:/Users/Administrator/Documents/GitHub/dync_sns/saveFile"; // <-
-		// 요기를
-		// 바꿔주면
-		// 다운받는
-		// 경로가
 
+		String savePath = "C:/DEVSNS/saveFile"; // <-
+		File dir = new File(savePath);
+		if (!dir.isDirectory()) {
+			if (!dir.mkdirs()) {
+				System.out.println("폴더 생성 실패");
+			}
+		}
+		File file = null;
 		Enumeration files = null;
 		String action = null;
 		String strIssue_id = request.getParameter(Issue.ISSUE_ID);
-		int maxSize = 5 * 1024 * 1024; // 최대 업로드 파일 크기 5MB(메가)로 제한
-		try {
-			multi = new MultipartRequest(request, savePath, maxSize, "utf-8",
-					new DefaultFileRenamePolicy());
-			fileName = multi.getFilesystemName("UPLOAD"); //파일의 이름 얻기
-
-			files = multi.getFileNames();
-			String name = (String) files.nextElement();
-			file = multi.getFile(name);
-			if (fileName == null) { // 파일이 업로드 되지 않았을때
-				System.out.print("파일 업로드 되지 않았음");
-			} else { // 파일이 업로드 되었을때
-				// System.out.println("File Name  : " + fileName);
-				action = multi.getParameter(REQ_ACTION);
-			}// else
-		} catch (Exception e) {
-			System.out.print("예외 발생  : " + e);
+		String upload = request.getParameter("UPLOAD");
+		if (upload == "UPLOAD") {
+			int maxSize = 5 * 1024 * 1024; // 최대 업로드 파일 크기 5MB(메가)로 제한
+			try {
+				multi = new MultipartRequest(request, savePath, maxSize,
+						"utf-8", new DefaultFileRenamePolicy());
+				fileName = multi.getFilesystemName("UPLOAD"); // 파일의 이름 얻기
+				files = multi.getFileNames();
+				String name = (String) files.nextElement();
+				file = multi.getFile(name);
+				if (fileName == null) { // 파일이 업로드 되지 않았을때
+					System.out.print("파일 업로드 되지 않았음");
+					action = request.getParameter(REQ_ACTION);
+					parameter_action(action, request, response); // 액션 처리
+				} else { // 파일이 업로드 되었을때
+					action = multi.getParameter(REQ_ACTION);
+					parameter_action(action, request, response); // 액션 처리
+				}// else
+			} catch (Exception e) {
+				System.out.println("예외 발생  : " + e);
+			}
+		} else {
+			action = request.getParameter(REQ_ACTION);
+			parameter_action(action, request, response); // 액션 처리
 		}
 		System.out.println("IssueServlet실행");
+	}
+
+	private void parameter_action(String action, HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
 		// System.out.println(action);
 		if (action == null) {
 			System.out.println("action = null");
@@ -173,11 +187,15 @@ public class IssueServlet extends HttpServlet {
 		} else if (action.equals(ACTION_LIST)) {
 			System.out.println("list 요청");
 			ArrayList<Issue> issueList = ipm.getIssueList();
-			request.setAttribute("issueList", issueList);
+			JSONObject json = new JSONObject();
+			JSONArray jsonArray = new JSONArray();
+			jsonArray.addAll(issueList);
+			System.out.println(jsonArray.toString());
+			request.setAttribute("issueList", jsonArray.toString());
 
-			gotoJsp(request, response, "/jsp/dbTest.jsp");
+			gotoJsp(request, response, "/jsp/output_json.jsp");
 		}
-
+		
 	}
 
 	private Issue makeIssueBean(MultipartRequest multi) {
