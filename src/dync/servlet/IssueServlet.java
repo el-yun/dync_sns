@@ -92,7 +92,7 @@ public class IssueServlet extends HttpServlet {
 			file = multi.getFile(name);
 			if (fileName == null) { // �뙆�씪�씠 �뾽濡쒕뱶 �릺吏� �븡�븯�쓣�븣
 				System.out.print("�뙆�씪 �뾽濡쒕뱶 �릺吏� �븡�븯�쓬");
-			} else { // �뙆�씪�씠 �뾽濡쒕뱶 �릺�뿀�쓣�븣
+			} else { // 한글 인코딩 테스
 				// System.out.println("File Name  : " + fileName);
 				action = multi.getParameter(REQ_ACTION);
 			}// else
