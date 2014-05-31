@@ -74,32 +74,33 @@ public class IssueServlet extends HttpServlet {
 		RequestDispatcher rd = null;
 		File file = null;
 		String savePath = "C:/Users/Administrator/Documents/GitHub/dync_sns/saveFile"; // <-
-																						// �슂湲곕��
-																						// 諛붽퓭二쇰㈃
-																						// �떎�슫諛쏅뒗
-																						// 寃쎈줈媛�
+		// 요기를
+		// 바꿔주면
+		// 다운받는
+		// 경로가
+
 		Enumeration files = null;
 		String action = null;
 		String strIssue_id = request.getParameter(Issue.ISSUE_ID);
-		int maxSize = 5 * 1024 * 1024; // 理쒕� �뾽濡쒕뱶 �뙆�씪 �겕湲� 5MB(硫붽�)濡� �젣�븳
+		int maxSize = 5 * 1024 * 1024; // 최대 업로드 파일 크기 5MB(메가)로 제한
 		try {
 			multi = new MultipartRequest(request, savePath, maxSize, "utf-8",
 					new DefaultFileRenamePolicy());
-			fileName = multi.getFilesystemName("UPLOAD"); // �뙆�씪�쓽 �씠由� �뼸湲�
+			fileName = multi.getFilesystemName("UPLOAD"); //파일의 이름 얻기
 
 			files = multi.getFileNames();
 			String name = (String) files.nextElement();
 			file = multi.getFile(name);
-			if (fileName == null) { // �뙆�씪�씠 �뾽濡쒕뱶 �릺吏� �븡�븯�쓣�븣
-				System.out.print("�뙆�씪 �뾽濡쒕뱶 �릺吏� �븡�븯�쓬");
-			} else { // 한글 인코딩 테스
+			if (fileName == null) { // 파일이 업로드 되지 않았을때
+				System.out.print("파일 업로드 되지 않았음");
+			} else { // 파일이 업로드 되었을때
 				// System.out.println("File Name  : " + fileName);
 				action = multi.getParameter(REQ_ACTION);
 			}// else
 		} catch (Exception e) {
-			System.out.print("�삁�쇅 諛쒖깮 : " + e);
+			System.out.print("예외 발생  : " + e);
 		}
-		System.out.println("IssueServlet �떎�뻾");
+		System.out.println("IssueServlet실행");
 		// System.out.println(action);
 		if (action == null) {
 			System.out.println("action = null");
@@ -107,20 +108,20 @@ public class IssueServlet extends HttpServlet {
 		}
 
 		if (action.equals(ACTION_INSERT)) {
-			System.out.println("insert �슂泥�");
+			System.out.println("insert 요청");
 			Issue issue = makeIssueBean(multi);
 			PrintWriter out = response.getWriter();
 			if (ipm.insertIssue(issue)) {
 				gotoJsp(request, response, "/jsp/dbTest.jsp");
 			} else {
-				System.out.println("insert �떎�뙣");
-				request.setAttribute("errorMessage", "�쑀�슚�븯吏� �븡�� USER_ID");
+				System.out.println("insert 실패");
+				request.setAttribute("errorMessage", "유효하지 않은 USER_ID");
 				gotoJsp(request, response, "/jsp/errorPage.jsp");
 
 				// throw new ServletException("DB Query Error");
 			}
 		} else if (action.equals(ACTION_DELETE)) {
-			System.out.println("delete �슂泥�");
+			System.out.println("delete 요청");
 			String columnName = multi.getParameter("COLUMN_NAME");
 			int columnValue = Integer.parseInt(multi
 					.getParameter("COLUMN_VALUE"));
@@ -130,7 +131,7 @@ public class IssueServlet extends HttpServlet {
 				throw new ServletException("DB Query Error");
 			}
 		} else if (action.equals(ACTION_EDIT)) {
-			System.out.println("edit �슂泥�");
+			System.out.println("edit 요청");
 			String issue_id = multi.getParameter("ISSUE_ID");
 			Issue issue = ipm.getIssue(Integer.parseInt(issue_id));
 			request.setAttribute("issue", issue);
@@ -139,18 +140,18 @@ public class IssueServlet extends HttpServlet {
 					.getRequestDispatcher(jspPath);
 			dispatcher.forward(request, response);
 		} else if (action.equals(ACTION_UPDATE)) {
-			System.out.println("update �슂泥�");
+			System.out.println("update 요청");
 			Issue issue = makeIssueBean(multi);
 			if (ipm.updateIssue(issue)) {
 				gotoJsp(request, response, "/jsp/dbTest.jsp");
 			} else {
-				System.out.println("update �떎�뙣");
+				System.out.println("update 실패");
 
 				gotoJsp(request, response, "/jsp/errorPage.jsp");
 				// throw new ServletException("DB Query Error");
 			}
 		} else if (action.equals(ACTION_GET_ISSUE)) {
-			System.out.println("getIssue �슂泥�");
+			System.out.println("getIssue 요청");
 			int issue_id = Integer.parseInt(request.getParameter("ISSUE_ID"));
 			Issue issue = ipm.getIssue(issue_id);
 			JSONObject json = new JSONObject();
@@ -170,7 +171,7 @@ public class IssueServlet extends HttpServlet {
 			dispatcher.forward(request, response);
 			System.out.println(json);
 		} else if (action.equals(ACTION_LIST)) {
-			System.out.println("list �슂泥�");
+			System.out.println("list 요청");
 			ArrayList<Issue> issueList = ipm.getIssueList();
 			request.setAttribute("issueList", issueList);
 
