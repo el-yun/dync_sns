@@ -12,6 +12,7 @@
 <jsp:useBean id="issue" scope="request" class="dync.model.Issue"/>
 <jsp:useBean id="json" scope="request" class="net.sf.json.JSONObject"/>
 <jsp:useBean id="issueList" scope="request" class="java.util.ArrayList"/>
+<jsp:useBean id="issueJSONList" scope="request" class="java.lang.String"/>
 <body>
 	<div style="border:1pt solid blue; width : auto; height : 700px;">
 		<div style="border:1pt solid red; width : 300px; height : 600px;float:left;text-align: left;">
@@ -84,6 +85,11 @@
 					COLUMN_NAME <input type="text" name="COLUMN_NAME" ><br>
 					COLUMN_VALUE <input type="text" name="COLUMN_VALUE"><br>
 					<input type="submit" value="삭제">
+				</form>
+				<form id="getCodeForm" name="getCodeForm" method="post" action="${pageContext.request.contextPath}/codecontrol">
+					<input type=hidden id="actionID" name="action" value="code">
+					CODE_ID<input type="text" name="CODE_ID">
+					<input type="submit" value="실행">
 				</form>
 			</div>
 			<div style="border:1pt solid silver; margin-left:20px; width : 350px; height : 400px;float:left;">

@@ -1,8 +1,10 @@
 package dync.db;
  
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
- 
+import java.util.ArrayList;
+
 import dync.model.Code;
  
 public class CodePersistentManager extends ConnectDB{
@@ -51,5 +53,100 @@ public class CodePersistentManager extends ConnectDB{
 			disconnect();
 		}
 		return true;
+	}
+	
+	public boolean updateCode(Code code){
+		connect();
+		
+		String sql = "update code set CODE_REPOSITORY=?,CODE_SUBJECT=?,BASE_LANGUAGE=?,CODE_CONTENTS=?,REVISION=?,USING=?,REG_DATE=? where CODE_ID=?";
+		
+		try{
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, code.getCode_repository());
+			pstmt.setString(2, code.getCode_subject());
+			pstmt.setString(3, code.getBase_language());
+			pstmt.setString(4, code.getCode_contents());
+			pstmt.setInt(5, code.getRevision());
+			if(code.isUsing()) pstmt.setInt(6, 1);
+			else pstmt.setInt(6, 0);
+			pstmt.setTimestamp(7, Timestamp.valueOf(code.getReg_date()));
+			pstmt.setInt(8, code.getCode_id());
+		}catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			disconnect();
+		}
+		
+		return true;
+	}
+	
+	public Code getCode(int code_id){
+		connect();
+		
+		String sql = "select * from code where CODE_ID = ?";
+		
+		Code code = new Code();
+		try{
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, code_id);
+			ResultSet rs = pstmt.executeQuery();
+			
+			rs.next();
+			code.setCode_id(rs.getInt("CODE_ID"));
+			code.setCode_repository(rs.getInt("CODE_REPOSITORY"));
+			code.setCode_subject(rs.getString("CODE_SUBJECT"));
+			code.setBase_language(rs.getString("BASE_LANGUAGE"));
+			code.setCode_contents(rs.getString("CODE_CONTENTS"));
+			code.setRevision(rs.getInt("REVISTION"));
+			code.setUsing(rs.getBoolean("USING"));
+			code.setReg_date(rs.getString("REG_DATE"));
+			
+			rs.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		
+		return code;
+		
+	}
+	
+	public ArrayList<Code> getCodeList(int code_repository){
+		connect();
+		
+		String sql = "select * from code where CODE_REPOSITORY = ?";
+		
+		ArrayList<Code> codeList = new ArrayList<Code>();
+		
+		try{
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, code_repository);
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				Code code = new Code();
+			
+				code.setCode_id(rs.getInt("CODE_ID"));
+				code.setCode_repository(rs.getInt("CODE_REPOSITORY"));
+				code.setCode_subject(rs.getString("CODE_SUBJECT"));
+				code.setBase_language(rs.getString("BASE_LANGUAGE"));
+				code.setCode_contents(rs.getString("CODE_CONTENTS"));
+				code.setRevision(rs.getInt("REVISTION"));
+				code.setUsing(rs.getBoolean("USING"));
+				if(rs.getInt("USING")==1) code.setUsing(true);
+				else code.setUsing(false);
+				code.setReg_date(rs.getString("REG_DATE"));
+				codeList.add(code);
+			}
+			rs.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		
+		return codeList;
 	}
 }

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.servlet.RequestDispatcher;
@@ -13,9 +14,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONArray;
 import dync.db.CodePersistentManager;
 import dync.model.Code;
-import dync.model.Issue;
 
 /**
  * Servlet implementation class CodeServlet
@@ -31,6 +32,7 @@ public class CodeServlet extends HttpServlet {
 	private static final String ACTION_EDIT = "edit";
 	private static final String ACTION_UPDATE = "update";
 	private static final String ACTION_DELETE = "delete";
+	private static final String ACTION_CODE = "code";
 	
 	CodePersistentManager cpm = new CodePersistentManager();
 	
@@ -74,9 +76,7 @@ public class CodeServlet extends HttpServlet {
 			Code code = makeCodeBean(request);
 			PrintWriter out = response.getWriter();
 			if(cpm.insertCode(code)){
-				String jspPath = "/jsp/dbTest.jsp";
-				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(jspPath);
-				dispatcher.forward(request, response);
+				gotoJsp(request, response, "dbTest.jsp");
 			}else {
 				/*
 				String jspPath = "/jsp/errorPage.jsp";
@@ -92,12 +92,38 @@ public class CodeServlet extends HttpServlet {
 			String columnName = request.getParameter("COLUMN_NAME");
 			int columnValue = Integer.parseInt(request.getParameter("COLUMN_VALUE"));
 			if(cpm.deleteCode(columnName, columnValue)){
-				String jspPath = "/jsp/dbTest.jsp";
-				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(jspPath);
-				dispatcher.forward(request, response);
+				gotoJsp(request, response, "dbTest.jsp");
 			}else{
 				throw new ServletException("DB Query Error");
 			}
+		}else if(action.equals(ACTION_UPDATE))
+		{
+			System.out.println("update 요청");
+			Code code = makeCodeBean(request);
+			if(cpm.updateCode(code)){
+				gotoJsp(request, response, "dbTest.jsp");
+			}else{
+				throw new ServletException("DB Query Error");
+			}
+		}else if(action.equals(ACTION_CODE)){
+			System.out.println("getCode 요청");
+			int code_id = Integer.parseInt(request.getParameter("CODE_ID"));
+			Code code = cpm.getCode(code_id);
+			JSONArray jsonArray = new JSONArray();
+			jsonArray.add(code);
+			//json 보내기
+			request.setAttribute("codeJSON", jsonArray.toString());
+			
+		}else if(action.equals(ACTION_LIST)){
+			System.out.println("codeList 요청");
+			int code_repository = Integer.parseInt(request.getParameter("CODE_REPOSITORY"));
+			JSONArray jsonArray = new JSONArray();
+			ArrayList<Code> codeList = cpm.getCodeList(code_repository);
+			
+			jsonArray.addAll(codeList);
+			
+			request.setAttribute("codeJSONList", jsonArray.toString());
+			
 		}
 	}
 	
@@ -131,6 +157,14 @@ public class CodeServlet extends HttpServlet {
 		
 		Code code = new Code(code_id,code_repository,code_subject,base_language,code_contents,revision,using,reg_date);		
 		return code;
+	}
+	private void gotoJsp(HttpServletRequest request,
+			HttpServletResponse response, String path) throws ServletException,
+			IOException {
+		String jspPath = path;
+		RequestDispatcher dispatcher = getServletContext()
+				.getRequestDispatcher(jspPath);
+		dispatcher.forward(request, response);
 	}
 
 }

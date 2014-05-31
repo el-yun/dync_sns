@@ -74,7 +74,8 @@ public class IssuePersistentManager extends ConnectDB {
 			issue.setType(rs.getString("TYPE"));
 			issue.setSubject(rs.getString("SUBJECT"));
 			issue.setContents(rs.getString("CONTENTS"));
-			issue.setDisplay(rs.getBoolean("DISPLAY"));
+			if(rs.getInt("DISPLAY")==1) issue.setDisplay(true);
+			else issue.setDisplay(false);
 			issue.setRecommand(rs.getInt("RECOMMAND"));
 			issue.setReg_date(rs.getString("REG_DATE"));
 			issue.setUpload(rs.getString("UPLOAD"));
