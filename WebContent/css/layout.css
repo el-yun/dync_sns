@@ -1,0 +1,381 @@
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothiccoding.css);
+body, div, p, table, td, tr, em, span, ul, li, dl { margin:0; padding:0; }
+div,p { 
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box; 
+}
+body { font-family: 'Dotum'; letter-spacing: -1px; font-size:11px;}
+#wrap {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	height: 100%;
+	background-color: #FFF;
+}
+header#layout {
+	width:100%;
+	height: 88px;
+}
+#headtop {
+	width:100%;
+	height: 49px;
+	background: #695d9b;
+	position:relative;
+	overflow: hidden;
+}
+
+#menu {
+	width:100%;
+	height: 39px;
+	background: #252529;
+}
+
+#logo {
+	position:relative;
+	float:left;
+	width: 159px;
+	height: 33px;
+	display: block;
+	background:url(../images/header_03.png);
+	background-repeat: no-repeat;
+	margin: 9px 0px 9px 9px;
+}
+#logo em{
+	display: none;
+}
+
+#search {
+	float:left;
+	width: 380px;
+	height: 33px;
+	background: url(../images/header_04.png);
+	margin: 9px 0px;
+}
+
+.user {
+	position:relative;
+	float:right;
+	width: 220px;
+	min-width: 220px;
+	height: 11px;
+	font-size: 11px;
+	color:#FFF;
+	margin: 12px 20px;
+}
+.user span{
+	float:right;
+}
+
+.headerlayout {
+	width:100%;
+	height: 49px;
+	position:relative;
+	overflow: hidden;
+}
+
+span.login {
+	text-decoration: underline;
+}
+
+.caption {
+	clear:right;
+	color:#b0a8d4;
+	line-height: 18px;
+}
+
+.spandiv {
+	margin-right:5px;
+}
+
+span.Question {
+	color: #e1dcf8;
+	text-decoration: underline;
+}
+
+.main-menu {
+	width:700px;
+	height: 39px;
+	margin: 0px 8px;
+}
+
+ul.main-menu dl {
+	width: 126px;
+	height: 39px;
+	float:left;
+	display: block;
+	overflow: hidden;
+	cursor: pointer;
+}
+
+#btn_newissue {	background: url(../images/header_07.png);}
+#btn_newissue:hover {	background: url(../images/header_over_07.png);}
+#btn_timeline {	background: url(../images/header_08.png);}
+#btn_timeline:hover {	background: url(../images/header_over_08.png);}
+#btn_code {	background: url(../images/header_09.png);}
+#btn_code:hover {	background: url(../images/header_over_09.png);}
+#btn_setting {	background: url(../images/header_10.png);}
+#btn_setting:hover {	background: url(../images/header_over_10.png);}
+
+aside.left {
+	position: absolute;
+	left:0;
+	top: 0;
+	width: 200px;
+	height: 100%;
+	border-right: 1px solid #d5d9e5;
+	background-color:#eef3f9;
+	overflow: hidden;
+	z-index:1;
+}
+
+.lefttop {
+	width:100%;
+	height: 120px;
+	background-color: #FFF;
+	border-bottom: 1px solid #d5d9e5;
+	padding: 5px;
+	background: url(../images/title.png);
+	cursor: pointer;
+}
+.lefttop:hover {
+	background: url(../images/title_over.png);
+}
+
+.left-menu {
+	float:left;
+	width:100%;
+	height: 40px;
+	background-color: #edf2f8;
+	border-bottom: 1px solid #d5d9e5;
+	cursor: pointer;
+}
+.left-menu:hover {
+	background-color: #e2e6ef;
+}
+
+.left-menu p {
+	display: block;
+	width: 100%;
+	height: 14px;
+	font-family: "Nanum Gothic";
+	font-size: 14px;
+	margin: 12px 35px;
+	font-weight:bold;
+	color: #546078;
+	float:left;
+}
+
+#contents {
+	position:relative;
+	float:left;
+	margin-left:200px;
+	width:700px;
+	height: 100%;
+	border-right: 1px solid #d5d9e5;
+	overflow-y:auto;
+	overflow-x: hidden;
+}
+
+#container {
+	position:absolute;
+	top:88px;
+	bottom: 30px;
+	width: 100%;
+}
+
+footer {
+	position:fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 30px;
+	border-top: 1px solid #d5d9e5;
+}
+
+.copyright {
+	margin-top: 9px;
+	width: 100%;
+	text-align:center;
+	color:#838383;
+}
+
+#listtop {
+	width:100%;
+	height: 45px;
+	border-bottom: 1px solid #d5d9e5;
+	background-color: #edf2f8;
+	padding: 10px 10px 0px 10px;
+}
+
+.issue {
+	width:660px;
+	padding: 0px 20px;
+	min-height: 150px;
+	border-bottom: 1px solid #d5d9e5;
+}
+
+.issue h1 {
+	font-weight: bold;
+	font-size: 24px;
+	font-family: "Nanum Gothic";
+}
+
+.issue .subtext {
+	font-size:11px;
+	color:#838383;
+	margin-left: 5px;
+	
+}
+
+.issue article {
+	width:100%;
+	margin: 10px;
+	font-size: 14px;
+}
+
+.codebox {
+	width:610px;
+	background-color: #edf2f8;
+	min-height: 50px;
+	margin: 10px;
+	padding: 10px;
+	font-size: 12px;
+	line-height: 160%;
+	color: #546078;
+}
+
+#repository {
+	position:absolute;
+	width: 850px;
+	height: 600px;
+	background: #FFF;
+}
+.popup {
+	border-radius:4px;
+	box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+	overflow:hidden;
+	z-index: 10;
+	top: 20%;
+	right:10%;
+}
+
+
+
+
+
+
+
+.box_top {
+	font-family: "Nanum Gothic";
+	width:100%;
+	height: 60px;
+	padding: 20px 15px;
+	border-bottom: 1px solid #F6F6F6;
+	cursor:pointer;
+}
+
+.box_title {
+	font-size:16px;
+	color:#000;
+	font-weight: bold;
+	font-family: "Nanum Gothic";
+	text-align:center;
+}
+
+.box_content {
+	position:absolute;
+	top:60px;
+	left:0;
+	bottom:0;
+	width:100%;
+	height: 100%;
+	overflow-x:hidden;
+}
+
+.box_content .box_left {
+	width:200px;
+	height: 100%;
+	border-right: 1px solid #F6F6F6;
+	background: #fbfbfb;
+}
+
+dl.dotlist {
+	padding: 10px 15px;
+	height: 480px;
+}
+dl.dotlist li {
+	line-height: 20px;
+	font-size: 12px;
+	font-family: "Nanum Gothic";
+	padding-left: 10px;
+	cursor:pointer;
+}
+dl.dotlist li:hover {
+	background:#f0f0f0;
+}
+
+.box_menu {
+	float:left;
+	width: 100%;
+	height: 40px;
+	bottom: 0;
+	border-top: 1px solid #F6F6F6;
+	background: #fbfbfb;
+}
+
+.left_btn {
+	float:left;
+	width:50%;
+	height: 40px;
+	padding-top: 13px;
+	font-size: 12px;
+	text-align: center;
+	display:inline	
+	letter-spacing: 0px;
+	color: #5c5c5c;
+	cursor: pointer;
+}
+.left_btn:hover {
+	background: #FFF;
+}
+
+.right_btn {
+	float:right;
+	width:50%;
+	height: 40px;
+	padding-top: 13px;
+	font-size: 12px;
+	text-align: center;
+	display:inline;
+	border-left: 1px solid #F6F6F6;
+	cursor: pointer;
+	letter-spacing: 0px;
+	color: #5c5c5c;
+}
+.right_btn:hover {
+	background: #FFF;
+}
+
+#newissue {
+	position:absolute;
+	width: 550px;
+	height: 400px;
+	background: #FFF;
+}
+.popup {
+	border-radius:4px;
+	box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+	overflow:hidden;
+	z-index: 10;
+	top: 10%;
+	right:10%;
+}
+
+.box_text {
+	
+	height: 300px;
+}
