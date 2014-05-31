@@ -12,7 +12,7 @@
 	<div style="border:1pt solid blue; width : auto; height : 700px;">
 		<div style="border:1pt solid red; width : 300px; height : 600px;float:left;text-align: left;">
 			<h2>DB»ðÀÔ</h2>
-			<form id="insertIssueForm" name="insertIssueForm" method="post" action="${pageContext.request.contextPath}/issuecontrol">
+			<form id="insertIssueForm" name="insertIssueForm" method="post" action="${pageContext.request.contextPath}/issuecontrol" enctype="multipart/form-data">
 			<!-- <form id="insertIssueForm" name="insertIssueForm" method="post" action="/Dync/dync.servlet.IssueServlet">-->
 				<input type=hidden id="actionId" name="action" value="insert">
 				ISSUE_ID <input type="number" name="ISSUE_ID" min="0" max="2100000000" value=""><br>
