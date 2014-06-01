@@ -11,18 +11,19 @@ public class UserPersistentManager extends ConnectDB{
 	
 	public boolean insertUser(User user){
 		connect();
-		String sql = "insert into user(USER_ID,USER_NAVERHASH,USER_NAME,USER_DESCRIPTION,CODE_REPOSITORY)" +
-					"values(?,?,?,?,?)";
+		String sql = "insert into user(USER_ID,USER_NAVERHASH,USER_KAKAOHASH,USER_NAME,USER_DESCRIPTION,CODE_REPOSITORY)" +
+					"values(?,?,?,?,?,?)";
 		try{
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, user.getUser_id());
 			pstmt.setString(2, user.getUser_naverhash());
-			pstmt.setString(3, user.getUser_name());
-			pstmt.setString(4, user.getUser_description());
-			pstmt.setInt(5, user.getCode_repository());
+			pstmt.setString(3, user.getUser_kakaohash());
+			pstmt.setString(4, user.getUser_name());
+			pstmt.setString(5, user.getUser_description());
+			pstmt.setInt(6, user.getCode_repository());
 			
 			pstmt.executeUpdate();
-		}catch(SQLException e){
+		}catch(SQLException e){ 
 			System.out.println(pstmt.toString());
 			e.printStackTrace();
 			return false;
@@ -51,7 +52,6 @@ public class UserPersistentManager extends ConnectDB{
 		}
 		return true;
 	}
-	
 	public User getUser(int user_id){
 		connect();
 		
@@ -66,6 +66,7 @@ public class UserPersistentManager extends ConnectDB{
 			rs.next();
 			user.setUser_id(rs.getInt("USER_ID"));
 			user.setUser_naverhash(rs.getString("USER_NAVERHASH"));
+			user.setUser_kakaohash(rs.getString("USER_KAKAOHASH"));
 			user.setUser_name(rs.getString("USER_NAME"));
 			user.setUser_description(rs.getString("USER_DESCRIPTION"));
 			user.setCode_repository(rs.getInt("CODE_REPOSITORY"));
@@ -80,6 +81,37 @@ public class UserPersistentManager extends ConnectDB{
 		return user;
 	}
 	
+	public User getAuth(String Param, String Val){
+		connect();
+		
+		User user = new User();
+		
+		try{
+			String sql = "select * from user where `" + Param + "` = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, Val);
+			System.out.println(pstmt.toString());
+			ResultSet rs = pstmt.executeQuery();
+			
+			boolean hasResult = rs.next();
+			if(hasResult == true){
+				user.setUser_id(rs.getInt("USER_ID"));
+				user.setUser_naverhash(rs.getString("USER_NAVERHASH"));
+				user.setUser_kakaohash(rs.getString("USER_KAKAOHASH"));
+				user.setUser_name(rs.getString("USER_NAME"));
+				user.setUser_description(rs.getString("USER_DESCRIPTION"));
+				user.setCode_repository(rs.getInt("CODE_REPOSITORY"));
+			}
+			System.out.println(user.getUser_kakaohash());
+		}catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		
+		
+		return user;
+	}
 	public boolean updateIssue(Issue issue){
 		connect();
 		

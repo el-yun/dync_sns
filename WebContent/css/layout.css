@@ -79,6 +79,7 @@ header#layout {
 
 span.login {
 	text-decoration: underline;
+    cursor:pointer;
 }
 
 .caption {
@@ -329,7 +330,7 @@ dl.dotlist li:hover {
 
 .left_btn {
 	float:left;
-	width:50%;
+	width: 183px;
 	height: 40px;
 	padding-top: 13px;
 	font-size: 12px;
@@ -345,7 +346,7 @@ dl.dotlist li:hover {
 
 .right_btn {
 	float:right;
-	width:50%;
+	width:100px;
 	height: 40px;
 	padding-top: 13px;
 	font-size: 12px;
@@ -365,6 +366,7 @@ dl.dotlist li:hover {
 	width: 550px;
 	height: 400px;
 	background: #FFF;
+    display:none;
 }
 .popup {
 	border-radius:4px;
@@ -374,8 +376,83 @@ dl.dotlist li:hover {
 	top: 10%;
 	right:10%;
 }
-
+.subject {
+    width: 100%;
+    height: 20px;
+    border: 0px solid;
+}
 .box_text {
 	
 	height: 300px;
+}
+
+#underlayer {
+    position:fixed;
+    display:none;
+    top:0; 
+    left:0; 
+    width:100%; 
+    height:100%; 
+    background:url(../images/overlay.png) repeat; 
+    text-align:center;
+	z-index:1000;
+}
+
+#lightbox {
+	position:fixed;
+	top: 20%;
+	left: 50%;
+	margin-left: -125px;
+	width: 250px;
+	height: 300px;
+	background: #FFF;
+	border-radius:4px;
+	box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+}
+
+.lightbox_container {
+    display:none;
+}
+
+#lightbox .logintitle {
+	width:100%;
+	font-size: 16px;
+	font-family: "Nanum Gothic";
+	font-weight: bold;
+	margin-top: 17px;
+}
+
+.logintext {
+	float:left;
+	width:100%;
+	line-height: 200%;
+	color: #5c5c5c;
+}
+#lightbox .inbox {
+    width: 222px;
+    margin: 0 auto;
+    height: 150px;
+}
+#kakao-login-btn {
+    float:left;
+    margin-bottom:5px;
+}
+#naver-login-btn {
+    float:left;
+	width: 222px;
+    height:49px;
+    display: block;
+    background: url(../images/naver_login.png);
+    background-repeat: no-repeat;
+}
+
+#lightbox .close {
+    width: 150px;
+    height: 22px;
+    position: absolute;
+    left: 50%;
+    margin-left: -75px;
+    bottom: 5px;
+    background:url(../images/close.png);
+    cursor: pointer;
 }

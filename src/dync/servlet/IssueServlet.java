@@ -72,7 +72,10 @@ public class IssueServlet extends HttpServlet {
 
 	private void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		response.setCharacterEncoding("UTF-8");
+	    response.addHeader("Access-Control-Allow-Origin", "*");
+	    response.addHeader("Access-Control-Allow-Methods", "GET, PUT, POST, OPTIONS, DELETE");
+	    response.addHeader("Access-Control-Allow-Headers", "Content-Type");
+	    response.addHeader("Access-Control-Max-Age", "86400");
 		String action_request = request.getParameter(REQ_ACTION);
 		System.out.println(action_request);
 		if(action_request == null){
@@ -101,8 +104,8 @@ public class IssueServlet extends HttpServlet {
 		
 	}
 	private void request_action(String action,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-		response.setContentType("text/html;charset=euc-kr");
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(response.getOutputStream(), "KSC5601"));
+		response.setContentType("text/html;charset=euc-kr");
 		// System.out.println(action);
 		if (action == null) {
 			System.out.println("action = null");
