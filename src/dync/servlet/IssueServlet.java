@@ -169,10 +169,8 @@ public class IssueServlet extends HttpServlet {
 			JSONObject json = new JSONObject();
 			JSONArray jsonArray = new JSONArray();
 			jsonArray.addAll(issueList);
-			System.out.println(jsonArray.toString());
-			request.setAttribute("issueJSONList", jsonArray.toString());
-
-			gotoJsp(request, response, "/jsp/dbTest.jsp");
+			request.setAttribute("RESULT", jsonArray.toString());
+			gotoJson(request, response);
 		}
 		
 	}
@@ -277,5 +275,12 @@ public class IssueServlet extends HttpServlet {
 				.getRequestDispatcher(jspPath);
 		dispatcher.forward(request, response);
 	}
-
+	
+	private void gotoJson(HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException {
+		String jspPath = "/jsp/output_json.jsp";
+		RequestDispatcher dispatcher = getServletContext()
+				.getRequestDispatcher(jspPath);
+		dispatcher.forward(request, response);
+	}
 }
