@@ -1,6 +1,8 @@
 package dync.servlet;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -15,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import dync.db.CodePersistentManager;
 import dync.model.Code;
 
@@ -35,7 +38,7 @@ public class CodeServlet extends HttpServlet {
 	private static final String ACTION_CODE = "code";
 	
 	CodePersistentManager cpm = new CodePersistentManager();
-	
+	private PrintWriter out;
 	/**
 	 * Default constructor.
 	 */
@@ -60,11 +63,11 @@ public class CodeServlet extends HttpServlet {
 	IOException
 	{
 		System.out.println("CodeServlet 실행");
-		String contextPath = getServletContext().getContextPath();
-		response.setContentType("text/html; charset=utf-8");
+		//response.setContentType("text/html; charset=utf-8");
 		request.setCharacterEncoding("utf-8");
+		out = new PrintWriter(new OutputStreamWriter(response.getOutputStream(), "KSC5601"));
+		out.flush();
 		String action = request.getParameter(REQ_ACTION);
-		
 		if(action == null) {
 			System.out.println("action = null");
 			return;
@@ -74,17 +77,25 @@ public class CodeServlet extends HttpServlet {
 		{
 			System.out.println("insert 요청");
 			Code code = makeCodeBean(request);
-			PrintWriter out = response.getWriter();
-			if(cpm.insertCode(code)){
-				gotoJsp(request, response, "/jsp/dbTest.jsp");
-			}else {
-				/*
-				String jspPath = "/jsp/errorPage.jsp";
-				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(jspPath);
-				dispatcher.forward(request, response);
-				*/
+			if(!checkCode(code.getCode_id())){
+				request.setAttribute("errorMessage", "CODE 삽입 불가 \n 중복된 CODE_ID");
 				gotoJsp(request, response, "/jsp/errorPage.jsp");
-				//throw new ServletException("DB Query Error");
+				return;
+			}
+			if (cpm.insertCode(code)) {
+				JSONObject jsonObject = new JSONObject();
+				JSONArray jsonArray = new JSONArray();
+				
+				jsonObject.put("result", "success");
+				jsonArray.add(jsonObject);
+				
+				out.print(jsonArray.toString());
+				
+			} else {
+				request.setAttribute("errorMessage", "유효하지 않은 CODE_REPOSITORY");
+				gotoJsp(request, response, "/jsp/errorPage.jsp");
+				return;
+				// throw new ServletException("DB Query Error");
 			}
 		}else if(action.equals(ACTION_DELETE))
 		{
@@ -93,39 +104,64 @@ public class CodeServlet extends HttpServlet {
 			String columnName = request.getParameter("COLUMN_NAME");
 			int columnValue = Integer.parseInt(request.getParameter("COLUMN_VALUE"));
 			if(cpm.deleteCode(columnName, columnValue)){
-				gotoJsp(request, response, "/jsp/dbTest.jsp");
+				JSONObject jsonObject = new JSONObject();
+				JSONArray jsonArray = new JSONArray();
+				
+				jsonObject.put("result", "success");
+				jsonArray.add(jsonObject);
+				
+				out.print(jsonArray.toString());
 			}else{
-				throw new ServletException("DB Query Error");
+				request.setAttribute("errorMessage", "삭제 실패 \n유효하지 않은 속성 또는 잘못 된 값을 입력하였습니다.");
+				gotoJsp(request, response, "/jsp/errorPage.jsp");
+				return;
 			}
 		}else if(action.equals(ACTION_UPDATE))
 		{
 			System.out.println("update 요청");
 			Code code = makeCodeBean(request);
 			if(cpm.updateCode(code)){
-				gotoJsp(request, response, "/jsp/dbTest.jsp");
+				JSONObject jsonObject = new JSONObject();
+				JSONArray jsonArray = new JSONArray();
+				
+				jsonObject.put("result", "success");
+				jsonArray.add(jsonObject);
+				
+				out.print(jsonArray.toString());
 			}else{
-				throw new ServletException("DB Query Error");
+				
+				request.setAttribute("errorMessage", "update 실패 \nCODE_ID 또는 요소를 확인해 주세요");
+				gotoJsp(request, response, "/jsp/errorPage.jsp");
+				return;
+				//throw new ServletException("DB Query Error");
 			}
 		}else if(action.equals(ACTION_CODE)){
 			System.out.println("getCode 요청");
 			int code_id = Integer.parseInt(request.getParameter("CODE_ID"));
+			
+			if(checkCode(code_id)){
+				request.setAttribute("errorMessage", "존재하지 않는 CODE_ID 입니다");
+				gotoJsp(request, response, "/jsp/errorPage.jsp");
+				return;
+			}
+			
 			Code code = cpm.getCode(code_id);
 			JSONArray jsonArray = new JSONArray();
 			jsonArray.add(code);
-			//json 보내기
-			request.setAttribute("codeJSON", jsonArray.toString());
+			out.print(jsonArray.toString());
 			
 		}else if(action.equals(ACTION_LIST)){
 			System.out.println("codeList 요청");
 			int code_repository = Integer.parseInt(request.getParameter("CODE_REPOSITORY"));
 			JSONArray jsonArray = new JSONArray();
-			ArrayList<Code> codeList = cpm.getCodeList(code_repository);
+			ArrayList<Code> codeList = cpm.getCodeList("CODE_REPOSITORY",code_repository);
 			
 			jsonArray.addAll(codeList);
 			
-			request.setAttribute("codeJSONList", jsonArray.toString());
+			out.print(jsonArray.toString());
 			
 		}
+		out.close();
 	}
 	
 	private Code makeCodeBean(HttpServletRequest request)
@@ -166,6 +202,18 @@ public class CodeServlet extends HttpServlet {
 		RequestDispatcher dispatcher = getServletContext()
 				.getRequestDispatcher(jspPath);
 		dispatcher.forward(request, response);
+	}
+	
+	private boolean checkCode(int code_id){
+		ArrayList<Code> codeList = cpm.getCodeList();
+		boolean flag = true;
+		for(Code code : codeList){
+			if(code.getCode_id() == code_id){
+				flag = false;
+				break;
+			}
+		}
+		return flag;
 	}
 
 }
