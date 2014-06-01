@@ -155,6 +155,80 @@ public class IssuePersistentManager extends ConnectDB {
 		
 	}
 	
+	public ArrayList<Issue> getIssueList(String key,int value){
+		connect();
+		ArrayList<Issue> issueList = new ArrayList<Issue>();
+		
+		String sql = "select * from issue where "+ key +"=?" + "order by REG_DATE DESC";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, value);
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				Issue issue = new Issue();
+				
+				issue.setIssue_id(rs.getInt("ISSUE_ID"));
+				issue.setUser_id(rs.getInt("USER_ID"));
+				issue.setType(rs.getString("TYPE"));
+				issue.setSubject(rs.getString("SUBJECT"));
+				issue.setContents(rs.getString("CONTENTS"));
+				if(rs.getInt("DISPLAY")==1) issue.setDisplay(true);
+				else issue.setDisplay(false);
+				issue.setRecommand(rs.getInt("RECOMMAND"));
+				issue.setReg_date(rs.getString("REG_DATE"));
+				issue.setUpload(rs.getString("UPLOAD"));
+				issueList.add(issue);
+			}
+			rs.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			disconnect();
+		}
+		return issueList;
+		
+	}
+	
+	public ArrayList<Issue> getIssueList(String key,String value){
+		connect();
+		ArrayList<Issue> issueList = new ArrayList<Issue>();
+		
+		String sql = "select * from issue where "+ key +"=?" + "order by REG_DATE DESC";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, value);
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				Issue issue = new Issue();
+				
+				issue.setIssue_id(rs.getInt("ISSUE_ID"));
+				issue.setUser_id(rs.getInt("USER_ID"));
+				issue.setType(rs.getString("TYPE"));
+				issue.setSubject(rs.getString("SUBJECT"));
+				issue.setContents(rs.getString("CONTENTS"));
+				if(rs.getInt("DISPLAY")==1) issue.setDisplay(true);
+				else issue.setDisplay(false);
+				issue.setRecommand(rs.getInt("RECOMMAND"));
+				issue.setReg_date(rs.getString("REG_DATE"));
+				issue.setUpload(rs.getString("UPLOAD"));
+				issueList.add(issue);
+			}
+			rs.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			disconnect();
+		}
+		
+		
+		return issueList;
+		
+	}
+	
 	
 	
 }

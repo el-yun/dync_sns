@@ -191,7 +191,6 @@ public class IssueServlet extends HttpServlet {
 		} else if (action.equals(ACTION_LIST)) {
 			System.out.println("list 요청");
 			ArrayList<Issue> issueList = ipm.getIssueList();
-			JSONObject json = new JSONObject();
 			JSONArray jsonArray = new JSONArray();
 			jsonArray.addAll(issueList);
 			//request.setAttribute("RESULT", jsonArray.toString());
@@ -317,14 +316,7 @@ public class IssueServlet extends HttpServlet {
 				.getRequestDispatcher(jspPath);
 		dispatcher.forward(request, response);
 	}
-	
-	private void gotoJson(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-			IOException {
-		String jspPath = "/jsp/output_json.jsp";
-		RequestDispatcher dispatcher = getServletContext()
-				.getRequestDispatcher(jspPath);
-		dispatcher.forward(request, response);
-	}
+
 	private boolean checkIssue(int issue_id){
 		ArrayList<Issue> issueList = ipm.getIssueList();
 		boolean flag = true;
