@@ -10,7 +10,7 @@
 </head>
 
 <jsp:useBean id="issue" scope="request" class="dync.model.Issue"/>
-<jsp:useBean id="json" scope="request" class="net.sf.json.JSONObject"/>
+<jsp:useBean id="issueJSON" scope="request" class="java.lang.String"/>
 <jsp:useBean id="issueList" scope="request" class="java.util.ArrayList"/>
 <jsp:useBean id="issueJSONList" scope="request" class="java.lang.String"/>
 <body>
@@ -31,26 +31,26 @@
 				UPLOAD   <input type="file" name="UPLOAD"><br>
 				<input type="submit" value="삽입">
 			</form>
-			<form id="deleteIssueForm" name="deleteIssueForm" method="post" action="${pageContext.request.contextPath}/issuecontrol" enctype="multipart/form-data">
+			<form id="deleteIssueForm" name="deleteIssueForm" method="post" action="${pageContext.request.contextPath}/issuecontrol" >
 				<input type=hidden id="actionId" name="action" value="delete">
 				COLUMN_NAME <input type="text" name="COLUMN_NAME" ><br>
 				COLUMN_VALUE <input type="text" name="COLUMN_VALUE"><br>
 				<input type="submit" value="삭제">
 			</form>
-			<form id="getIssueForm" name="getIssueForm" method="post" action="${pageContext.request.contextPath}/issuecontrol?action=get_issue" enctype="multipart/form-data">
+			<form id="getIssueForm" name="getIssueForm" method="post" action="${pageContext.request.contextPath}/issuecontrol?action=get_issue" >
 				<h5>json 불러오기 ISSUE_ID 입력</h5>
 				<input type="text" name="ISSUE_ID">
 				<input type="submit" value="JSON 불러오기">
 			</form>
-			<textarea rows="5" cols="30">${json}</textarea>
+			<textarea rows="5" cols="30">${issueJSON}</textarea>
 		</div>
 		<div style="border:1pt solid red; width : 300px; height : 600px;float:left;text-align: left;">
 			<h2>DB편집</h2>
-			<form id="editIssueForm" name="editIssueForm" method="post" action="${pageContext.request.contextPath}/issuecontrol?action=edit" enctype="multipart/form-data">
+			<form id="editIssueForm" name="editIssueForm" method="post" action="${pageContext.request.contextPath}/issuecontrol?action=edit" >
 				<input type="number" name="ISSUE_ID">
 				<input type="submit" value="불러오기">
 			</form>
-			<form id="updateIssueForm" name="updateIssueForm" method="post" action="${pageContext.request.contextPath}/issuecontrol" enctype="multipart/form-data">
+			<form id="updateIssueForm" name="updateIssueForm" method="post" action="${pageContext.request.contextPath}/issuecontrol">
 			<!-- <form id="insertIssueForm" name="insertIssueForm" method="post" action="/Dync/dync.servlet.IssueServlet">-->
 				<input type=hidden id="actionId" name="action" value="update">
 				ISSUE_ID <input type="hidden" name="ISSUE_ID" min="0" max="2100000000" value="${issue.getIssue_id()}" ><br>
@@ -106,39 +106,11 @@
 			</div>
 			<div style="height:auto">
 				<p>
-				<form method="post" action="${pageContext.request.contextPath}/issuecontrol?action=list" enctype="multipart/form-data">
+				<form method="post" action="${pageContext.request.contextPath}/issuecontrol?action=list">
 				<input type="submit" value="list 출력">
 				</form>
 				<h3>List 출력</h3>
-				<table border="1">
-					<tr>
-						<th>ISSUE_ID</th>
-						<th>USER_ID</th>
-						<th>TYPE</th>
-						<th>SUBJECT</th>
-						<th>CONTENTS</th>
-						<th>DISPLAY</th>
-						<th>RECOMMAND</th>
-						<th>REG_DATE</th>
-						<th>UPLOAD</th>
-					</tr>
-					
-					<c:if test="${fn:length(issueList) > 0}">
-						<c:forEach begin="0" end="${fn:length(issueList) - 1}" varStatus="issue">
-						<tr>
-							<td>${issueList[issue.index].getIssue_id()}</td>
-							<td>${issueList[issue.index].getUser_id()}</td>
-							<td>${issueList[issue.index].getType()}</td>
-							<td>${issueList[issue.index].getSubject()}</td>
-							<td>${issueList[issue.index].getContents()}</td>
-							<td>${issueList[issue.index].isDisplay()}</td>
-							<td>${issueList[issue.index].getRecommand()}</td>
-							<td>${issueList[issue.index].getReg_date()}</td>
-							<td>${issueList[issue.index].getUpload()}</td>
-						</tr>
-						</c:forEach>
-					</c:if>
-				</table>
+				<textarea rows="8" cols="100" >${issueJSONList}</textarea>
 			</div>
 		</div>
 	</div>

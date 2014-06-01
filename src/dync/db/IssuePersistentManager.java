@@ -81,6 +81,7 @@ public class IssuePersistentManager extends ConnectDB {
 			issue.setUpload(rs.getString("UPLOAD"));
 			
 		}catch (SQLException e) {
+			System.out.println("존재하지 않는 ISSUE_ID");
 			e.printStackTrace();
 		} finally {
 			disconnect();
