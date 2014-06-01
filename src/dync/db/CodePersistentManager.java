@@ -98,7 +98,7 @@ public class CodePersistentManager extends ConnectDB{
 			code.setCode_subject(rs.getString("CODE_SUBJECT"));
 			code.setBase_language(rs.getString("BASE_LANGUAGE"));
 			code.setCode_contents(rs.getString("CODE_CONTENTS"));
-			code.setRevision(rs.getInt("REVISTION"));
+			code.setRevision(rs.getInt("REVISION"));
 			code.setUsing(rs.getBoolean("USING"));
 			code.setReg_date(rs.getString("REG_DATE"));
 			
@@ -131,7 +131,7 @@ public class CodePersistentManager extends ConnectDB{
 				code.setCode_subject(rs.getString("CODE_SUBJECT"));
 				code.setBase_language(rs.getString("BASE_LANGUAGE"));
 				code.setCode_contents(rs.getString("CODE_CONTENTS"));
-				code.setRevision(rs.getInt("REVISTION"));
+				code.setRevision(rs.getInt("REVISION"));
 				code.setUsing(rs.getBoolean("USING"));
 				if(rs.getInt("USING")==1) code.setUsing(true);
 				else code.setUsing(false);
@@ -167,7 +167,7 @@ public class CodePersistentManager extends ConnectDB{
 				code.setCode_subject(rs.getString("CODE_SUBJECT"));
 				code.setBase_language(rs.getString("BASE_LANGUAGE"));
 				code.setCode_contents(rs.getString("CODE_CONTENTS"));
-				code.setRevision(rs.getInt("REVISTION"));
+				code.setRevision(rs.getInt("REVISION"));
 				code.setUsing(rs.getBoolean("USING"));
 				if(rs.getInt("USING")==1) code.setUsing(true);
 				else code.setUsing(false);

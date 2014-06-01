@@ -1,6 +1,7 @@
 package dync.servlet;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.text.DateFormat;
@@ -65,6 +66,7 @@ public class CodeServlet extends HttpServlet {
 		//response.setContentType("text/html; charset=utf-8");
 		request.setCharacterEncoding("utf-8");
 		out = new PrintWriter(new OutputStreamWriter(response.getOutputStream(), "KSC5601"));
+		out.flush();
 		String action = request.getParameter(REQ_ACTION);
 		if(action == null) {
 			System.out.println("action = null");
