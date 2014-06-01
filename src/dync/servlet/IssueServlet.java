@@ -2,6 +2,7 @@ package dync.servlet;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -45,7 +46,6 @@ public class IssueServlet extends HttpServlet {
 	private static final String ACTION_GET_ISSUE = "get_issue";
 
 	private IssuePersistentManager ipm = new IssuePersistentManager();
-
 	/**
 	 * Default constructor.
 	 */
@@ -100,9 +100,9 @@ public class IssueServlet extends HttpServlet {
 		
 		
 	}
-	private void request_action(String action,HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException{
-		
+	private void request_action(String action,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		response.setContentType("text/html;charset=euc-kr");
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(response.getOutputStream(), "KSC5601"));
 		// System.out.println(action);
 		if (action == null) {
 			System.out.println("action = null");
@@ -169,10 +169,9 @@ public class IssueServlet extends HttpServlet {
 			JSONObject json = new JSONObject();
 			JSONArray jsonArray = new JSONArray();
 			jsonArray.addAll(issueList);
-			request.setAttribute("RESULT", jsonArray.toString());
-			gotoJson(request, response);
+			out.print(jsonArray.toString());
 		}
-		
+		out.close();
 	}
 	private void multipart_action(String action, HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
