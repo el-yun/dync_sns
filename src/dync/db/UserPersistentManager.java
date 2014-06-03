@@ -11,7 +11,7 @@ public class UserPersistentManager extends ConnectDB{
 	
 	public boolean insertUser(User user){
 		connect();
-		String sql = "insert into user(USER_ID,USER_NAVERHASH,USER_KAKAOHASH,USER_NAME,USER_DESCRIPTION,CODE_REPOSITORY)" +
+		String sql = "insert into USER(USER_ID,USER_NAVERHASH,USER_KAKAOHASH,USER_NAME,USER_DESCRIPTION,CODE_REPOSITORY)" +
 					"values(?,?,?,?,?,?)";
 		try{
 			pstmt = conn.prepareStatement(sql);
@@ -36,7 +36,7 @@ public class UserPersistentManager extends ConnectDB{
 	public boolean deleteUser(String columnName, int columnValue){
 		connect();
 		
-		String sql = "delete from user where " + columnName + "=?";
+		String sql = "delete from USER where " + columnName + "=?";
 		
 		try{
 			pstmt = conn.prepareStatement(sql);
@@ -55,7 +55,7 @@ public class UserPersistentManager extends ConnectDB{
 	public User getUser(int user_id){
 		connect();
 		
-		String sql = "select * from user where ISSUE_ID=?";
+		String sql = "select * from USER where ISSUE_ID=?";
 		User user = new User();
 		
 		try{
@@ -87,7 +87,7 @@ public class UserPersistentManager extends ConnectDB{
 		User user = new User();
 		
 		try{
-			String sql = "select * from user where `" + Param + "` = ?";
+			String sql = "select * from USER where `" + Param + "` = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, Val);
 			System.out.println(pstmt.toString());

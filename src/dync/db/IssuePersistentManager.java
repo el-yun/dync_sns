@@ -12,7 +12,7 @@ public class IssuePersistentManager extends ConnectDB {
 	
 	public boolean insertIssue(Issue issue){
 		connect();
-		String sql = "insert into issue(ISSUE_ID,USER_ID,TYPE,SUBJECT,CONTENTS,DISPLAY,RECOMMAND,REG_DATE,UPLOAD)" +
+		String sql = "insert into ISSUE(ISSUE_ID,USER_ID,TYPE,SUBJECT,CONTENTS,DISPLAY,RECOMMAND,REG_DATE,UPLOAD)" +
 					"values(?,?,?,?,?,?,?,?,?)";
 		try{
 			pstmt = conn.prepareStatement(sql);
@@ -40,7 +40,7 @@ public class IssuePersistentManager extends ConnectDB {
 	public boolean deleteIssue(String columnName, int columnValue){
 		connect();
 		
-		String sql = "delete from issue where " + columnName + "=?";
+		String sql = "delete from ISSUE where " + columnName + "=?";
 		
 		try{
 			pstmt = conn.prepareStatement(sql);
@@ -60,7 +60,7 @@ public class IssuePersistentManager extends ConnectDB {
 	public Issue getIssue(int issue_id){
 		connect();
 		
-		String sql = "select * from issue where ISSUE_ID=?";
+		String sql = "select * from ISSUE where ISSUE_ID=?";
 		Issue issue = new Issue();
 		
 		try{
@@ -94,7 +94,7 @@ public class IssuePersistentManager extends ConnectDB {
 	public boolean updateIssue(Issue issue){
 		connect();
 		
-		String sql = "update issue set USER_ID=?,TYPE=?,SUBJECT=?,CONTENTS=?,DISPLAY=?,RECOMMAND=?,REG_DATE=?,UPLOAD=? where ISSUE_ID=?";
+		String sql = "update ISSUE set USER_ID=?,TYPE=?,SUBJECT=?,CONTENTS=?,DISPLAY=?,RECOMMAND=?,REG_DATE=?,UPLOAD=? where ISSUE_ID=?";
 		
 		
 		try{
@@ -124,7 +124,7 @@ public class IssuePersistentManager extends ConnectDB {
 		connect();
 		ArrayList<Issue> issueList = new ArrayList<Issue>();
 		
-		String sql = "select * from issue order by REG_DATE DESC";
+		String sql = "select * from ISSUE order by REG_DATE DESC";
 		try {
 			pstmt = conn.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
@@ -159,7 +159,7 @@ public class IssuePersistentManager extends ConnectDB {
 		connect();
 		ArrayList<Issue> issueList = new ArrayList<Issue>();
 		
-		String sql = "select * from issue where "+ key +"=?" + "order by REG_DATE DESC";
+		String sql = "select * from ISSUE where "+ key +"=?" + "order by REG_DATE DESC";
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, value);
@@ -195,7 +195,7 @@ public class IssuePersistentManager extends ConnectDB {
 		connect();
 		ArrayList<Issue> issueList = new ArrayList<Issue>();
 		
-		String sql = "select * from issue where "+ key +"=?" + "order by REG_DATE DESC";
+		String sql = "select * from ISSUE where "+ key +"=?" + "order by REG_DATE DESC";
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, value);

@@ -25,10 +25,10 @@ public class RepositoryPersistentManager extends ConnectDB {
 		return true;
 	}
 
-	public boolean deleteCode(int code_repository) {
+	public boolean deleteRepository(int code_repository) {
 		connect();
 
-		String sql = "delete from code where CODE_REPOSITORY=?";
+		String sql = "delete from CODE_REPOSITORY where CODE_REPOSITORY=?";
 
 		try {
 			pstmt = conn.prepareStatement(sql);
