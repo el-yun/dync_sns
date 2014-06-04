@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2>DB삽입</h2>
+	<form id="insertIssueForm" name="insertIssueForm" method="post" action="../issuecontrol" enctype="multipart/form-data">
+	<!-- <form id="insertIssueForm" name="insertIssueForm" method="post" action="/Dync/dync.servlet.IssueServlet">-->
+		<input type=hidden id="actionId" name="action" value="insert">
+		ISSUE_ID <input type="number" name="ISSUE_ID" min="0" max="2100000000" value=""><br>
+		USER_ID  <input type="number" name="USER_ID" min="0" max="2100000000" value=""><br>
+		TYPE	 <input type="text" name="TYPE" ><br>
+		SUBJECT  <input type="text" name="SUBJECT" ><br>
+		CONTENTS <input type="text" name="CONTENTS" ><br>
+		DISPLAY  <br><input type="radio" name="DISPLAY" value="true"> TRUE<br>
+				 <input type="radio" name="DISPLAY" value="false"> FALSE<br>
+		RECOMMAND<input type="text" name="RECOMMAND" ><br>
+		UPLOAD   <input type="file" name="UPLOAD"><br>
+		<input type="submit" value="삽입">
+	</form>
+	<form id="deleteIssueForm" name="deleteIssueForm" method="post" action="../issuecontrol" >
+		<input type=hidden id="actionId" name="action" value="delete">
+		COLUMN_NAME <input type="text" name="COLUMN_NAME" ><br>
+		COLUMN_VALUE <input type="text" name="COLUMN_VALUE"><br>
+		<input type="submit" value="삭제">
+	</form>
+</body>
+</html>

@@ -1,26 +1,33 @@
 package dync.servlet;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Enumeration;
+import java.util.logging.Level;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import com.oreilly.servlet.MultipartRequest;
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import dync.db.IssuePersistentManager;
 import dync.model.Issue;
@@ -28,6 +35,7 @@ import dync.model.Issue;
 /**
  * Servlet implementation class IssueServlet
  */
+@MultipartConfig
 public class IssueServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String REQ_ACTION = "action";
@@ -67,7 +75,10 @@ public class IssueServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		
+		
 		processRequest(request, response);
+		
 	}
 
 	private void processRequest(HttpServletRequest request,
@@ -77,9 +88,15 @@ public class IssueServlet extends HttpServlet {
 	    response.addHeader("Access-Control-Allow-Headers", "Content-Type");
 	    response.addHeader("Access-Control-Max-Age", "86400");
 		String action_request = request.getParameter(REQ_ACTION);
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html;charset=UTF-8");
+		
 		System.out.println(action_request);
-		if(action_request == null){
-			String savePath = "C:/DEVSNS/saveFile";
+		
+		if( action_request == null || action_request.equals(ACTION_INSERT)){
+			
+			/*
+			String savePath = "C:/DEVSNS/saveFile/" + issue_id ;
 			File dir = new File(savePath);
 			if (!dir.isDirectory()) {
 				System.out.println("폴더를 생성 합니다.");
@@ -94,6 +111,7 @@ public class IssueServlet extends HttpServlet {
 					new DefaultFileRenamePolicy());
 			
 			action_request = multi.getParameter(REQ_ACTION);
+			*/
 			multipart_action(action_request, request, response); // 액션 처리
 		}else{
 			request_action(action_request,request,response);
@@ -106,6 +124,7 @@ public class IssueServlet extends HttpServlet {
 	private void request_action(String action,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(response.getOutputStream(), "KSC5601"));
 		response.setContentType("text/html;charset=euc-kr");
+		
 		// System.out.println(action);
 		if (action == null) {
 			System.out.println("action = null");
@@ -118,9 +137,18 @@ public class IssueServlet extends HttpServlet {
 			int columnValue = Integer.parseInt(request
 					.getParameter("COLUMN_VALUE"));
 			if (ipm.deleteIssue(columnName, columnValue)) {
-				gotoJsp(request, response, "/jsp/dbTest.jsp");
+				JSONArray jsonArray = new JSONArray();
+		        JSONObject jsonObject = new JSONObject();
+		        jsonObject.put("result", "ok");
+		        jsonArray.add(jsonObject);
+		        out.write(jsonArray.toString());
 			} else {
-				throw new ServletException("DB Query Error");
+				JSONArray jsonArray = new JSONArray();
+		        JSONObject jsonObject = new JSONObject();
+		        jsonObject.put("result", "no");
+		        jsonArray.add(jsonObject);
+		        out.write(jsonArray.toString());
+				//throw new ServletException("DB Query Error");
 			}
 		} else if (action.equals(ACTION_EDIT)) {
 			System.out.println("edit 요청");
@@ -135,11 +163,19 @@ public class IssueServlet extends HttpServlet {
 			System.out.println("update 요청");
 			Issue issue = makeIssueBean(request);
 			if (ipm.updateIssue(issue)) {
-				gotoJsp(request, response, "/jsp/dbTest.jsp");
+				JSONArray jsonArray = new JSONArray();
+		        JSONObject jsonObject = new JSONObject();
+		        jsonObject.put("result", "ok");
+		        jsonArray.add(jsonObject);
+		        out.write(jsonArray.toString());
 			} else {
 				System.out.println("update 실패");
 
-				gotoJsp(request, response, "/jsp/errorPage.jsp");
+				JSONArray jsonArray = new JSONArray();
+		        JSONObject jsonObject = new JSONObject();
+		        jsonObject.put("result", "no");
+		        jsonArray.add(jsonObject);
+		        out.write(jsonArray.toString());
 				// throw new ServletException("DB Query Error");
 			}
 		} else if (action.equals(ACTION_GET_ISSUE)) {
@@ -163,8 +199,7 @@ public class IssueServlet extends HttpServlet {
 			Issue issue = ipm.getIssue(issue_id);
 			JSONArray json = new JSONArray();
 			json.add(issue);
-			request.setAttribute("issueJSON", json.toString());
-			gotoJsp(request, response, "/jsp/dbTest.jsp");
+			out.print(json.toString());
 			System.out.println(json);
 		} else if (action.equals(ACTION_LIST)) {
 			System.out.println("list 요청");
@@ -178,8 +213,64 @@ public class IssueServlet extends HttpServlet {
 	}
 	private void multipart_action(String action, HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		final PrintWriter writer = response.getWriter();
 		if (action.equals(ACTION_INSERT)) {
 			System.out.println("insert 요청");
+			
+			final String path = "C:/DEVSNS/saveFile/" + request.getParameter("ISSUE_ID");
+			File dir = new File(path);
+			if (!dir.isDirectory()) {
+				System.out.println("폴더를 생성 합니다.");
+				if (!dir.mkdirs()) {
+					System.out.println("폴더 생성 실패");
+				}
+			}
+		    final Part filePart = request.getPart("UPLOAD");
+		    final String fileName = getFileName(filePart);
+		    String fullFileName = path + File.separator + fileName;
+		    System.out.println(fileName);
+
+		    OutputStream out = null;
+		    InputStream filecontent = null;
+		    
+		    
+
+		    try {
+		        out = new FileOutputStream(new File(fullFileName));
+		        filecontent = filePart.getInputStream();
+
+		        int read = 0;
+		        final byte[] bytes = new byte[1024];
+
+		        while ((read = filecontent.read(bytes)) != -1) {
+		            out.write(bytes, 0, read);
+		        }
+		        //writer.println("New file " + fileName + " created at " + path);
+		    } catch (FileNotFoundException fne) {
+		        JSONArray jsonArray = new JSONArray();
+		        JSONObject jsonObject = new JSONObject();
+		        jsonObject.put("result", "no");
+		        jsonArray.add(jsonObject);
+		        writer.write(jsonArray.toString());
+
+		    } finally {
+		        if (out != null) {
+		            out.close();
+		        }
+		        if (filecontent != null) {
+		            filecontent.close();
+		        }
+		        /*
+		        if (writer != null) {
+		            writer.close();
+		        }
+		        */
+		    }
+			
+			Issue issue = makeIssueBean(request);
+			issue.setUpload(fullFileName);
+			
+			/*
 			Issue issue = makeIssueBean(multi);
 			PrintWriter out = response.getWriter();
 			try {
@@ -197,20 +288,58 @@ public class IssueServlet extends HttpServlet {
 			} catch (Exception e) {
 				System.out.print("예외 발생 : " + e);
 			}
+			*/
 			if (ipm.insertIssue(issue)) {
-				gotoJsp(request, response, "/jsp/dbTest.jsp");
+				JSONArray jsonArray = new JSONArray();
+		        JSONObject jsonObject = new JSONObject();
+		        jsonObject.put("result", "ok");
+		        jsonArray.add(jsonObject);
+		        writer.write(jsonArray.toString());
 			} else {
+				JSONArray jsonArray = new JSONArray();
+		        JSONObject jsonObject = new JSONObject();
+		        jsonObject.put("result", "no");
+		        jsonArray.add(jsonObject);
+		        writer.write(jsonArray.toString());
+				/*
 				System.out.println("insert 실패");
 				request.setAttribute("errorMessage", "유효하지 않은 USER_ID");
 				gotoJsp(request, response, "/jsp/errorPage.jsp");
-
+				*/
 				// throw new ServletException("DB Query Error");
 			}
+			
+			
 		} 
+		
+		writer.close();
+
+		
 		
 		
 	}
-
+	
+	private static String getFileName(Part part) {
+	    for (String cd : part.getHeader("content-disposition").split(";")) {
+	        if (cd.trim().startsWith("filename")) {
+	            String filename = cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
+	            return filename.substring(filename.lastIndexOf('/') + 1).substring(filename.lastIndexOf('\\') + 1); // MSIE fix.
+	        }
+	    }
+	    return null;
+	}
+	
+	private static String getValue(Part part) throws IOException {
+	    BufferedReader reader = new BufferedReader(new InputStreamReader(part.getInputStream(), "UTF-8"));
+	    StringBuilder value = new StringBuilder();
+	    char[] buffer = new char[1024];
+	    for (int length = 0; (length = reader.read(buffer)) > 0;) {
+	        value.append(buffer, 0, length);
+	    }
+	    return value.toString();
+	}
+	
+	
 	private Issue makeIssueBean(HttpServletRequest request) {
 		String strIssue_id = request.getParameter(Issue.ISSUE_ID);
 		if (strIssue_id == null) {
