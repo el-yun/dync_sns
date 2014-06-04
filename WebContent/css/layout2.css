@@ -16,55 +16,21 @@ body { font-family: 'Dotum'; letter-spacing: -1px; font-size:11px;}
 	height: 100%;
 	background-color: #FFF;
 }
-header#layout {
-	width:100%;
-	height: 88px;
-}
-#headtop {
-	width:100%;
-	height: 49px;
-	background: #695d9b;
-	position:relative;
-	overflow: hidden;
-}
-
-#menu {
-	width:100%;
-	height: 39px;
-	background: #252529;
-}
-
-#logo {
-	position:relative;
-	float:left;
-	width: 159px;
-	height: 33px;
-	display: block;
-	background:url(../images/header_03.png);
-	background-repeat: no-repeat;
-	margin: 9px 0px 9px 9px;
-}
-#logo em{
-	display: none;
-}
-
-#search {
-	float:left;
-	width: 380px;
-	height: 33px;
-	background: url(../images/header_04.png);
-	margin: 9px 0px;
-}
 
 .user {
 	position:relative;
-	float:right;
-	width: 220px;
-	min-width: 220px;
-	height: 11px;
+	float:left;
+	text-align:center;
+	width: 180px;
+	min-width: 189px;
+	height: 14px;
 	font-size: 11px;
 	color:#FFF;
-	margin: 12px 20px;
+	margin: 9px 0px;
+	cursor:pointer;
+}
+.user a:hover{
+	color:#83e32d;
 }
 .user span{
 	float:right;
@@ -92,10 +58,7 @@ span.login {
 	margin-right:5px;
 }
 
-span.Question {
-	color: #e1dcf8;
-	text-decoration: underline;
-}
+
 
 .main-menu {
 	width:700px;
@@ -112,25 +75,15 @@ ul.main-menu dl {
 	cursor: pointer;
 }
 
-#btn_newissue {	background: url(../images/header_07.png);}
-#btn_newissue:hover {	background: url(../images/header_over_07.png);}
-#btn_timeline {	background: url(../images/header_08.png);}
-#btn_timeline:hover {	background: url(../images/header_over_08.png);}
-#btn_code {	background: url(../images/header_09.png);}
-#btn_code:hover {	background: url(../images/header_over_09.png);}
-#btn_setting {	background: url(../images/header_10.png);}
-#btn_setting:hover {	background: url(../images/header_over_10.png);}
-
 aside.left {
 	position: absolute;
 	left:0;
 	top: 0;
-	width: 200px;
+	width: 189px;
 	height: 100%;
-	border-right: 1px solid #d5d9e5;
-	background-color:#eef3f9;
+	background-image: url(../images/aside_06.png);
 	overflow: hidden;
-	z-index:1;
+	z-index:0;
 }
 
 .lefttop {
@@ -171,14 +124,14 @@ aside.left {
 }
 
 #contents {
-	position:relative;
-	float:left;
-	margin-left:200px;
-	width:700px;
+	position:absolute;
+	left:210px;
+	width:800px;
 	height: 100%;
 	border-right: 1px solid #d5d9e5;
 	overflow-y:auto;
 	overflow-x: hidden;
+	z-index:1;
 }
 
 #container {
@@ -213,29 +166,29 @@ footer {
 }
 
 .issue {
-	width:660px;
+	width:px;
 	padding: 0px 20px;
 	min-height: 150px;
-	border-bottom: 1px solid #d5d9e5;
+	margin: 10px 0px;
 }
 
 .issue h1 {
-	font-weight: bold;
-	font-size: 24px;
+	float:left;
+	font-size: 20px;
 	font-family: "Nanum Gothic";
+	color:#cfcfcf;
+	line-height: 100%;
 }
 
-.issue .subtext {
-	font-size:11px;
-	color:#838383;
-	margin-left: 5px;
-	
-}
+
 
 .issue article {
 	width:100%;
-	margin: 10px;
+	margin: 2px 10px;
 	font-size: 14px;
+	float:left;
+	clear:left;
+	color:#6b6b6b;
 }
 
 .codebox {
@@ -251,18 +204,12 @@ footer {
 
 #repository {
 	position:absolute;
-	width: 850px;
-	height: 600px;
-	background: #FFF;
+	width: 826px;
+	height: 350px;
+	background: #333333;
+	color:#FFF;
 }
-.popup {
-	border-radius:4px;
-	box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
-	overflow:hidden;
-	z-index: 10;
-	top: 20%;
-	right:10%;
-}
+
 
 
 
@@ -273,40 +220,44 @@ footer {
 .box_top {
 	font-family: "Nanum Gothic";
 	width:100%;
-	height: 60px;
-	padding: 20px 15px;
-	border-bottom: 1px solid #F6F6F6;
+	height: 37px;
+	padding: 10px 15px;
 	cursor:pointer;
+    color:#FFF;
+	box-sizing: padding-box;
 }
 
 .box_title {
-	font-size:16px;
-	color:#000;
+	float:left;
+	font-size:14px;
+	color:#FFF;
 	font-weight: bold;
 	font-family: "Nanum Gothic";
-	text-align:center;
+	text-align:left;
+	letter-spacing: 0px;
 }
 
 .box_content {
 	position:absolute;
-	top:60px;
-	left:0;
-	bottom:0;
-	width:100%;
-	height: 100%;
+	top:37px;
+	left:10px;
+	right: 10px;
+	bottom:10px;
 	overflow-x:hidden;
+	background: #272822;
+	border:1px solid #343531;
 }
 
 .box_content .box_left {
-	width:200px;
-	height: 100%;
-	border-right: 1px solid #F6F6F6;
-	background: #fbfbfb;
+	float:left;
+	width:190px;
+	height: 290px;
+	box-sizing: padding-box;
 }
 
 dl.dotlist {
-	padding: 10px 15px;
-	height: 480px;
+	padding: 5px 5px;
+	height: 100%;
 }
 dl.dotlist li {
 	line-height: 20px;
@@ -316,7 +267,7 @@ dl.dotlist li {
 	cursor:pointer;
 }
 dl.dotlist li:hover {
-	background:#f0f0f0;
+	background: #333333;
 }
 
 .box_menu {
@@ -369,12 +320,10 @@ dl.dotlist li:hover {
     display:none;
 }
 .popup {
-	border-radius:4px;
-	box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
 	overflow:hidden;
 	z-index: 10;
-	top: 10%;
-	right:10%;
+	top: 270px;
+	left:184px;
 }
 .subject {
     width: 100%;
@@ -455,4 +404,197 @@ dl.dotlist li:hover {
     bottom: 5px;
     background:url(../images/close.png);
     cursor: pointer;
+}
+#main {
+	position:absolute;
+	top:0px;
+	bottom: 30px;
+	width: 100%;
+}
+
+#left-logo {
+	float:left;
+	background-image: url(../images/aside_01.png);
+	width: 189px;
+	height: 109px;
+}
+
+#left-menu-code {
+	float:left;
+	background-image: url(../images/aside_off_03.png);
+	width: 189px;
+	height: 49px;
+	cursor: pointer;
+}
+#left-menu-setup {
+	float:left;
+	background-image: url(../images/aside_off_05.png);
+	width: 189px;
+	height: 49px;
+	cursor: pointer;
+}
+#left-menu-timeline {
+	float:left;
+	background-image: url(../images/aside_off_04.png);
+	width: 189px;
+	height: 49px;
+	cursor: pointer;
+}
+#left-menu-code:hover {
+	float:left;
+	background-image: url(../images/aside_03.png);
+	width: 189px;
+	height: 49px;
+}
+#left-menu-setup:hover {
+	float:left;
+	background-image: url(../images/aside_05.png);
+	width: 189px;
+	height: 49px;
+}
+#left-menu-timeline:hover {
+	float:left;
+	background-image: url(../images/aside_04.png);
+	width: 189px;
+	height: 49px;
+}
+
+.menu span {
+	display: none;
+}
+
+#writeissue {
+	width: 760px;
+	height: 160px;
+	background: #FFF;
+	border: 3px solid #f1f1f1;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	margin: 10px 0px;
+	box-sizing: padding-box;
+	padding: 10px;
+	font-size: 14px;
+}
+
+.writetitle {
+	font-family: "Nanum Gothic";
+	font-size: 20px;
+	font-weight: bold;
+	color: #e6e6e6;
+	margin-left: 5px;
+	margin-top: 20px;
+}
+
+.writetool {
+	color: #d1d1d1;
+	font-weight: bold;
+	font-family: "Nanum Gothic";
+	margin: 0px 3px;
+}
+.writetool a{
+	cursor:pointer;
+}
+.writetool a:hover{
+	text-decoration: underline;
+}
+
+#Issuelist {
+	width: 750px;
+	height: 100%;
+	margin-right: 50px;
+	margin-top: 30px;
+}
+
+.writer-icon {
+	float:left;
+	width: 40px;
+	height: 40px;
+	background: url(../images/writer_icon.png);
+	display: inline;
+	vertical-align: middle;
+	margin-top: 3px;
+	margin-right: 5px;
+}
+
+.regdate {
+	display:inline;
+	float:right;
+	height: 40px;
+	margin-top: 20px;
+	font-size: 14px;
+	font-family: "Nanum Gothic";
+	color:#cfcfcf;
+	line-height: 100%;
+	
+}
+
+.issue {
+	
+}
+
+.btn {
+	margin: 0px;
+	background: #6baf2f;
+	padding: 4px 12px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	box-sizing: padding-box;
+	color:#FFF;
+	text-decoration: none;
+}
+.btn:hover {
+	text-decoration: none;
+	background: #73c02f;
+}
+
+#send-btn {
+	float:right;
+}
+
+.box_right {
+	position:absolute;
+	left:190px;
+	right: 0px;
+	bottom: 0px;
+	width: 100%;
+	height: 100%;
+}
+
+#window-close {
+	display: inline;
+	float:right;
+	font-weight:bold;
+	font-family: "Nanum Gothic";
+	font-size: 16px;
+}
+
+#left-menu-tag {
+	float:left;
+	width: 170px;
+	min-height: 100px;
+	margin: 0px 9px 5px 7px;
+	background:#272822;
+	cursor: pointer;
+}
+
+#left-menu-tag p.tag-title {
+	float:left;
+	margin: 8px 10px 0px 10px;
+	color: #8b8b8b;
+	font-size: 12px;
+}
+
+.tag-list {
+	float:left;
+	width: 100px;
+	margin: 15px 25px;
+}
+.tag-list li{
+	clear:left;
+	float:left;
+	color: #FFF;
+	margin-left: 5px;
+	line-height: 160%;
 }

@@ -2,22 +2,25 @@
 <html>
 <head>
 <meta charset="utf-8">
-<link rel="stylesheet" href="./css/layout.css" />
+<link rel="stylesheet" href="./css/layout2.css" />
+<link rel="stylesheet" href="./css/monokai.css">
+<link rel="stylesheet" href="./lib/codemirror.css">
+<script src="./lib/codemirror.js" type="text/javascript" charset="utf-8"></script>
+<script src="./keymap/sublime.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js" type="text/javascript" charset="utf-8"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.5.3/backbone-min.js" type="text/javascript" charset="utf-8"></script>
-<script src="./js/ace.js" type="text/javascript" charset="utf-8"></script>
 <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 <style>
     .editor {
-        position: absolute;
-        top: 30px;
-        right: 3px;
-        bottom: 100px;
-        left: 200px;
         width:100%;
+		height: 105px;
         border:0px solid;
+		outline:0px none transparent;
+		resize: none;
     }
+  .CodeMirror { line-height: 1.3; height: 301px; font-size: 11px; letter-spacing: 0px;}
+  .CodeMirror-linenumbers { padding: 0 8px; }
 </style>
 </head>
 <body>
@@ -35,26 +38,10 @@
                 <div class="close"></div>
 			</div>
 		</div>
-		<div id="newissue" class="popup">
-			<div class="box_top">
-				<p class="box_title">New issue</p>
-			</div>
-			<div class="box_content">
-				<div class="box_text">
-                    <input type="text" class="subject" value="" placeholder="제목을 입력하세요" />
-                    <textarea class="editor"></textarea>
-                </div>
-				<div class="box_menu">
-					<p class="left_btn">코드 삽입하기</p>
-					<p class="left_btn">이슈 등록하기</p>
-                    <p class="left_btn winclose">창 닫기</p>
-				</div>
-			</div>
-
-		</div>
 		<div id="repository" class="popup" style="display: none">
 			<div class="box_top">
-				<p class="box_title">Code Repository</p>
+				<p class="box_title">나의 코드저장소</p>
+				<p id="window-close" class="winclose">X</p>
 			</div>
 			<div class="box_content">
 				<div class="box_left">
@@ -62,60 +49,48 @@
 						<li>Code</li>
 						<li>Code</li>
 					</dl>
-					<div class="box_menu">
-						<!--<p class="left_btn">목록에서 삭제</p>
-						<p class="left_btn">코드 저장</p>-->
-                        <p class="left_btn winclose">창 닫기</p>
+				</div>
+				<div class="box_right">
+					<div id="editor_code">
+						<textarea id="texteditor">/* 코드를 미리 입력해둘 수 있습니다 */</textarea>
 					</div>
 				</div>
-				<div class="box_right"><div id="editor" class="editor">13123</div></div>
 			</div>
 
 		</div>
-		<header id="layout">
-			<div id="headtop">
-				<div class="headerlayout">
-					<p id="logo">
-						<em>Dync</em>
-					</p>
-					<div id="search"></div>
-					<p class="user">
-						<span class="Question">이용문의</span> <span id="login-btn" class="login spandiv">로그인</span>
-						<span class="caption">네이버, 카카오 계정으로 로그인할 수 있습니다.</span>
-					</p>
-				</div>
-			</div>
-			<div id="menu">
-				<ul class="main-menu">
-					<dl id="btn_newissue"></dl>
-					<dl id="btn_timeline"></dl>
-					<dl id="btn_code"></dl>
-					<dl id="btn_setting"></dl>
-				</ul>
-			</div>
-		</header>
-		<div id="container">
+		<div id="main">
 			<aside class="left">
-				<div class="lefttop"></div>
-				<div class="left-menu">
-					<p>타임라인</p>
+				<div id="left-logo"></div>
+					<p class="user">
+						<a id="login-btn">로그인</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a>이용문의</a>
+					</p>
+				<div id="left-menu-code" class="menu"><span>My Code Repository</span></div>
+				<div id="left-menu-timeline" class="menu"><span>My Code</span></div>
+				<div id="left-menu-tag" class="menu">
+					<p class="tag-title">My Favorite Tag</p>
+					<ul class="tag-list">
+						<li>Java</li>
+						<li>Javascript</li>
+						<li>C++</li>
+						<li>C#</li>
+						<li>Swift</li>
+						<li>Verilog</li>
+						<li>Code Highlight</li>
+						
+					</ul>
 				</div>
-				<div class="left-menu">
-					<p>Java</p>
-				</div>
-				<div class="left-menu">
-					<p>Ruby</p>
-				</div>
-				<div class="left-menu">
-					<p>Javascript</p>
-				</div>
+				<div id="left-menu-setup" class="menu"><span>My Code</span></div>
 			</aside>
 			<div id="contents">
-				<div id="listtop">
-					<span>목록 정렬 : </span> <select><option>최신 등록 순</option></select>
+				<p class="writetitle">새로운 이슈를 써주세요</p>
+				<div id="writeissue">
+					<textarea class="editor"></textarea>
+					<div class="writetool">
+						<a id="add-code">+ 코드 삽입하기</a>
+						<a id="send-btn" class="btn">등록하기</a>
+					</div>
 				</div>
-				<div id="Issuelist">
-					Loading List...
+				<div id="Issuelist">	
 				</div>
 			</div>
 		</div>
@@ -128,20 +103,18 @@
 	<script type='text/template' id='listIssueTemplate'>
 	<% 
         $.each(issues, function () { %>
-			<div class="issue">
-				<h1><%= this.subject %></h1>
-				<p class="subtext"><%= this.user_id %> | <%= this.reg_date %></p>
-				<article>
-					<%= this.contents %>
-				</article>
-			</div>	
+					<div class="issue">
+						<div class="writer-icon"></div>
+						<h1><%= this.user_id %></h1>
+						<p class="regdate"><%= this.reg_date %></p>
+						<article>
+							<%= this.contents %>
+						</article>
+					</div>
     <%  });
        
     %>
-    <script src="./js/ace.js" type="text/javascript" charset="utf-8"></script>
-    <script>
-        var editor = ace.edit("editor");
-    </script>
-	<script src="./js/dync.js" type="text/javascript" charset="utf-8"></script>
+	</script>
+	<script src="./js/dync-controller.js" type="text/javascript" charset="utf-8"></script>
 </body>
 </html>

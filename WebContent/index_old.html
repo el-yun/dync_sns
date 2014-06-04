@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="./css/layout.css" />
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js" type="text/javascript" charset="utf-8"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.5.3/backbone-min.js" type="text/javascript" charset="utf-8"></script>
+<script src="./js/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+<style>
+    .editor {
+        position: absolute;
+        top: 30px;
+        right: 3px;
+        bottom: 100px;
+        left: 200px;
+        width:100%;
+        border:0px solid;
+    }
+</style>
+</head>
+<body>
+	<div id="wrap">
+		<div id="underlayer" class="lightbox_container">
+			<div id="lightbox">
+				<p class="logintitle">Dync 로그인</p>
+				<p class="logintext">좀더 다양한 서비스 이용을 위해 로그인하세요!</p>
+
+				<div class="inbox">
+    				<a id="kakao-login-btn"></a>
+    				<a id="naver-login-btn"></a>
+				</div>
+                <p class="logintext">Facebook/네이버 로그인은 서비스 예정입니다.</p>
+                <div class="close"></div>
+			</div>
+		</div>
+		<div id="newissue" class="popup">
+			<div class="box_top">
+				<p class="box_title">New issue</p>
+			</div>
+			<div class="box_content">
+				<div class="box_text">
+                    <input type="text" class="subject" value="" placeholder="제목을 입력하세요" />
+                    <textarea class="editor"></textarea>
+                </div>
+				<div class="box_menu">
+					<p class="left_btn">코드 삽입하기</p>
+					<p class="left_btn">이슈 등록하기</p>
+                    <p class="left_btn winclose">창 닫기</p>
+				</div>
+			</div>
+
+		</div>
+		<div id="repository" class="popup" style="display: none">
+			<div class="box_top">
+				<p class="box_title">Code Repository</p>
+			</div>
+			<div class="box_content">
+				<div class="box_left">
+					<dl id="code_list" class="dotlist">
+						<li>Code</li>
+						<li>Code</li>
+					</dl>
+					<div class="box_menu">
+						<!--<p class="left_btn">목록에서 삭제</p>
+						<p class="left_btn">코드 저장</p>-->
+                        <p class="left_btn winclose">창 닫기</p>
+					</div>
+				</div>
+				<div class="box_right"><div id="editor" class="editor">13123</div></div>
+			</div>
+
+		</div>
+		<header id="layout">
+			<div id="headtop">
+				<div class="headerlayout">
+					<p id="logo">
+						<em>Dync</em>
+					</p>
+					<div id="search"></div>
+					<p class="user">
+						<span class="Question">이용문의</span> <span id="login-btn" class="login spandiv">로그인</span>
+						<span class="caption">네이버, 카카오 계정으로 로그인할 수 있습니다.</span>
+					</p>
+				</div>
+			</div>
+			<div id="menu">
+				<ul class="main-menu">
+					<dl id="btn_newissue"></dl>
+					<dl id="btn_timeline"></dl>
+					<dl id="btn_code"></dl>
+					<dl id="btn_setting"></dl>
+				</ul>
+			</div>
+		</header>
+		<div id="container">
+			<aside class="left">
+				<div class="lefttop"></div>
+				<div class="left-menu">
+					<p>타임라인</p>
+				</div>
+				<div class="left-menu">
+					<p>Java</p>
+				</div>
+				<div class="left-menu">
+					<p>Ruby</p>
+				</div>
+				<div class="left-menu">
+					<p>Javascript</p>
+				</div>
+			</aside>
+			<div id="contents">
+				<div id="listtop">
+					<span>목록 정렬 : </span> <select><option>최신 등록 순</option></select>
+				</div>
+				<div id="Issuelist">
+					Loading List...
+				</div>
+			</div>
+		</div>
+		<footer>
+			<p class="copyright">Copyright @ JBNU_ TEAM BUFF All Right
+				Reserved</p>
+		</footer>
+	</div>
+	<!-- 목록 출력 -->
+	<script type='text/template' id='listIssueTemplate'>
+	<% 
+        $.each(issues, function () { %>
+			<div class="issue">
+				<h1><%= this.subject %></h1>
+				<p class="subtext"><%= this.user_id %> | <%= this.reg_date %></p>
+				<article>
+					<%= this.contents %>
+				</article>
+			</div>	
+    <%  });
+       
+    %>
+    <script src="./js/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+        var editor = ace.edit("editor");
+    </script>
+	<script src="./js/dync.js" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>
