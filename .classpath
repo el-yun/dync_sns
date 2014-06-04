@@ -10,5 +10,10 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.7.0_51"/>
 	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/mysql-connector-java-5.1.25-bin.jar"/>
+	<classpathentry kind="lib" path="E:/apache-tomcat-7.0.53/lib/lucene_koreananalyzer.4x-20130430_logfix.jar"/>
+	<classpathentry kind="lib" path="E:/apache-tomcat-7.0.53/lib/lucene-analyzers-common-4.3.0.jar"/>
+	<classpathentry kind="lib" path="E:/apache-tomcat-7.0.53/lib/lucene-core-4.3.0.jar"/>
+	<classpathentry kind="lib" path="E:/apache-tomcat-7.0.53/lib/lucene-queries-4.3.0.jar"/>
+	<classpathentry kind="lib" path="E:/apache-tomcat-7.0.53/lib/lucene-queryparser-4.3.0.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

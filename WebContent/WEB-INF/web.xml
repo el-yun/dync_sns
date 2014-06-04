@@ -46,4 +46,15 @@
 		<servlet-name>UserServlet</servlet-name>
 		<url-pattern>/usercontrol</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<display-name>SearchServlet</display-name>
+		<servlet-name>SearchServlet</servlet-name>
+		<servlet-class>dync.servlet.SearchServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>SearchServlet</servlet-name>
+		<url-pattern>/SearchCode</url-pattern>
+	</servlet-mapping>
 </web-app>
