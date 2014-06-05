@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import net.sf.json.JSONArray;
@@ -33,6 +35,7 @@ import dync.db.IssuePersistentManager;
 import dync.db.TagPersistentManager;
 import dync.model.Issue;
 import dync.model.Tag;
+import dync.model.User;
 
 /**
  * Servlet implementation class IssueServlet
@@ -98,9 +101,21 @@ public class IssueServlet extends HttpServlet {
 
 		request_action(action_request, request, response);
 	}
-
+	
+	private void print_json_message(HttpServletResponse response, String key,String value) throws UnsupportedEncodingException, IOException{
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(
+				response.getOutputStream(), "UTF8"));
+		response.setContentType("text/html;charset=utf-8");
+		
+		JSONArray jsonArray = new JSONArray();
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put(key, value);
+		jsonArray.add(jsonObject);
+		out.write(jsonArray.toString());
+	}
+	
 	private void request_action(String action, HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+		HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(
 				response.getOutputStream(), "UTF8"));
 		response.setContentType("text/html;charset=utf-8");
@@ -113,62 +128,54 @@ public class IssueServlet extends HttpServlet {
 
 		if (action.equals(ACTION_INSERT)) {
 			System.out.println("insert 요청");
-
+			
 			Issue issue = makeIssueBean(request);
-			if (uploadFile(request, response)) {
+			if (issue != null) {
+				if (uploadFile(request, response)) {
 
-				if (ipm.insertIssue(issue)) {
-					String tagNames = issue.getTag();
-					tagNames.replaceAll("\\p{Space}", "");
-					String tag_name[] = tagNames.split(",");
-					for (String tagName : tag_name) {
-						Tag tag = new Tag();
+					if (ipm.insertIssue(issue)) {
+						if (issue.getTag() != null && ipm.returnid != 0) {
+							String tagNames = issue.getTag();
+							tagNames.replaceAll("\\p{Space}", "");
+							String tag_name[] = tagNames.split(",");
+							for (String tagName : tag_name) {
+								Tag tag = new Tag();
 
-						tag.setIssue_id(issue.getIssue_id());
-						tag.setTag_name(tagName);
-						tag.setUser_id(issue.getUser_id());
+								tag.setIssue_id(ipm.returnid);
+								tag.setTag_name(tagName);
+								tag.setUser_id(issue.getUser_id());
 
-						tpm.insertTag(tag);
+								tpm.insertTag(tag);
+							}
+						}
+						print_json_message(response, "result", "ok");
+					} else {
+						print_json_message(response, "result", "no");
 					}
-					JSONArray jsonArray = new JSONArray();
-					JSONObject jsonObject = new JSONObject();
-					jsonObject.put("result", "ok");
-					jsonArray.add(jsonObject);
-					out.write(jsonArray.toString());
 				} else {
-					JSONArray jsonArray = new JSONArray();
-					JSONObject jsonObject = new JSONObject();
-					jsonObject.put("result", "no");
-					jsonArray.add(jsonObject);
-					out.write(jsonArray.toString());
+					if (ipm.insertIssue(issue)) {
+
+						String tagNames = issue.getTag();
+						tagNames.replaceAll("\\p{Space}", "");
+						String tag_name[] = tagNames.split(",");
+						for (String tagName : tag_name) {
+							Tag tag = new Tag();
+							tag.setIssue_id(issue.getIssue_id());
+							tag.setTag_name(tagName);
+							tag.setUser_id(issue.getUser_id());
+
+							tpm.insertTag(tag);
+						}
+						print_json_message(response, "result", "ok");
+					} else {
+						System.out.println("DB Insert Fail");
+						print_json_message(response, "result", "no");
+					}
+					System.out.println("파일 업로드 실패");
 				}
 			} else {
-				if (ipm.insertIssue(issue)) {
-
-					String tagNames = issue.getTag();
-					tagNames.replaceAll("\\p{Space}", "");
-					String tag_name[] = tagNames.split(",");
-					for (String tagName : tag_name) {
-						Tag tag = new Tag();
-						tag.setIssue_id(issue.getIssue_id());
-						tag.setTag_name(tagName);
-						tag.setUser_id(issue.getUser_id());
-
-						tpm.insertTag(tag);
-					}
-					JSONArray jsonArray = new JSONArray();
-					JSONObject jsonObject = new JSONObject();
-					jsonObject.put("result", "ok");
-					jsonArray.add(jsonObject);
-					out.write(jsonArray.toString());
-				} else {
-					JSONArray jsonArray = new JSONArray();
-					JSONObject jsonObject = new JSONObject();
-					jsonObject.put("result", "no");
-					jsonArray.add(jsonObject);
-					out.write(jsonArray.toString());
-				}
-				System.out.println("파일 업로드 실패");
+				System.out.println("Issue User 정보 불러오기 실패");
+				print_json_message(response, "result", "no");
 			}
 			/*
 			 * Issue issue = makeIssueBean(multi); PrintWriter out =
@@ -187,18 +194,9 @@ public class IssueServlet extends HttpServlet {
 			int columnValue = Integer.parseInt(request
 					.getParameter("COLUMN_VALUE"));
 			if (ipm.deleteIssue(columnName, columnValue)) {
-				JSONArray jsonArray = new JSONArray();
-				JSONObject jsonObject = new JSONObject();
-				jsonObject.put("result", "ok");
-				jsonArray.add(jsonObject);
-				out.write(jsonArray.toString());
+				print_json_message(response, "result", "ok");
 			} else {
-				JSONArray jsonArray = new JSONArray();
-				JSONObject jsonObject = new JSONObject();
-				jsonObject.put("result", "no");
-				jsonArray.add(jsonObject);
-				out.write(jsonArray.toString());
-				// throw new ServletException("DB Query Error");
+				print_json_message(response, "result", "no");
 			}
 		} else if (action.equals(ACTION_EDIT)) {
 			System.out.println("edit 요청");
@@ -214,25 +212,12 @@ public class IssueServlet extends HttpServlet {
 			if (uploadFile(request, response)) {
 				Issue issue = makeIssueBean(request);
 				if (ipm.updateIssue(issue)) {
-
-					JSONArray jsonArray = new JSONArray();
-					JSONObject jsonObject = new JSONObject();
-					jsonObject.put("result", "ok");
-					jsonArray.add(jsonObject);
-					out.write(jsonArray.toString());
+					print_json_message(response, "result", "ok");
 				} else {
-					JSONArray jsonArray = new JSONArray();
-					JSONObject jsonObject = new JSONObject();
-					jsonObject.put("result", "no");
-					jsonArray.add(jsonObject);
-					out.write(jsonArray.toString());
+					print_json_message(response, "result", "no");
 				}
 			} else {
-				JSONArray jsonArray = new JSONArray();
-				JSONObject jsonObject = new JSONObject();
-				jsonObject.put("result", "no");
-				jsonArray.add(jsonObject);
-				out.write(jsonArray.toString());
+				print_json_message(response, "result", "no");
 				System.out.println("파일 업로드 실패");
 			}
 		} else if (action.equals(ACTION_GET_ISSUE)) {
@@ -340,32 +325,43 @@ public class IssueServlet extends HttpServlet {
 		}
 		return value.toString();
 	}
+	
+	private int user_session_check(HttpServletRequest request){
+		HttpSession session = request.getSession(false);
+		if (session != null) {
+		    session = request.getSession(true);
+			User auth = (User) session.getAttribute("auth_session");
+			return auth.getUser_id();
+		} else {
+			return -1;
+		}
+	}
 
 	private Issue makeIssueBean(HttpServletRequest request) {
-		String strIssue_id = request.getParameter(Issue.ISSUE_ID);
-		if (strIssue_id == null) {
+		int user_id = user_session_check(request);
+		System.out.println(user_id);
+		if (user_id != -1) {
+			String type = request.getParameter(Issue.TYPE);
+			String subject = request.getParameter(Issue.SUBJECT);
+			String contents = request.getParameter(Issue.CONTENTS);
+			boolean display = Boolean.parseBoolean(request
+					.getParameter(Issue.DISPLAY));
+			int recommand = Integer.parseInt(request
+					.getParameter(Issue.RECOMMAND));
+			String tag = request.getParameter(Issue.TAG);
+			// String reg_date = request.getParameter(Issue.REG_DATE);
+
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Calendar cal = Calendar.getInstance();
+
+			String reg_date = dateFormat.format(cal.getTime());
+			String upload = fullFileName;
+			Issue issue = new Issue(0, user_id, type, subject, contents,
+					display, recommand, tag, reg_date, upload);
+			return issue;
+		} else {
 			return null;
 		}
-		int issue_id = Integer.parseInt(strIssue_id);
-		int user_id = Integer.parseInt(request.getParameter(Issue.USER_ID));
-		String type = request.getParameter(Issue.TYPE);
-		String subject = request.getParameter(Issue.SUBJECT);
-		String contents = request.getParameter(Issue.CONTENTS);
-		boolean display = Boolean.parseBoolean(request
-				.getParameter(Issue.DISPLAY));
-		int recommand = Integer.parseInt(request.getParameter(Issue.RECOMMAND));
-		String tag = request.getParameter(Issue.TAG);
-		// String reg_date = request.getParameter(Issue.REG_DATE);
-
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Calendar cal = Calendar.getInstance();
-
-		String reg_date = dateFormat.format(cal.getTime());
-		String upload = fullFileName;
-
-		Issue issue = new Issue(issue_id, user_id, type, subject, contents, display, recommand, tag,reg_date, upload);
-
-		return issue;
 	}
 
 

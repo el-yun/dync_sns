@@ -1,23 +1,26 @@
 package dync.db;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+import com.mysql.jdbc.Statement;
+
 import dync.model.Issue;
 import dync.util.StringCut;
 
 public class IssuePersistentManager extends ConnectDB {
-	
+	public int returnid = 0;
 	
 	public boolean insertIssue(Issue issue){
 		connect();
-		String sql = "insert into ISSUE(TYPE,SUBJECT,CONTENTS,DISPLAY,RECOMMAND,TAG,REG_DATE,UPLOAD)" +
-					"values(?,?,?,?,?,?,?,?,?,?)";
+		String sql = "insert into ISSUE(USER_ID,TYPE,SUBJECT,CONTENTS,DISPLAY,RECOMMAND,TAG,REG_DATE,UPLOAD)" +
+					"values(?,?,?,?,?,?,?,?,?)";
 		try{
 			StringCut Subject = new StringCut(issue.getContents(), 40, "UTF-8");
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			pstmt.setInt(1, issue.getUser_id());
 			pstmt.setString(2, issue.getType());
 			pstmt.setString(3, Subject.result);
@@ -27,8 +30,9 @@ public class IssuePersistentManager extends ConnectDB {
 			pstmt.setInt(6, issue.getRecommand());
 			pstmt.setString(7, issue.getTag());
 			pstmt.setTimestamp(8, Timestamp.valueOf(issue.getReg_date()));
-			pstmt.setString(11, issue.getUpload());
+			pstmt.setString(9, issue.getUpload());
 			pstmt.executeUpdate();
+			get_insert_id(pstmt);
 		}catch(SQLException e){
 			System.out.println(pstmt.toString());
 			e.printStackTrace();
@@ -37,6 +41,19 @@ public class IssuePersistentManager extends ConnectDB {
 			disconnect();
 		}
 		return true;
+	}
+	
+	public void get_insert_id(PreparedStatement pstmt){
+		ResultSet rs;
+		try {
+			rs = pstmt.getGeneratedKeys();
+			if (rs.next()){
+				returnid = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public boolean deleteIssue(String columnName, int columnValue){

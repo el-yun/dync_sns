@@ -90,35 +90,7 @@ public class UserServlet extends HttpServlet {
 			return;
 		}
 
-		if (action.equals(ACTION_INSERT)) {
-			System.out.println("insert 요청");
-			User user = makeUserBean(request);
-			if (upm.insertUser(user)) {
-				Random r = new Random();
-				r.setSeed(System.currentTimeMillis());
-				int repository_id = (int) (r.nextDouble() * 100000000);
-				Code_Repository cr = new Code_Repository(repository_id,
-						user.getUser_id());
-				if (rpm.insertRepository(cr)) {
-					String jspPath = "/jsp/dbTest.jsp";
-					RequestDispatcher dispatcher = getServletContext()
-							.getRequestDispatcher(jspPath);
-					dispatcher.forward(request, response);
-				} else {
-					throw new ServletException("DB Query Error");
-				}
-
-			} else {
-				/*
-				 * String jspPath = "/jsp/errorPage.jsp"; RequestDispatcher
-				 * dispatcher =
-				 * getServletContext().getRequestDispatcher(jspPath);
-				 * dispatcher.forward(request, response);
-				 */
-				throw new ServletException("DB Query Error");
-			}
-		} else if (action.equals(ACTION_DELETE)) {
-
+		if (action.equals(ACTION_DELETE)) {
 			System.out.println("delete 요청");
 			String columnName = request.getParameter("COLUMN_NAME");
 			int columnValue = Integer.parseInt(request
@@ -149,7 +121,8 @@ public class UserServlet extends HttpServlet {
 				NewUser.setUser_kakaohash(token);
 				NewUser.setUser_name(username);
 				upm.insertUser(NewUser);
-				createSession(session, NewUser);
+				loginuser = upm.getAuth("USER_KAKAOHASH", NewUser.getUser_kakaohash());
+				createSession(session, loginuser);
 				JSONObject obj = new JSONObject();
 				obj.put("logged", "ok");
 				obj.put("naver_hash", NewUser.getUser_naverhash());
