@@ -54,6 +54,7 @@ public class IssueServlet extends HttpServlet {
 	private static final String ACTION_GET_ISSUE = "get_issue";
 
 	private IssuePersistentManager ipm = new IssuePersistentManager();
+
 	/**
 	 * Default constructor.
 	 */
@@ -75,115 +76,105 @@ public class IssueServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		
-		
+
 		processRequest(request, response);
-		
+
 	}
 
 	private void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-	    response.addHeader("Access-Control-Allow-Origin", "*");
-	    response.addHeader("Access-Control-Allow-Methods", "GET, PUT, POST, OPTIONS, DELETE");
-	    response.addHeader("Access-Control-Allow-Headers", "Content-Type");
-	    response.addHeader("Access-Control-Max-Age", "86400");
+		response.addHeader("Access-Control-Allow-Origin", "*");
+		response.addHeader("Access-Control-Allow-Methods",
+				"GET, PUT, POST, OPTIONS, DELETE");
+		response.addHeader("Access-Control-Allow-Headers", "Content-Type");
+		response.addHeader("Access-Control-Max-Age", "86400");
 		String action_request = request.getParameter(REQ_ACTION);
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=UTF-8");
-		
+
 		System.out.println(action_request);
-		
-		
-		request_action(action_request,request,response);
+
+		request_action(action_request, request, response);
 	}
-	private void request_action(String action,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-		PrintWriter out = new PrintWriter(new OutputStreamWriter(response.getOutputStream(), "KSC5601"));
+
+	private void request_action(String action, HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(
+				response.getOutputStream(), "KSC5601"));
 		response.setContentType("text/html;charset=euc-kr");
-		
+
 		// System.out.println(action);
 		if (action == null) {
 			System.out.println("action = null");
 			return;
 		}
-		
+
 		if (action.equals(ACTION_INSERT)) {
 			System.out.println("insert 요청");
-			
-			
-			
-			
-			
-			if(uploadFile(request, response)){
-				Issue issue = makeIssueBean(request);
-				
+
+			Issue issue = makeIssueBean(request);
+			if (uploadFile(request, response)) {
+
 				if (ipm.insertIssue(issue)) {
-					
+
 					JSONArray jsonArray = new JSONArray();
-			        JSONObject jsonObject = new JSONObject();
-			        jsonObject.put("result", "ok");
-			        jsonArray.add(jsonObject);
-			        out.write(jsonArray.toString());
+					JSONObject jsonObject = new JSONObject();
+					jsonObject.put("result", "ok");
+					jsonArray.add(jsonObject);
+					out.write(jsonArray.toString());
 				} else {
 					JSONArray jsonArray = new JSONArray();
-			        JSONObject jsonObject = new JSONObject();
-			        jsonObject.put("result", "no");
-			        jsonArray.add(jsonObject);
-			        out.write(jsonArray.toString());
-					/*
-					System.out.println("insert 실패");
-					request.setAttribute("errorMessage", "유효하지 않은 USER_ID");
-					gotoJsp(request, response, "/jsp/errorPage.jsp");
-					*/
-					// throw new ServletException("DB Query Error");
+					JSONObject jsonObject = new JSONObject();
+					jsonObject.put("result", "no");
+					jsonArray.add(jsonObject);
+					out.write(jsonArray.toString());
 				}
-			}else{
-				JSONArray jsonArray = new JSONArray();
-		        JSONObject jsonObject = new JSONObject();
-		        jsonObject.put("result", "no");
-		        jsonArray.add(jsonObject);
-		        out.write(jsonArray.toString());
-		        System.out.println("파일 업로드 실패");
+			} else {
+				if (ipm.insertIssue(issue)) {
+
+					JSONArray jsonArray = new JSONArray();
+					JSONObject jsonObject = new JSONObject();
+					jsonObject.put("result", "ok");
+					jsonArray.add(jsonObject);
+					out.write(jsonArray.toString());
+				} else {
+					JSONArray jsonArray = new JSONArray();
+					JSONObject jsonObject = new JSONObject();
+					jsonObject.put("result", "no");
+					jsonArray.add(jsonObject);
+					out.write(jsonArray.toString());
+				}
+				System.out.println("파일 업로드 실패");
 			}
 			/*
-			Issue issue = makeIssueBean(multi);
-			PrintWriter out = response.getWriter();
-			try {
-				Enumeration files = null;
-				File file = null;
-				fileName = multi.getFilesystemName("UPLOAD"); // 파일의 이름 얻기
-				if(fileName.equals(null)){
-					System.out.println("업로드된 파일 없음");
-					
-				}else{
-					files = multi.getFileNames();
-					String name = (String) files.nextElement();
-					file = multi.getFile(name);
-				}
-			} catch (Exception e) {
-				System.out.print("예외 발생 : " + e);
-			}
-			*/
-			
-			
-			
-		}else if (action.equals(ACTION_DELETE)) {
+			 * Issue issue = makeIssueBean(multi); PrintWriter out =
+			 * response.getWriter(); try { Enumeration files = null; File file =
+			 * null; fileName = multi.getFilesystemName("UPLOAD"); // 파일의 이름 얻기
+			 * if(fileName.equals(null)){ System.out.println("업로드된 파일 없음");
+			 * 
+			 * }else{ files = multi.getFileNames(); String name = (String)
+			 * files.nextElement(); file = multi.getFile(name); } } catch
+			 * (Exception e) { System.out.print("예외 발생 : " + e); }
+			 */
+
+		} else if (action.equals(ACTION_DELETE)) {
 			System.out.println("delete 요청");
 			String columnName = request.getParameter("COLUMN_NAME");
 			int columnValue = Integer.parseInt(request
 					.getParameter("COLUMN_VALUE"));
 			if (ipm.deleteIssue(columnName, columnValue)) {
 				JSONArray jsonArray = new JSONArray();
-		        JSONObject jsonObject = new JSONObject();
-		        jsonObject.put("result", "ok");
-		        jsonArray.add(jsonObject);
-		        out.write(jsonArray.toString());
+				JSONObject jsonObject = new JSONObject();
+				jsonObject.put("result", "ok");
+				jsonArray.add(jsonObject);
+				out.write(jsonArray.toString());
 			} else {
 				JSONArray jsonArray = new JSONArray();
-		        JSONObject jsonObject = new JSONObject();
-		        jsonObject.put("result", "no");
-		        jsonArray.add(jsonObject);
-		        out.write(jsonArray.toString());
-				//throw new ServletException("DB Query Error");
+				JSONObject jsonObject = new JSONObject();
+				jsonObject.put("result", "no");
+				jsonArray.add(jsonObject);
+				out.write(jsonArray.toString());
+				// throw new ServletException("DB Query Error");
 			}
 		} else if (action.equals(ACTION_EDIT)) {
 			System.out.println("edit 요청");
@@ -196,55 +187,55 @@ public class IssueServlet extends HttpServlet {
 			dispatcher.forward(request, response);
 		} else if (action.equals(ACTION_UPDATE)) {
 			System.out.println("update 요청");
-			if(uploadFile(request, response)){
+			if (uploadFile(request, response)) {
 				Issue issue = makeIssueBean(request);
-				
+
 				if (ipm.updateIssue(issue)) {
-					
+
 					JSONArray jsonArray = new JSONArray();
-			        JSONObject jsonObject = new JSONObject();
-			        jsonObject.put("result", "ok");
-			        jsonArray.add(jsonObject);
-			        out.write(jsonArray.toString());
+					JSONObject jsonObject = new JSONObject();
+					jsonObject.put("result", "ok");
+					jsonArray.add(jsonObject);
+					out.write(jsonArray.toString());
 				} else {
 					JSONArray jsonArray = new JSONArray();
-			        JSONObject jsonObject = new JSONObject();
-			        jsonObject.put("result", "no");
-			        jsonArray.add(jsonObject);
-			        out.write(jsonArray.toString());
+					JSONObject jsonObject = new JSONObject();
+					jsonObject.put("result", "no");
+					jsonArray.add(jsonObject);
+					out.write(jsonArray.toString());
 					/*
-					System.out.println("insert 실패");
-					request.setAttribute("errorMessage", "유효하지 않은 USER_ID");
-					gotoJsp(request, response, "/jsp/errorPage.jsp");
-					*/
+					 * System.out.println("insert 실패");
+					 * request.setAttribute("errorMessage", "유효하지 않은 USER_ID");
+					 * gotoJsp(request, response, "/jsp/errorPage.jsp");
+					 */
 					// throw new ServletException("DB Query Error");
 				}
-			}else{
+			} else {
 				JSONArray jsonArray = new JSONArray();
-		        JSONObject jsonObject = new JSONObject();
-		        jsonObject.put("result", "no");
-		        jsonArray.add(jsonObject);
-		        out.write(jsonArray.toString());
-		        System.out.println("파일 업로드 실패");
+				JSONObject jsonObject = new JSONObject();
+				jsonObject.put("result", "no");
+				jsonArray.add(jsonObject);
+				out.write(jsonArray.toString());
+				System.out.println("파일 업로드 실패");
 			}
 		} else if (action.equals(ACTION_GET_ISSUE)) {
 			System.out.println("getIssue 요청");
 			int issue_id = Integer.parseInt(request.getParameter("ISSUE_ID"));
 			ArrayList<Issue> issueList = ipm.getIssueList();
 			boolean flag = true;
-			for(Issue issue : issueList){
-				if(issue.getIssue_id() == issue_id){
+			for (Issue issue : issueList) {
+				if (issue.getIssue_id() == issue_id) {
 					flag = false;
 					break;
 				}
-				
+
 			}
-			if(flag){
+			if (flag) {
 				request.setAttribute("errorMessage", "유효하지 않은 ISSUE_ID");
 				gotoJsp(request, response, "/jsp/errorPage.jsp");
 				return;
 			}
-			
+
 			Issue issue = ipm.getIssue(issue_id);
 			JSONArray json = new JSONArray();
 			json.add(issue);
@@ -260,10 +251,11 @@ public class IssueServlet extends HttpServlet {
 		}
 		out.close();
 	}
-	
+
 	private boolean uploadFile(HttpServletRequest request,
-	HttpServletResponse response) throws ServletException, IOException {
-		final String path = "C:/DEVSNS/saveFile/" + request.getParameter("ISSUE_ID");
+			HttpServletResponse response) throws ServletException, IOException {
+		final String path = "C:/DEVSNS/saveFile/"
+				+ request.getParameter("ISSUE_ID");
 		File dir = new File(path);
 		if (!dir.isDirectory()) {
 			System.out.println("폴더를 생성 합니다.");
@@ -271,70 +263,67 @@ public class IssueServlet extends HttpServlet {
 				System.out.println("폴더 생성 실패");
 			}
 		}
-	    final Part filePart = request.getPart("UPLOAD");
-	    final String fileName = getFileName(filePart);
-	    fullFileName = path + File.separator + fileName;
-	    System.out.println(fileName);
+		final Part filePart = request.getPart("UPLOAD");
+		final String fileName = getFileName(filePart);
+		fullFileName = path + File.separator + fileName;
+		System.out.println(fileName);
 
-	    OutputStream out = null;
-	    InputStream filecontent = null;
-	    
-	    
+		OutputStream out = null;
+		InputStream filecontent = null;
 
-	    try {
-	        out = new FileOutputStream(new File(fullFileName));
-	        filecontent = filePart.getInputStream();
+		try {
+			out = new FileOutputStream(new File(fullFileName));
+			filecontent = filePart.getInputStream();
 
-	        int read = 0;
-	        final byte[] bytes = new byte[1024];
+			int read = 0;
+			final byte[] bytes = new byte[1024];
 
-	        while ((read = filecontent.read(bytes)) != -1) {
-	            out.write(bytes, 0, read);
-	        }
-	        //writer.println("New file " + fileName + " created at " + path);
-	    } catch (FileNotFoundException fne) {
-	    	System.out.println("파일 업로드 실패");
-	    	return false;
-	        
+			while ((read = filecontent.read(bytes)) != -1) {
+				out.write(bytes, 0, read);
+			}
+			// writer.println("New file " + fileName + " created at " + path);
+		} catch (FileNotFoundException fne) {
+			System.out.println("파일 업로드 실패");
+			return false;
 
-	    } finally {
-	        if (out != null) {
-	            out.close();
-	        }
-	        if (filecontent != null) {
-	            filecontent.close();
-	        }
-	        /*
-	        if (writer != null) {
-	            writer.close();
-	        }
-	        */
-	    }
-		
+		} finally {
+			if (out != null) {
+				out.close();
+			}
+			if (filecontent != null) {
+				filecontent.close();
+			}
+			/*
+			 * if (writer != null) { writer.close(); }
+			 */
+		}
+
 		return true;
 	}
-	
+
 	private static String getFileName(Part part) {
-	    for (String cd : part.getHeader("content-disposition").split(";")) {
-	        if (cd.trim().startsWith("filename")) {
-	            String filename = cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
-	            return filename.substring(filename.lastIndexOf('/') + 1).substring(filename.lastIndexOf('\\') + 1); // MSIE fix.
-	        }
-	    }
-	    return null;
+		for (String cd : part.getHeader("content-disposition").split(";")) {
+			if (cd.trim().startsWith("filename")) {
+				String filename = cd.substring(cd.indexOf('=') + 1).trim()
+						.replace("\"", "");
+				return filename.substring(filename.lastIndexOf('/') + 1)
+						.substring(filename.lastIndexOf('\\') + 1); // MSIE fix.
+			}
+		}
+		return null;
 	}
-	
+
 	private static String getValue(Part part) throws IOException {
-	    BufferedReader reader = new BufferedReader(new InputStreamReader(part.getInputStream(), "UTF-8"));
-	    StringBuilder value = new StringBuilder();
-	    char[] buffer = new char[1024];
-	    for (int length = 0; (length = reader.read(buffer)) > 0;) {
-	        value.append(buffer, 0, length);
-	    }
-	    return value.toString();
+		BufferedReader reader = new BufferedReader(new InputStreamReader(
+				part.getInputStream(), "UTF-8"));
+		StringBuilder value = new StringBuilder();
+		char[] buffer = new char[1024];
+		for (int length = 0; (length = reader.read(buffer)) > 0;) {
+			value.append(buffer, 0, length);
+		}
+		return value.toString();
 	}
-	
-	
+
 	private Issue makeIssueBean(HttpServletRequest request) {
 		String strIssue_id = request.getParameter(Issue.ISSUE_ID);
 		if (strIssue_id == null) {
@@ -361,6 +350,7 @@ public class IssueServlet extends HttpServlet {
 
 		return issue;
 	}
+
 	private Issue makeIssueBean(MultipartRequest multi) {
 		String strIssue_id = multi.getParameter(Issue.ISSUE_ID);
 		if (strIssue_id == null) {
@@ -401,9 +391,9 @@ public class IssueServlet extends HttpServlet {
 				.getRequestDispatcher(jspPath);
 		dispatcher.forward(request, response);
 	}
-	
-	private void gotoJson(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-			IOException {
+
+	private void gotoJson(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		String jspPath = "/jsp/output_json.jsp";
 		RequestDispatcher dispatcher = getServletContext()
 				.getRequestDispatcher(jspPath);
