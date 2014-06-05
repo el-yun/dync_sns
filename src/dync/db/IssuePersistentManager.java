@@ -12,21 +12,20 @@ public class IssuePersistentManager extends ConnectDB {
 	
 	public boolean insertIssue(Issue issue){
 		connect();
-		String sql = "insert into ISSUE(ISSUE_ID,USER_ID,TYPE,SUBJECT,CONTENTS,DISPLAY,RECOMMAND,TAG,REG_DATE,UPLOAD)" +
+		String sql = "insert into ISSUE(TYPE,SUBJECT,CONTENTS,DISPLAY,RECOMMAND,TAG,REG_DATE,UPLOAD)" +
 					"values(?,?,?,?,?,?,?,?,?,?)";
 		try{
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, issue.getIssue_id());
-			pstmt.setInt(2, issue.getUser_id());
-			pstmt.setString(3, issue.getType());
-			pstmt.setString(4, issue.getSubject());
-			pstmt.setString(5, issue.getContents());
-			if(issue.isDisplay()) pstmt.setInt(6, 1);
-			else pstmt.setInt(6, 0);
-			pstmt.setInt(7, issue.getRecommand());
-			pstmt.setString(8, issue.getTag());
-			pstmt.setTimestamp(9, Timestamp.valueOf(issue.getReg_date()));
-			pstmt.setString(10, issue.getUpload());
+			pstmt.setInt(1, issue.getUser_id());
+			pstmt.setString(2, issue.getType());
+			pstmt.setString(3, issue.getSubject());
+			pstmt.setString(4, issue.getContents());
+			if(issue.isDisplay()) pstmt.setInt(5, 1);
+			else pstmt.setInt(5, 0);
+			pstmt.setInt(6, issue.getRecommand());
+			pstmt.setString(7, issue.getTag());
+			pstmt.setTimestamp(8, Timestamp.valueOf(issue.getReg_date()));
+			pstmt.setString(11, issue.getUpload());
 			pstmt.executeUpdate();
 		}catch(SQLException e){
 			System.out.println(pstmt.toString());

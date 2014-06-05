@@ -84,6 +84,22 @@
 			<div id="contents">
 				<p class="writetitle">새로운 이슈를 써주세요</p>
 				<div id="writeissue">
+					<form id="insertIssueForm" name="insertIssueForm" method="post" action="./issuecontrol" enctype="multipart/form-data">
+						<select name="action">
+							<option value="insert">insert</option>
+							<option value="update">update</option>
+						</select>
+						ISSUE_ID <input type="number" name="ISSUE_ID" min="0" max="2100000000" value=""><br>
+						USER_ID  <input type="number" name="USER_ID" min="0" max="2100000000" value=""><br>
+						TYPE	 <input type="text" name="TYPE" ><br>
+						SUBJECT  <input type="text" name="SUBJECT" ><br>
+						CONTENTS <input type="text" name="CONTENTS" ><br>
+						DISPLAY  <br><input type="radio" name="DISPLAY" value="true"> TRUE<br>
+								 <input type="radio" name="DISPLAY" value="false"> FALSE<br>
+						RECOMMAND<input type="text" name="RECOMMAND" ><br>
+						UPLOAD   <input type="file" name="UPLOAD"><br>
+						<input type="submit" value="삽입">
+					</form>
 					<textarea class="editor"></textarea>
 					<div class="writetool">
 						<a id="add-code">+ 코드 삽입하기</a>

@@ -35,9 +35,7 @@ public class Issue {
 	
 
 
-	public Issue(int issue_id, int user_id, String type, String subject,
-			String contents, boolean display, int recommand, String tag,
-			String reg_date, String upload) {
+	public Issue(int issue_id, int user_id, String type, String subject,String contents, boolean display, int recommand, String tag,String reg_date, String upload) {
 		super();
 		this.issue_id = issue_id;
 		this.user_id = user_id;
