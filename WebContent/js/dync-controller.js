@@ -65,9 +65,10 @@ LoginView = Backbone.View.extend({
       $.ajax({
           type:"GET",
           url: parseURL,
-          datatype: 'application/json',
+          dataType: 'json',
           data: { action: 'check' },
           success:function(args){
+              console.log(args.logged);
               that.model.set({'logged' : args.logged, 'kakao_hash' : args.kakao_hash});
               that.render();
               //that.naver_hash = auth.naver_hash;
