@@ -49,7 +49,7 @@ public class IssueServlet extends HttpServlet {
 	private static final String ACTION_DELETE = "delete";
 
 	MultipartRequest multi;
-	String fileName = "";
+	String fullFileName = "";
 
 	private static final String ACTION_GET_ISSUE = "get_issue";
 
@@ -93,33 +93,8 @@ public class IssueServlet extends HttpServlet {
 		
 		System.out.println(action_request);
 		
-		if( action_request == null || action_request.equals(ACTION_INSERT)){
-			
-			/*
-			String savePath = "C:/DEVSNS/saveFile/" + issue_id ;
-			File dir = new File(savePath);
-			if (!dir.isDirectory()) {
-				System.out.println("폴더를 생성 합니다.");
-				if (!dir.mkdirs()) {
-					System.out.println("폴더 생성 실패");
-				}
-			}
-			
-			
-			int maxSize = 5 * 1024 * 1024; // 최대 업로드 파일 크기 5MB(메가)로 제한
-			multi = new MultipartRequest(request, savePath, maxSize, "UTF-8",
-					new DefaultFileRenamePolicy());
-			
-			action_request = multi.getParameter(REQ_ACTION);
-			*/
-			multipart_action(action_request, request, response); // 액션 처리
-		}else{
-			request_action(action_request,request,response);
-		}
 		
-		
-		
-		
+		request_action(action_request,request,response);
 	}
 	private void request_action(String action,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(response.getOutputStream(), "KSC5601"));
@@ -130,8 +105,68 @@ public class IssueServlet extends HttpServlet {
 			System.out.println("action = null");
 			return;
 		}
-
-		if (action.equals(ACTION_DELETE)) {
+		
+		if (action.equals(ACTION_INSERT)) {
+			System.out.println("insert 요청");
+			
+			
+			
+			
+			
+			if(uploadFile(request, response)){
+				Issue issue = makeIssueBean(request);
+				
+				if (ipm.insertIssue(issue)) {
+					
+					JSONArray jsonArray = new JSONArray();
+			        JSONObject jsonObject = new JSONObject();
+			        jsonObject.put("result", "ok");
+			        jsonArray.add(jsonObject);
+			        out.write(jsonArray.toString());
+				} else {
+					JSONArray jsonArray = new JSONArray();
+			        JSONObject jsonObject = new JSONObject();
+			        jsonObject.put("result", "no");
+			        jsonArray.add(jsonObject);
+			        out.write(jsonArray.toString());
+					/*
+					System.out.println("insert 실패");
+					request.setAttribute("errorMessage", "유효하지 않은 USER_ID");
+					gotoJsp(request, response, "/jsp/errorPage.jsp");
+					*/
+					// throw new ServletException("DB Query Error");
+				}
+			}else{
+				JSONArray jsonArray = new JSONArray();
+		        JSONObject jsonObject = new JSONObject();
+		        jsonObject.put("result", "no");
+		        jsonArray.add(jsonObject);
+		        out.write(jsonArray.toString());
+		        System.out.println("파일 업로드 실패");
+			}
+			/*
+			Issue issue = makeIssueBean(multi);
+			PrintWriter out = response.getWriter();
+			try {
+				Enumeration files = null;
+				File file = null;
+				fileName = multi.getFilesystemName("UPLOAD"); // 파일의 이름 얻기
+				if(fileName.equals(null)){
+					System.out.println("업로드된 파일 없음");
+					
+				}else{
+					files = multi.getFileNames();
+					String name = (String) files.nextElement();
+					file = multi.getFile(name);
+				}
+			} catch (Exception e) {
+				System.out.print("예외 발생 : " + e);
+			}
+			*/
+			
+			
+			
+		}else if (action.equals(ACTION_DELETE)) {
 			System.out.println("delete 요청");
 			String columnName = request.getParameter("COLUMN_NAME");
 			int columnValue = Integer.parseInt(request
@@ -161,22 +196,36 @@ public class IssueServlet extends HttpServlet {
 			dispatcher.forward(request, response);
 		} else if (action.equals(ACTION_UPDATE)) {
 			System.out.println("update 요청");
-			Issue issue = makeIssueBean(request);
-			if (ipm.updateIssue(issue)) {
-				JSONArray jsonArray = new JSONArray();
-		        JSONObject jsonObject = new JSONObject();
-		        jsonObject.put("result", "ok");
-		        jsonArray.add(jsonObject);
-		        out.write(jsonArray.toString());
-			} else {
-				System.out.println("update 실패");
-
+			if(uploadFile(request, response)){
+				Issue issue = makeIssueBean(request);
+				
+				if (ipm.updateIssue(issue)) {
+					
+					JSONArray jsonArray = new JSONArray();
+			        JSONObject jsonObject = new JSONObject();
+			        jsonObject.put("result", "ok");
+			        jsonArray.add(jsonObject);
+			        out.write(jsonArray.toString());
+				} else {
+					JSONArray jsonArray = new JSONArray();
+			        JSONObject jsonObject = new JSONObject();
+			        jsonObject.put("result", "no");
+			        jsonArray.add(jsonObject);
+			        out.write(jsonArray.toString());
+					/*
+					System.out.println("insert 실패");
+					request.setAttribute("errorMessage", "유효하지 않은 USER_ID");
+					gotoJsp(request, response, "/jsp/errorPage.jsp");
+					*/
+					// throw new ServletException("DB Query Error");
+				}
+			}else{
 				JSONArray jsonArray = new JSONArray();
 		        JSONObject jsonObject = new JSONObject();
 		        jsonObject.put("result", "no");
 		        jsonArray.add(jsonObject);
 		        out.write(jsonArray.toString());
-				// throw new ServletException("DB Query Error");
+		        System.out.println("파일 업로드 실패");
 			}
 		} else if (action.equals(ACTION_GET_ISSUE)) {
 			System.out.println("getIssue 요청");
@@ -211,112 +260,58 @@ public class IssueServlet extends HttpServlet {
 		}
 		out.close();
 	}
-	private void multipart_action(String action, HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		final PrintWriter writer = response.getWriter();
-		if (action.equals(ACTION_INSERT)) {
-			System.out.println("insert 요청");
-			
-			final String path = "C:/DEVSNS/saveFile/" + request.getParameter("ISSUE_ID");
-			File dir = new File(path);
-			if (!dir.isDirectory()) {
-				System.out.println("폴더를 생성 합니다.");
-				if (!dir.mkdirs()) {
-					System.out.println("폴더 생성 실패");
-				}
+	
+	private boolean uploadFile(HttpServletRequest request,
+	HttpServletResponse response) throws ServletException, IOException {
+		final String path = "C:/DEVSNS/saveFile/" + request.getParameter("ISSUE_ID");
+		File dir = new File(path);
+		if (!dir.isDirectory()) {
+			System.out.println("폴더를 생성 합니다.");
+			if (!dir.mkdirs()) {
+				System.out.println("폴더 생성 실패");
 			}
-		    final Part filePart = request.getPart("UPLOAD");
-		    final String fileName = getFileName(filePart);
-		    String fullFileName = path + File.separator + fileName;
-		    System.out.println(fileName);
+		}
+	    final Part filePart = request.getPart("UPLOAD");
+	    final String fileName = getFileName(filePart);
+	    fullFileName = path + File.separator + fileName;
+	    System.out.println(fileName);
 
-		    OutputStream out = null;
-		    InputStream filecontent = null;
-		    
-		    
+	    OutputStream out = null;
+	    InputStream filecontent = null;
+	    
+	    
 
-		    try {
-		        out = new FileOutputStream(new File(fullFileName));
-		        filecontent = filePart.getInputStream();
+	    try {
+	        out = new FileOutputStream(new File(fullFileName));
+	        filecontent = filePart.getInputStream();
 
-		        int read = 0;
-		        final byte[] bytes = new byte[1024];
+	        int read = 0;
+	        final byte[] bytes = new byte[1024];
 
-		        while ((read = filecontent.read(bytes)) != -1) {
-		            out.write(bytes, 0, read);
-		        }
-		        //writer.println("New file " + fileName + " created at " + path);
-		    } catch (FileNotFoundException fne) {
-		        JSONArray jsonArray = new JSONArray();
-		        JSONObject jsonObject = new JSONObject();
-		        jsonObject.put("result", "no");
-		        jsonArray.add(jsonObject);
-		        writer.write(jsonArray.toString());
+	        while ((read = filecontent.read(bytes)) != -1) {
+	            out.write(bytes, 0, read);
+	        }
+	        //writer.println("New file " + fileName + " created at " + path);
+	    } catch (FileNotFoundException fne) {
+	    	System.out.println("파일 업로드 실패");
+	    	return false;
+	        
 
-		    } finally {
-		        if (out != null) {
-		            out.close();
-		        }
-		        if (filecontent != null) {
-		            filecontent.close();
-		        }
-		        /*
-		        if (writer != null) {
-		            writer.close();
-		        }
-		        */
-		    }
-			
-			Issue issue = makeIssueBean(request);
-			issue.setUpload(fullFileName);
-			
-			/*
-			Issue issue = makeIssueBean(multi);
-			PrintWriter out = response.getWriter();
-			try {
-				Enumeration files = null;
-				File file = null;
-				fileName = multi.getFilesystemName("UPLOAD"); // 파일의 이름 얻기
-				if(fileName.equals(null)){
-					System.out.println("업로드된 파일 없음");
-					
-				}else{
-					files = multi.getFileNames();
-					String name = (String) files.nextElement();
-					file = multi.getFile(name);
-				}
-			} catch (Exception e) {
-				System.out.print("예외 발생 : " + e);
-			}
-			*/
-			if (ipm.insertIssue(issue)) {
-				JSONArray jsonArray = new JSONArray();
-		        JSONObject jsonObject = new JSONObject();
-		        jsonObject.put("result", "ok");
-		        jsonArray.add(jsonObject);
-		        writer.write(jsonArray.toString());
-			} else {
-				JSONArray jsonArray = new JSONArray();
-		        JSONObject jsonObject = new JSONObject();
-		        jsonObject.put("result", "no");
-		        jsonArray.add(jsonObject);
-		        writer.write(jsonArray.toString());
-				/*
-				System.out.println("insert 실패");
-				request.setAttribute("errorMessage", "유효하지 않은 USER_ID");
-				gotoJsp(request, response, "/jsp/errorPage.jsp");
-				*/
-				// throw new ServletException("DB Query Error");
-			}
-			
-			
-		} 
+	    } finally {
+	        if (out != null) {
+	            out.close();
+	        }
+	        if (filecontent != null) {
+	            filecontent.close();
+	        }
+	        /*
+	        if (writer != null) {
+	            writer.close();
+	        }
+	        */
+	    }
 		
-		writer.close();
-
-		
-		
-		
+		return true;
 	}
 	
 	private static String getFileName(Part part) {
@@ -359,7 +354,7 @@ public class IssueServlet extends HttpServlet {
 		Calendar cal = Calendar.getInstance();
 
 		String reg_date = dateFormat.format(cal.getTime());
-		String upload = fileName;
+		String upload = fullFileName;
 
 		Issue issue = new Issue(issue_id, user_id, type, subject, contents,
 				display, recommand, reg_date, upload);
@@ -390,7 +385,7 @@ public class IssueServlet extends HttpServlet {
 		Calendar cal = Calendar.getInstance();
 
 		String reg_date = dateFormat.format(cal.getTime());
-		String upload = fileName;
+		String upload = fullFileName;
 
 		Issue issue = new Issue(issue_id, user_id, type, subject, contents,
 				display, recommand, reg_date, upload);

@@ -5,10 +5,16 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h2>DB삽입</h2>
+	<h2>ISSUE</h2>
+	<form method="post" action="../issuecontrol?action=list">
+		<input type="submit" value="list 출력">
+	</form>
 	<form id="insertIssueForm" name="insertIssueForm" method="post" action="../issuecontrol" enctype="multipart/form-data">
 	<!-- <form id="insertIssueForm" name="insertIssueForm" method="post" action="/Dync/dync.servlet.IssueServlet">-->
-		<input type=hidden id="actionId" name="action" value="insert">
+		<select name="action">
+			<option value="insert">insert</option>
+			<option value="update">update</option>
+		</select>
 		ISSUE_ID <input type="number" name="ISSUE_ID" min="0" max="2100000000" value=""><br>
 		USER_ID  <input type="number" name="USER_ID" min="0" max="2100000000" value=""><br>
 		TYPE	 <input type="text" name="TYPE" ><br>
