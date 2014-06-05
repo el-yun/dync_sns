@@ -24,6 +24,7 @@ import dync.lucene.bean.CodeBean;
 import dync.lucene.bean.IssueBean;
 import dync.lucene.config.IndexConstants;
 import dync.lucene.util.Logs;
+import dync.util.ConvertChar;
 
 
 
@@ -37,6 +38,7 @@ public class IndexWriterDemo {
 	private Directory directory = null;
 	private File indexLocation = null;
 	private IndexWriter iWriter = null;
+	private ConvertChar convertChar = new ConvertChar("utf-8");
 	private static boolean ISCREATESUCCESS = true;
 	
 	Connection conn = null;
@@ -123,7 +125,7 @@ public class IndexWriterDemo {
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				codeBean.setCodeId(rs.getString("CODE_ID"));
-				codeBean.setCodeContents(rs.getString("CODE_CONTENTS"));
+				codeBean.setCodeContents(convertChar.decode(rs.getString("CODE_CONTENTS")));
 				Document doc = new Document();
 				doc.add(new TextField(IndexConstants.KEY_CODEID, codeBean.getCodeId(), Field.Store.YES));
 				doc.add(new TextField(IndexConstants.KEY_CODECONTENTS, codeBean.getCodeContents(), Field.Store.YES));
