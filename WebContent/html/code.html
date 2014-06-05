@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2>CODE</h2>
+	<form method="post" action="../codecontrol?action=list">
+		USER_ID <input type="number" name="USER_ID" min="0">
+		<input type="submit" value="list 출력">
+	</form>
+	<h2>Code 추가</h2>
+		<form id="insertCodeForm" name="inserCodeForm" method="post" action="../codecontrol">
+			<input type=hidden id="actionId" name="action" value="insert">
+			CODE_ID <input type="number" name="CODE_ID" min="0" max="2100000000" value=""><br>
+			CODE_REPOSITORY <input type="number" name="CODE_REPOSITORY" min="0" max="2100000000" value=""><br>
+			CODE_SUBJECT <input type="text" name="CODE_SUBJECT" ><br>
+			BASE_LANGUAGE <input type="text" name="BASE_LANGUAGE"><br>
+			CODE_CONTENTS <input type="text" name="CODE_CONTENTS"><br>
+			REVISION <input type="number" name="REVISION"><br>
+			USING <br><input type="radio" name="USING" value="true"> TRUE<br>
+					 <input type="radio" name="USING" value="false"> FALSE<br>
+			<input type="submit" value="삽입">
+		</form>
+		<form id="deleteCodeForm" name="deleteCodeForm" method="post" action="../codecontrol">
+			<input type=hidden id="actionId" name="action" value="delete">
+			COLUMN_NAME <input type="text" name="COLUMN_NAME" ><br>
+			COLUMN_VALUE <input type="text" name="COLUMN_VALUE"><br>
+			<input type="submit" value="삭제">
+		</form>
+		<form id="getCodeForm" name="getCodeForm" method="post" action="../codecontrol">
+			<input type=hidden id="actionID" name="action" value="code">
+			CODE_ID<input type="text" name="CODE_ID">
+			<input type="submit" value="CODE_ID에 해당하는 코드 하나만 출력">
+		</form>
+</body>
+</html>

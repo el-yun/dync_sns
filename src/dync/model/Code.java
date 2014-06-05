@@ -33,7 +33,6 @@ public class Code {
 	public Code(int code_id, int code_repository, String code_subject,
 			String base_language, String code_contents, int revision,
 			boolean using, String reg_date) {
-		super();
 		this.code_id = code_id;
 		this.code_repository = code_repository;
 		this.code_subject = code_subject;

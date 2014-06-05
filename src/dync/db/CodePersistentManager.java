@@ -150,7 +150,7 @@ public class CodePersistentManager extends ConnectDB{
 	public ArrayList<Code> getCodeList(String key,int value){
 		connect();
 		
-		String sql = "select * from CODE where " + key + "= ?";
+		String sql = "select * from CODE where " + key + "=?";
 		
 		ArrayList<Code> codeList = new ArrayList<Code>();
 		

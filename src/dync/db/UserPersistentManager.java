@@ -2,9 +2,8 @@ package dync.db;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.util.ArrayList;
 
-import dync.model.Issue;
 import dync.model.User;
 
 public class UserPersistentManager extends ConnectDB{
@@ -112,31 +111,80 @@ public class UserPersistentManager extends ConnectDB{
 		
 		return user;
 	}
-	public boolean updateIssue(Issue issue){
+	public User getAuth(String Param, int Val){
 		connect();
 		
-		String sql = "update issue set ISSUE_ID=?,USER_ID=?,TYPE=?,SUBJECT=?,CONTENTS=?,DISPLAY=?,RECOMMAND=?,REG_DATE=?";
-		
+		User user = new User();
 		
 		try{
+			String sql = "select * from USER where " + Param + " = ?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, issue.getIssue_id());
-			pstmt.setInt(2, issue.getUser_id());
-			pstmt.setString(3, issue.getType());
-			pstmt.setString(4, issue.getSubject());
-			pstmt.setString(5, issue.getContents());
-			pstmt.setBoolean(6, issue.isDisplay());
-			pstmt.setInt(7, issue.getRecommand());
-			pstmt.setString(8, issue.getReg_date());
-			pstmt.setString(9, issue.getUpload());
+			pstmt.setInt(1, Val);
+			System.out.println(pstmt.toString());
+			ResultSet rs = pstmt.executeQuery();
 			
-			pstmt.executeUpdate();
+			boolean hasResult = rs.next();
+			if(hasResult == true){
+				user.setUser_id(rs.getInt("USER_ID"));
+				user.setUser_naverhash(rs.getString("USER_NAVERHASH"));
+				user.setUser_kakaohash(rs.getString("USER_KAKAOHASH"));
+				user.setUser_name(rs.getString("USER_NAME"));
+				user.setUser_description(rs.getString("USER_DESCRIPTION"));
+				user.setCode_repository(rs.getInt("CODE_REPOSITORY"));
+			}
+			System.out.println(user.getUser_kakaohash());
 		}catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			disconnect();
 		}
 		
-		return true;
+		
+		return user;
+	}
+	public ArrayList<User> getUserList(){
+		connect();
+		
+		String sql = "select * from USER";
+		ArrayList<User> userList = new ArrayList<>();
+		
+		try{
+			pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				User user = new User();
+				
+				user.setUser_id(rs.getInt("USER_ID"));
+				user.setUser_naverhash(rs.getString("USER_NAVERHASH"));
+				user.setUser_kakaohash(rs.getString("USER_KAKAOHASH"));
+				user.setUser_name(rs.getString("USER_NAME"));
+				user.setUser_description(rs.getString("USER_DESCRIPTION"));
+				user.setCode_repository(rs.getInt("CODE_REPOSITORY"));
+				
+				userList.add(user);
+			}
+			
+			
+			rs.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		
+		return userList;
+	}
+	
+	public boolean checkUser (int user_id){
+		ArrayList<User> userList = getUserList();
+		
+		for(User user : userList){
+			if(user.getUser_id() == user_id){
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }

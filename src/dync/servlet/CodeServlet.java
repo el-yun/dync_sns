@@ -1,7 +1,6 @@
 package dync.servlet;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.text.DateFormat;
@@ -19,7 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import dync.db.CodePersistentManager;
+import dync.db.UserPersistentManager;
 import dync.model.Code;
+import dync.model.User;
 
 /**
  * Servlet implementation class CodeServlet
@@ -38,6 +39,7 @@ public class CodeServlet extends HttpServlet {
 	private static final String ACTION_CODE = "code";
 	
 	CodePersistentManager cpm = new CodePersistentManager();
+	UserPersistentManager upm = new UserPersistentManager();
 	private PrintWriter out;
 	/**
 	 * Default constructor.
@@ -86,15 +88,19 @@ public class CodeServlet extends HttpServlet {
 				JSONObject jsonObject = new JSONObject();
 				JSONArray jsonArray = new JSONArray();
 				
-				jsonObject.put("result", "success");
+				jsonObject.put("result", "ok");
 				jsonArray.add(jsonObject);
 				
 				out.print(jsonArray.toString());
 				
 			} else {
-				request.setAttribute("errorMessage", "유효하지 않은 CODE_REPOSITORY");
-				gotoJsp(request, response, "/jsp/errorPage.jsp");
-				return;
+				JSONObject jsonObject = new JSONObject();
+				JSONArray jsonArray = new JSONArray();
+				
+				jsonObject.put("result", "no");
+				jsonArray.add(jsonObject);
+				
+				out.print(jsonArray.toString());
 				// throw new ServletException("DB Query Error");
 			}
 		}else if(action.equals(ACTION_DELETE))
@@ -107,14 +113,18 @@ public class CodeServlet extends HttpServlet {
 				JSONObject jsonObject = new JSONObject();
 				JSONArray jsonArray = new JSONArray();
 				
-				jsonObject.put("result", "success");
+				jsonObject.put("result", "ok");
 				jsonArray.add(jsonObject);
 				
 				out.print(jsonArray.toString());
 			}else{
-				request.setAttribute("errorMessage", "삭제 실패 \n유효하지 않은 속성 또는 잘못 된 값을 입력하였습니다.");
-				gotoJsp(request, response, "/jsp/errorPage.jsp");
-				return;
+				JSONObject jsonObject = new JSONObject();
+				JSONArray jsonArray = new JSONArray();
+				
+				jsonObject.put("result", "no");
+				jsonArray.add(jsonObject);
+				
+				out.print(jsonArray.toString());
 			}
 		}else if(action.equals(ACTION_UPDATE))
 		{
@@ -124,25 +134,33 @@ public class CodeServlet extends HttpServlet {
 				JSONObject jsonObject = new JSONObject();
 				JSONArray jsonArray = new JSONArray();
 				
-				jsonObject.put("result", "success");
+				jsonObject.put("result", "ok");
 				jsonArray.add(jsonObject);
 				
 				out.print(jsonArray.toString());
 			}else{
 				
-				request.setAttribute("errorMessage", "update 실패 \nCODE_ID 또는 요소를 확인해 주세요");
-				gotoJsp(request, response, "/jsp/errorPage.jsp");
-				return;
-				//throw new ServletException("DB Query Error");
+				JSONObject jsonObject = new JSONObject();
+				JSONArray jsonArray = new JSONArray();
+				
+				jsonObject.put("result", "no");
+				jsonArray.add(jsonObject);
+				
+				out.print(jsonArray.toString());
 			}
 		}else if(action.equals(ACTION_CODE)){
 			System.out.println("getCode 요청");
 			int code_id = Integer.parseInt(request.getParameter("CODE_ID"));
 			
 			if(checkCode(code_id)){
-				request.setAttribute("errorMessage", "존재하지 않는 CODE_ID 입니다");
-				gotoJsp(request, response, "/jsp/errorPage.jsp");
-				return;
+				JSONObject jsonObject = new JSONObject();
+				JSONArray jsonArray = new JSONArray();
+				
+				jsonObject.put("result", "no");
+				jsonArray.add(jsonObject);
+				
+				out.print(jsonArray.toString());
+				System.out.println("존재하지 않는 CODE_ID");
 			}
 			
 			Code code = cpm.getCode(code_id);
@@ -152,14 +170,21 @@ public class CodeServlet extends HttpServlet {
 			
 		}else if(action.equals(ACTION_LIST)){
 			System.out.println("codeList 요청");
-			int code_repository = Integer.parseInt(request.getParameter("CODE_REPOSITORY"));
 			JSONArray jsonArray = new JSONArray();
-			ArrayList<Code> codeList = cpm.getCodeList("CODE_REPOSITORY",code_repository);
-			
-			jsonArray.addAll(codeList);
-			
-			out.print(jsonArray.toString());
-			
+			int user_id = Integer.parseInt(request.getParameter("USER_ID"));
+			if(upm.checkUser(user_id)){
+				User user = upm.getAuth("USER_ID", user_id);
+				int code_repository = user.getCode_repository();
+				jsonArray.addAll(cpm.getCodeList("CODE_REPOSITORY", code_repository));
+				out.print(jsonArray.toString());
+			}else{
+				System.out.println("해당하는 유저가 없음");
+				ArrayList<Code> codeList = cpm.getCodeList();
+				
+				jsonArray.addAll(codeList);
+				
+				out.print(jsonArray.toString());
+			}
 		}
 		out.close();
 	}
