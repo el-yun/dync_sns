@@ -14,7 +14,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.logging.Level;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -30,7 +29,9 @@ import net.sf.json.JSONObject;
 import com.oreilly.servlet.MultipartRequest;
 
 import dync.db.IssuePersistentManager;
+import dync.db.TagPersistentManager;
 import dync.model.Issue;
+import dync.model.Tag;
 
 /**
  * Servlet implementation class IssueServlet
@@ -54,6 +55,7 @@ public class IssueServlet extends HttpServlet {
 	private static final String ACTION_GET_ISSUE = "get_issue";
 
 	private IssuePersistentManager ipm = new IssuePersistentManager();
+	private TagPersistentManager tpm = new TagPersistentManager();
 	/**
 	 * Default constructor.
 	 */
@@ -118,11 +120,28 @@ public class IssueServlet extends HttpServlet {
 				
 				if (ipm.insertIssue(issue)) {
 					
+					String tagNames = issue.getTag();
+					tagNames.replaceAll("\\p{Space}", "");
+			        String tag_name[] = tagNames.split(",");
+					for(String tagName : tag_name){
+			        	Tag tag = new Tag();
+			        	
+			        	tag.setIssue_id(issue.getIssue_id());
+			        	tag.setTag_name(tagName);
+			        	tag.setUser_id(issue.getUser_id());
+			        	
+			        	tpm.insertTag(tag);
+			        }
+					
 					JSONArray jsonArray = new JSONArray();
 			        JSONObject jsonObject = new JSONObject();
 			        jsonObject.put("result", "ok");
 			        jsonArray.add(jsonObject);
 			        out.write(jsonArray.toString());
+			        
+			        
+			        
+			        
 				} else {
 					JSONArray jsonArray = new JSONArray();
 			        JSONObject jsonObject = new JSONObject();
@@ -348,51 +367,21 @@ public class IssueServlet extends HttpServlet {
 		boolean display = Boolean.parseBoolean(request
 				.getParameter(Issue.DISPLAY));
 		int recommand = Integer.parseInt(request.getParameter(Issue.RECOMMAND));
+		String tag = request.getParameter(Issue.TAG);
 		// String reg_date = request.getParameter(Issue.REG_DATE);
 
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Calendar cal = Calendar.getInstance();
-
+		
 		String reg_date = dateFormat.format(cal.getTime());
 		String upload = fullFileName;
 
 		Issue issue = new Issue(issue_id, user_id, type, subject, contents,
-				display, recommand, reg_date, upload);
+				display, recommand, tag,reg_date, upload);
 
 		return issue;
 	}
-	private Issue makeIssueBean(MultipartRequest multi) {
-		String strIssue_id = multi.getParameter(Issue.ISSUE_ID);
-		if (strIssue_id == null) {
-			return null;
-		}
-		int issue_id = Integer.parseInt(strIssue_id);
-		int user_id = Integer.parseInt(multi.getParameter(Issue.USER_ID));
-		String type = multi.getParameter(Issue.TYPE);
-		String subject = multi.getParameter(Issue.SUBJECT);
-		String contents = multi.getParameter(Issue.CONTENTS);
-		boolean display = Boolean.parseBoolean(multi
-				.getParameter(Issue.DISPLAY));
-		int recommand = Integer.parseInt(multi.getParameter(Issue.RECOMMAND));
-		// String reg_date = request.getParameter(Issue.REG_DATE);
-
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		// get current date time with Date()
-		// Date date = new Date();
-		// System.out.println(dateFormat.format(date));
-
-		// get current date time with Calendar()
-		Calendar cal = Calendar.getInstance();
-
-		String reg_date = dateFormat.format(cal.getTime());
-		String upload = fullFileName;
-
-		Issue issue = new Issue(issue_id, user_id, type, subject, contents,
-				display, recommand, reg_date, upload);
-
-		return issue;
-	}
-
+	
 	private void gotoJsp(HttpServletRequest request,
 			HttpServletResponse response, String path) throws ServletException,
 			IOException {

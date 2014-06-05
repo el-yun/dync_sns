@@ -16,8 +16,10 @@ public class Issue {
 	public static final String CONTENTS 	= "CONTENTS";
 	public static final String DISPLAY 		= "DISPLAY";
 	public static final String RECOMMAND 	= "RECOMMAND";
+	public static final String TAG 			= "TAG";
 	public static final String REG_DATE	 	= "REG_DATE";
 	public static final String UPLOAD		= "UPLOAD";
+	
 	
 	private int issue_id;
 	private int user_id;
@@ -26,12 +28,16 @@ public class Issue {
 	private String contents;
 	private boolean display;
 	private int recommand;
+	private String tag;
 	private String reg_date;
 	private String upload;
 	
+	
+
+
 	public Issue(int issue_id, int user_id, String type, String subject,
-			String contents, boolean display, int recommand, String reg_date,
-			String upload) {
+			String contents, boolean display, int recommand, String tag,
+			String reg_date, String upload) {
 		super();
 		this.issue_id = issue_id;
 		this.user_id = user_id;
@@ -40,10 +46,12 @@ public class Issue {
 		this.contents = contents;
 		this.display = display;
 		this.recommand = recommand;
+		this.tag = tag;
 		this.reg_date = reg_date;
 		this.upload = upload;
 	}
 
+	
 
 	public Issue() {
 		// TODO Auto-generated constructor stub
@@ -103,6 +111,14 @@ public class Issue {
 
 	public void setRecommand(int recommand) {
 		this.recommand = recommand;
+	}
+	
+	public String getTag() {
+		return tag;
+	}
+
+	public void setTag(String tag) {
+		this.tag = tag;
 	}
 
 	public String getReg_date() {
