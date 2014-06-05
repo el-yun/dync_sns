@@ -134,7 +134,4 @@ public class Issue {
 	public void setUpload(String upload) {
 		this.upload = upload;
 	}
-	
-	
-
 }
