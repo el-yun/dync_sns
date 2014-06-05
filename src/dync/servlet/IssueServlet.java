@@ -102,8 +102,8 @@ public class IssueServlet extends HttpServlet {
 	private void request_action(String action, HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(
-				response.getOutputStream(), "KSC5601"));
-		response.setContentType("text/html;charset=euc-kr");
+				response.getOutputStream(), "UTF8"));
+		response.setContentType("text/html;charset=utf-8");
 
 		// System.out.println(action);
 		if (action == null) {
@@ -150,7 +150,6 @@ public class IssueServlet extends HttpServlet {
 					String tag_name[] = tagNames.split(",");
 					for (String tagName : tag_name) {
 						Tag tag = new Tag();
-
 						tag.setIssue_id(issue.getIssue_id());
 						tag.setTag_name(tagName);
 						tag.setUser_id(issue.getUser_id());
@@ -227,12 +226,6 @@ public class IssueServlet extends HttpServlet {
 					jsonObject.put("result", "no");
 					jsonArray.add(jsonObject);
 					out.write(jsonArray.toString());
-					/*
-					 * System.out.println("insert 실패");
-					 * request.setAttribute("errorMessage", "유효하지 않은 USER_ID");
-					 * gotoJsp(request, response, "/jsp/errorPage.jsp");
-					 */
-					// throw new ServletException("DB Query Error");
 				}
 			} else {
 				JSONArray jsonArray = new JSONArray();

@@ -1,6 +1,7 @@
 @import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
 @import url(http://fonts.googleapis.com/earlyaccess/nanumgothiccoding.css);
 body, div, p, table, td, tr, em, span, ul, li, dl { margin:0; padding:0; }
+form { margin:0; padding: 0;}
 div,p { 
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;

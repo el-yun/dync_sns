@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import dync.model.Issue;
+import dync.util.StringCut;
 
 public class IssuePersistentManager extends ConnectDB {
 	
@@ -15,10 +16,11 @@ public class IssuePersistentManager extends ConnectDB {
 		String sql = "insert into ISSUE(TYPE,SUBJECT,CONTENTS,DISPLAY,RECOMMAND,TAG,REG_DATE,UPLOAD)" +
 					"values(?,?,?,?,?,?,?,?,?,?)";
 		try{
+			StringCut Subject = new StringCut(issue.getContents(), 40, "UTF-8");
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, issue.getUser_id());
 			pstmt.setString(2, issue.getType());
-			pstmt.setString(3, issue.getSubject());
+			pstmt.setString(3, Subject.result);
 			pstmt.setString(4, issue.getContents());
 			if(issue.isDisplay()) pstmt.setInt(5, 1);
 			else pstmt.setInt(5, 0);
@@ -99,10 +101,12 @@ public class IssuePersistentManager extends ConnectDB {
 		
 		
 		try{
+
+			StringCut Subject = new StringCut(issue.getContents(), 40, "UTF-8");
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, issue.getUser_id());
 			pstmt.setString(2, issue.getType());
-			pstmt.setString(3, issue.getSubject());
+			pstmt.setString(3, Subject.result);
 			pstmt.setString(4, issue.getContents());
 			if(issue.isDisplay()) pstmt.setInt(5, 1);
 			else pstmt.setInt(5, 0);

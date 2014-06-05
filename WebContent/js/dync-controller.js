@@ -12,20 +12,6 @@ Login = Backbone.Model.extend({
         logged : 'no',
         naver_hash : null,
         kakao_hash : null
-	},
-	initialize: function(){
-        $.ajax({
-            type:"GET",
-            url: parseURL,
-            datatype: 'application/json',
-            data: { action: 'check' },
-            success:function(args){
-
-            },
-            error:function(e){
-
-            }
-        });
 	}
 });
 // Collections
@@ -74,11 +60,25 @@ LoginView = Backbone.View.extend({
       "click #login-btn": "loginpopup"
   },
   initialize: function () {
+      //this.render();
+      var that = this;
+      $.ajax({
+          type:"GET",
+          url: parseURL,
+          datatype: 'application/json',
+          data: { action: 'check' },
+          success:function(args){
+              that.model.set({'logged' : args.logged, 'kakao_hash' : args.kakao_hash});
+              that.render();
+              //that.naver_hash = auth.naver_hash;
+          }
+      });
       _.bindAll(this,"render");
       this.model.bind('change', this.render);
   },
   render: function () {
       var status = this.model.get("logged");
+      console.log(status);
       if (status == "ok") {
             $(".lightbox_container").hide(); // 로그인 성공시
             $("#login-btn").html("로그아웃");
@@ -97,12 +97,13 @@ LoginView = Backbone.View.extend({
               data: { action : 'logout'},
               success:function(args){
                   var auth = args.toJSON;
-                  KakaoLogin.set({logged : args.logged});
+                  KakaoLogin.set({logged : args.logged, kakao_hash: null, naver_hash: null});
               },
               error:function(e){
                   alert(e.responseText);
               }
           });
+          Kakao.Auth.logout();
       } else {
           $(".lightbox_container").show();
           $("#lightbox .close").bind("click", function(){
@@ -110,36 +111,39 @@ LoginView = Backbone.View.extend({
           });
       }
   }
-});	
-	
+});
+
 // External Operation
+Kakao.init('07f2d3ff4958ad3553bc8830de72133b');
+var KakaoLogin = new Login();
+var LoginSync = new LoginView({model: KakaoLogin});
 var APIlogin = function() {
-	Kakao.init('07f2d3ff4958ad3553bc8830de72133b');
 	Kakao.Auth.createLoginButton({
 			container: '#kakao-login-btn',
 			success: function(authObj) {
-              var token = JSON.stringify(authObj);
-              var kakao= { action : 'login', logged: 'ok', kakao_hash: authObj.access_token, naver_hash: null };
-                $.ajax({
-                    type:"POST",
-                    url: parseURL,
-                    data: kakao,
-                    callback: '?',
-                    success:function(args){
-                        var auth = args.toJSON;
-                        console.log(JSON.stringify(args));
-                        KakaoLogin.set({logged : 'ok'});
-                    },
-                    error:function(e){
-                        alert(e.responseText);
+              console.log(authObj);
+                Kakao.API.request({
+                    url: '/v1/user/me',
+                    success: function(res) {
+                        var kakao= { action : 'login', logged: 'ok', kakao_hash: res.id, user_name: res.properties.nickname };
+                        $.ajax({
+                            type:"POST",
+                            url: parseURL,
+                            data: kakao,
+                            callback: '?',
+                            success:function(args){
+                                KakaoLogin.set({logged : 'ok'});
+                            },
+                            error:function(e){
+                                alert(e.responseText);
+                            }
+                        });
                     }
                 });
             }
 	});	
 }
 new APIlogin;
-var KakaoLogin = new Login();
-var LoginSync = new LoginView({model: KakaoLogin});
 // Operation
 new IssuelistView();
 
@@ -162,8 +166,8 @@ $( "#left-menu-code, #add-code").click(function() {
 $( "#left-menu-timeline").click(function() {
 	$("#left-menu-tag" ).toggle("slow");
 });
-$(".winclose").click(function(){ $("#repository").hide();$("#newissue").hide();  });
-$(".winclose").click(function(){ $("#repository").hide();$("#newissue").hide();  });
+$(".winclose").click(function(){ $("#repository").hide(); });
+$(".send-btn").click(function(){ $("#repository").hide(); });
 
 //IssueView();
 	

@@ -84,23 +84,20 @@
 			<div id="contents">
 				<p class="writetitle">새로운 이슈를 써주세요</p>
 				<div id="writeissue">
+					<!-- 
+						Action : insert, update
+					-->
 					<form id="insertIssueForm" name="insertIssueForm" method="post" action="./issuecontrol" enctype="multipart/form-data">
-						<select name="action">
-							<option value="insert">insert</option>
-							<option value="update">update</option>
-						</select>
-						ISSUE_ID <input type="number" name="ISSUE_ID" min="0" max="2100000000" value=""><br>
-						USER_ID  <input type="number" name="USER_ID" min="0" max="2100000000" value=""><br>
-						TYPE	 <input type="text" name="TYPE" ><br>
-						SUBJECT  <input type="text" name="SUBJECT" ><br>
-						CONTENTS <input type="text" name="CONTENTS" ><br>
-						DISPLAY  <br><input type="radio" name="DISPLAY" value="true"> TRUE<br>
-								 <input type="radio" name="DISPLAY" value="false"> FALSE<br>
-						RECOMMAND<input type="text" name="RECOMMAND" ><br>
-						UPLOAD   <input type="file" name="UPLOAD"><br>
-						<input type="submit" value="삽입">
+						<input type="hidden" name="action" value="insert"/>
+						<input type="hidden" name="ISSUE_ID" min="0" max="2100000000" value="" />
+						<input type="hidden" name="USER_ID" min="0" max="2100000000" value=""/>
+						<input type="hidden" name="TYPE" value="ISSUE"/>
+						<!-- <input type="hidden" name="SUBJECT" value=""/> -->
+						<input type="hidden" name="DISPLAY" value="true" />
+						<input type="hidden" name="RECOMMAND" value="0" />
+						<input type="hidden" name="UPLOAD" value=""/>
+						<textarea class="editor" name="CONTENTS"></textarea>
 					</form>
-					<textarea class="editor"></textarea>
 					<div class="writetool">
 						<a id="add-code">+ 코드 삽입하기</a>
 						<a id="send-btn" class="btn">등록하기</a>

@@ -144,8 +144,10 @@ public class UserServlet extends HttpServlet {
 				out.print(obj.toString());
 			} else {
 				System.out.println("NEW USER SESSION");
+				String username = request.getParameter("user_name");
 				User NewUser = new User();
 				NewUser.setUser_kakaohash(token);
+				NewUser.setUser_name(username);
 				upm.insertUser(NewUser);
 				createSession(session, NewUser);
 				JSONObject obj = new JSONObject();
