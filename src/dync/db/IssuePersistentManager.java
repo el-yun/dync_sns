@@ -12,8 +12,8 @@ public class IssuePersistentManager extends ConnectDB {
 	
 	public boolean insertIssue(Issue issue){
 		connect();
-		String sql = "insert into ISSUE(ISSUE_ID,USER_ID,TYPE,SUBJECT,CONTENTS,DISPLAY,RECOMMAND,REG_DATE,UPLOAD)" +
-					"values(?,?,?,?,?,?,?,?,?)";
+		String sql = "insert into ISSUE(ISSUE_ID,USER_ID,TYPE,SUBJECT,CONTENTS,DISPLAY,RECOMMAND,TAG,REG_DATE,UPLOAD)" +
+					"values(?,?,?,?,?,?,?,?,?,?)";
 		try{
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, issue.getIssue_id());
@@ -24,8 +24,9 @@ public class IssuePersistentManager extends ConnectDB {
 			if(issue.isDisplay()) pstmt.setInt(6, 1);
 			else pstmt.setInt(6, 0);
 			pstmt.setInt(7, issue.getRecommand());
-			pstmt.setTimestamp(8, Timestamp.valueOf(issue.getReg_date()));
-			pstmt.setString(9, issue.getUpload());
+			pstmt.setString(8, issue.getTag());
+			pstmt.setTimestamp(9, Timestamp.valueOf(issue.getReg_date()));
+			pstmt.setString(10, issue.getUpload());
 			pstmt.executeUpdate();
 		}catch(SQLException e){
 			System.out.println(pstmt.toString());
@@ -77,6 +78,7 @@ public class IssuePersistentManager extends ConnectDB {
 			if(rs.getInt("DISPLAY")==1) issue.setDisplay(true);
 			else issue.setDisplay(false);
 			issue.setRecommand(rs.getInt("RECOMMAND"));
+			issue.setTag(rs.getString("TAG"));
 			issue.setReg_date(rs.getString("REG_DATE"));
 			issue.setUpload(rs.getString("UPLOAD"));
 			
@@ -94,7 +96,7 @@ public class IssuePersistentManager extends ConnectDB {
 	public boolean updateIssue(Issue issue){
 		connect();
 		
-		String sql = "update ISSUE set USER_ID=?,TYPE=?,SUBJECT=?,CONTENTS=?,DISPLAY=?,RECOMMAND=?,REG_DATE=?,UPLOAD=? where ISSUE_ID=?";
+		String sql = "update ISSUE set USER_ID=?,TYPE=?,SUBJECT=?,CONTENTS=?,DISPLAY=?,RECOMMAND=?,TAG=?,REG_DATE=?,UPLOAD=? where ISSUE_ID=?";
 		
 		
 		try{
@@ -106,9 +108,10 @@ public class IssuePersistentManager extends ConnectDB {
 			if(issue.isDisplay()) pstmt.setInt(5, 1);
 			else pstmt.setInt(5, 0);
 			pstmt.setInt(6, issue.getRecommand());
-			pstmt.setTimestamp(7, Timestamp.valueOf(issue.getReg_date()));
-			pstmt.setString(8, issue.getUpload());
-			pstmt.setInt(9, issue.getIssue_id());
+			pstmt.setString(7, issue.getTag());
+			pstmt.setTimestamp(8, Timestamp.valueOf(issue.getReg_date()));
+			pstmt.setString(9, issue.getUpload());
+			pstmt.setInt(10, issue.getIssue_id());
 			pstmt.executeUpdate();
 		}catch (SQLException e) {
 			e.printStackTrace();
@@ -139,6 +142,7 @@ public class IssuePersistentManager extends ConnectDB {
 				if(rs.getInt("DISPLAY")==1) issue.setDisplay(true);
 				else issue.setDisplay(false);
 				issue.setRecommand(rs.getInt("RECOMMAND"));
+				issue.setTag(rs.getString("TAG"));
 				issue.setReg_date(rs.getString("REG_DATE"));
 				issue.setUpload(rs.getString("UPLOAD"));
 				issueList.add(issue);
@@ -175,6 +179,7 @@ public class IssuePersistentManager extends ConnectDB {
 				if(rs.getInt("DISPLAY")==1) issue.setDisplay(true);
 				else issue.setDisplay(false);
 				issue.setRecommand(rs.getInt("RECOMMAND"));
+				issue.setTag(rs.getString("TAG"));
 				issue.setReg_date(rs.getString("REG_DATE"));
 				issue.setUpload(rs.getString("UPLOAD"));
 				issueList.add(issue);
@@ -211,6 +216,7 @@ public class IssuePersistentManager extends ConnectDB {
 				if(rs.getInt("DISPLAY")==1) issue.setDisplay(true);
 				else issue.setDisplay(false);
 				issue.setRecommand(rs.getInt("RECOMMAND"));
+				issue.setTag(rs.getString("TAG"));
 				issue.setReg_date(rs.getString("REG_DATE"));
 				issue.setUpload(rs.getString("UPLOAD"));
 				issueList.add(issue);

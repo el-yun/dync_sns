@@ -20,11 +20,11 @@ public class Tag {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Tag(int user_id, int issue_id, String tag_name) {
+	public Tag(int user_id, String tag_name, int issue_id) {
 		super();
 		this.user_id = user_id;
-		this.issue_id = issue_id;
 		this.tag_name = tag_name;
+		this.issue_id = issue_id;
 	}
 
 	public int getUser_id() {
