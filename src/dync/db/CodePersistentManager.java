@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import dync.model.Code;
+import dync.util.ConvertChar;
  
 public class CodePersistentManager extends ConnectDB{
 	public boolean insertCode(Code code){

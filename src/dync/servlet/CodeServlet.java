@@ -21,6 +21,7 @@ import dync.db.CodePersistentManager;
 import dync.db.UserPersistentManager;
 import dync.model.Code;
 import dync.model.User;
+import dync.util.ConvertChar;
 
 /**
  * Servlet implementation class CodeServlet
@@ -171,17 +172,32 @@ public class CodeServlet extends HttpServlet {
 		}else if(action.equals(ACTION_LIST)){
 			System.out.println("codeList 요청");
 			JSONArray jsonArray = new JSONArray();
-			int user_id = Integer.parseInt(request.getParameter("USER_ID"));
+			String user_id_String = request.getParameter("USER_ID");
+			int user_id = 0;
+			if(user_id_String.equals("")){
+				System.out.println("USER_ID를 입력하세요");
+				ArrayList<Code> codeList = cpm.getCodeList();
+				
+				jsonArray.addAll(codeList);
+				
+				out.print(jsonArray.toString());
+				out.close();
+				return;
+			}else{
+				user_id = Integer.parseInt(user_id_String);
+			}
+			
 			if(upm.checkUser(user_id)){
 				User user = upm.getAuth("USER_ID", user_id);
 				int code_repository = user.getCode_repository();
 				jsonArray.addAll(cpm.getCodeList("CODE_REPOSITORY", code_repository));
 				out.print(jsonArray.toString());
 			}else{
-				System.out.println("해당하는 유저가 없음");
-				ArrayList<Code> codeList = cpm.getCodeList();
+				System.out.println("해당하는 유저 없음");
+				JSONObject jsonObject = new JSONObject();
 				
-				jsonArray.addAll(codeList);
+				jsonObject.put("result", "no");
+				jsonArray.add(jsonObject);
 				
 				out.print(jsonArray.toString());
 			}
@@ -192,6 +208,7 @@ public class CodeServlet extends HttpServlet {
 	private Code makeCodeBean(HttpServletRequest request)
 	{
 		String strCode_id = request.getParameter(Code.CODE_ID);
+		ConvertChar cc = new ConvertChar("utf-8");
 		if(strCode_id == null)
 		{
 			return null;
@@ -201,7 +218,7 @@ public class CodeServlet extends HttpServlet {
 		int code_repository = Integer.parseInt(request.getParameter(Code.CODE_REPOSITORY));
 		String code_subject = request.getParameter(Code.CODE_SUBJECT);
 		String base_language = request.getParameter(Code.BASE_LANGUAGE);
-		String code_contents = request.getParameter(Code.CODE_CONTENTS);
+		String code_contents = cc.encode(request.getParameter(Code.CODE_CONTENTS));
 		int revision = Integer.parseInt(request.getParameter(Code.REVISION));
 		boolean using = Boolean.parseBoolean(request.getParameter(Code.USING));
 		//String reg_date = request.getParameter(Issue.REG_DATE);
