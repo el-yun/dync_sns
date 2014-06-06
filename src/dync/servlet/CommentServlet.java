@@ -84,6 +84,12 @@ public class CommentServlet extends HttpServlet {
 		if(action.equals(ACTION_INSERT)){
 			System.out.println("insert 요청");
 			Comment comment = makeCommentBean(request);
+			if(comment.getUser_id() == -1){
+				System.out.println("유효하지 않는 user_id(user_session_check = -1 오류)");
+				print_json_message(response, "result", "no");
+				return;
+			}
+			
 			if(comment.getComment_contents()==null || comment.getComment_contents().equals("")){
 				System.out.println("comment 내용을 입력해 주세요");
 				print_json_message(response, "result", "no");
@@ -138,7 +144,13 @@ public class CommentServlet extends HttpServlet {
 		Comment comment = new Comment();
 		String issue_id = request.getParameter("ISSUE_ID");
 		String comment_contents = request.getParameter("COMMENT_CONTENTS");
-		int user_id = user_session_check(request);
+		int user_id = 0;
+		try{
+			user_id = user_session_check(request);
+		}catch(Exception e){
+			user_id = -1;
+		}
+		
 		if(issue_id == null || issue_id.equals("")){
 			issue_id = "-1";
 		}
