@@ -69,6 +69,7 @@ public class CommentServlet extends HttpServlet {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(
 				response.getOutputStream(), "UTF8"));
 		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		
 		String action = request.getParameter(REQ_ACTION);
@@ -81,14 +82,24 @@ public class CommentServlet extends HttpServlet {
 		if(action.equals(ACTION_INSERT)){
 			System.out.println("insert 요청");
 			Comment comment = makeCommentBean(request);
-			if(ipm.checkIssue(comment.getIssue_id()) && upm.checkUser(comment.getUser_id())){
+			if(comment.getComment_contents()==null || comment.getComment_contents().equals("")){
+				System.out.println("comment 내용을 입력해 주세요");
+				print_json_message(response, "result", "no");
+				return;
+			}
+			
+			int issue_id = comment.getIssue_id();
+			if(ipm.checkIssue(issue_id)){
+				int user_id = ipm.getIssue(issue_id).getUser_id();
+				comment.setUser_id(user_id);
+				
 				if(ctpm.insertComment(comment)){
 					print_json_message(response, "result", "ok");
 				}else{
 					print_json_message(response, "result", "no");
 				}
 			}else{
-				System.out.println("존재하지 않는 ISSUE_ID 또는 USER_ID 입니다.");
+				System.out.println("존재하지 않는 ISSUE_ID 입니다.");
 				print_json_message(response, "result", "no");
 			}
 			
@@ -125,10 +136,15 @@ public class CommentServlet extends HttpServlet {
 	
 	private Comment makeCommentBean(HttpServletRequest request){
 		Comment comment = new Comment();
+		String issue_id = request.getParameter("ISSUE_ID");
+		String comment_contents = request.getParameter("COMMENT_CONTENTS");
 		
-		comment.setIssue_id(Integer.parseInt(request.getParameter("ISSUE_ID")));
-		comment.setUser_id(Integer.parseInt(request.getParameter("USER_ID")));
-		comment.setComment_contents(request.getParameter("COMMENT_CONTENTS"));
+		if(issue_id == null || issue_id.equals("")){
+			issue_id = "-1";
+		}
+		
+		comment.setIssue_id(Integer.parseInt(issue_id));
+		comment.setComment_contents(comment_contents);
 		
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Calendar cal = Calendar.getInstance();
