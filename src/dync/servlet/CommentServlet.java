@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -23,6 +24,7 @@ import dync.db.IssuePersistentManager;
 import dync.db.UserPersistentManager;
 import dync.model.Comment;
 import dync.model.Issue;
+import dync.model.User;
 
 /**
  * Servlet implementation class CommentServlet
@@ -90,8 +92,6 @@ public class CommentServlet extends HttpServlet {
 			
 			int issue_id = comment.getIssue_id();
 			if(ipm.checkIssue(issue_id)){
-				int user_id = ipm.getIssue(issue_id).getUser_id();
-				comment.setUser_id(user_id);
 				
 				if(ctpm.insertComment(comment)){
 					print_json_message(response, "result", "ok");
@@ -138,12 +138,13 @@ public class CommentServlet extends HttpServlet {
 		Comment comment = new Comment();
 		String issue_id = request.getParameter("ISSUE_ID");
 		String comment_contents = request.getParameter("COMMENT_CONTENTS");
-		
+		int user_id = user_session_check(request);
 		if(issue_id == null || issue_id.equals("")){
 			issue_id = "-1";
 		}
 		
 		comment.setIssue_id(Integer.parseInt(issue_id));
+		comment.setUser_id(user_id);
 		comment.setComment_contents(comment_contents);
 		
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -153,6 +154,18 @@ public class CommentServlet extends HttpServlet {
 		
 		return comment;
 	}
+	
+	private int user_session_check(HttpServletRequest request){
+		HttpSession session = request.getSession(false);
+		if (session != null) {
+		    session = request.getSession(true);
+			User auth = (User) session.getAttribute("auth_session");
+			return auth.getUser_id();
+		} else {
+			return -1;
+		}
+	}
+	
 	private void print_json_message(HttpServletResponse response, String key,String value) throws UnsupportedEncodingException, IOException{
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(
 				response.getOutputStream(), "UTF8"));
