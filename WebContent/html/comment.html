@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2>COMMENT</h2>
+	<form method="post" action="../commentcontrol">
+		<input type="hidden" name="action" value="insert">
+		ISSUE_ID <input type="number" name="ISSUE_ID"><br>
+		USER_ID	 <input type="number" name="USER_ID"><br>
+		COMMENT_CONTENTS
+		<br><textarea rows="5" cols="100" name="COMMENT_CONTENTS"></textarea><br>
+		<input type="submit" value="삽입">
+	</form>
+	<form method="post" action="../commentcontrol">
+		<input type="hidden" name="action" value="list">
+		<input type="number" name="ISSUE_ID" >
+		<input type="submit" value="해당 이슈의 comment list 출력">
+	</form>
+</body>
+</html>

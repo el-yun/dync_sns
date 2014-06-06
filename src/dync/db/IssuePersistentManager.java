@@ -255,6 +255,18 @@ public class IssuePersistentManager extends ConnectDB {
 		
 	}
 	
+	public boolean checkIssue(int issue_id){
+		ArrayList<Issue> issueList = getIssueList();
+		
+		for(Issue issue : issueList){
+			if(issue.getIssue_id() == issue_id){
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	
 	
 }
