@@ -94,8 +94,8 @@ public class IssueServlet extends HttpServlet {
 		response.addHeader("Access-Control-Allow-Headers", "Content-Type");
 		response.addHeader("Access-Control-Max-Age", "86400");
 		String action_request = request.getParameter(REQ_ACTION);
-		response.setCharacterEncoding("utf-8");
-		response.setContentType("text/html;charset=UTF-8");
+		//response.setCharacterEncoding("utf-8");
+		//response.setContentType("text/html;charset=UTF-8");
 
 		System.out.println(action_request);
 
@@ -344,6 +344,7 @@ public class IssueServlet extends HttpServlet {
 			String type = request.getParameter(Issue.TYPE);
 			String subject = request.getParameter(Issue.SUBJECT);
 			String contents = request.getParameter(Issue.CONTENTS);
+			System.out.println(contents);
 			boolean display = Boolean.parseBoolean(request
 					.getParameter(Issue.DISPLAY));
 			int recommand = Integer.parseInt(request

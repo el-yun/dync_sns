@@ -156,11 +156,13 @@
                 lineNumbers: true,
                 mode: "javascript",
                 keyMap: "sublime",
+                styleActiveLine: true,
                 autoCloseBrackets: true,
                 matchBrackets: true,
                 showCursorWhenSelecting: true,
-                theme: "monokai"
+                theme: "mbo"
             });
+            Coder.doc.setValue("//코드를 미리 입력하세요!");
         }
     });
 
@@ -192,6 +194,9 @@
         }
     });
 
+    function nl2br(value) {
+        return value.replace(/\n/g, "<br />");
+    }
 //IssueView();
 
 })(jQuery);

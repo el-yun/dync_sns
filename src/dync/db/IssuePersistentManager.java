@@ -33,6 +33,7 @@ public class IssuePersistentManager extends ConnectDB {
 			pstmt.setString(9, issue.getUpload());
 			pstmt.executeUpdate();
 			get_insert_id(pstmt);
+			System.out.println(issue.getContents());
 		}catch(SQLException e){
 			System.out.println(pstmt.toString());
 			e.printStackTrace();

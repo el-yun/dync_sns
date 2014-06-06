@@ -253,7 +253,6 @@ footer {
     right: 10px;
     bottom: 10px;
     overflow-x: hidden;
-    background: #272822;
     border: 1px solid #343531;
 }
 
@@ -262,6 +261,24 @@ footer {
     width: 190px;
     height: 290px;
     box-sizing: padding-box;
+}
+
+.code-box {
+    float:right;
+    width: 400px;
+    height: 22px;
+    font-size: 14px;
+    color: #FFF;
+    font-weight: bold;
+    font-family: "Nanum Gothic";
+    background: #272822;
+    border-width: 0px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    padding: 0px 4px;
+    margin-right: 10px;
+    outline: 0;
 }
 
 dl.dotlist {
@@ -592,6 +609,11 @@ dl.dotlist li:hover {
 .btn:hover {
     text-decoration: none;
     background: #73c02f;
+}
+
+.ralign {
+    float:right;
+    margin-right: 7px;
 }
 
 #send-btn {

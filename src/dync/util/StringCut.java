@@ -1,7 +1,7 @@
 package dync.util;
 
 public class StringCut {
-	public String result = null;
+	public String result = "";
 
 	public StringCut(String raw, int len, String encoding) {
 		if (raw != null) {

@@ -41,7 +41,7 @@ public class Issue {
 		this.user_id = user_id;
 		this.type = type;
 		this.subject = subject;
-		this.contents = contents;
+		this.contents = nl2br(contents);
 		this.display = display;
 		this.recommand = recommand;
 		this.tag = tag;
@@ -92,7 +92,7 @@ public class Issue {
 	}
 
 	public void setContents(String contents) {
-		this.contents = contents;
+		this.contents = nl2br(contents);
 	}
 
 	public boolean isDisplay() {
@@ -133,5 +133,13 @@ public class Issue {
 
 	public void setUpload(String upload) {
 		this.upload = upload;
+	}
+	
+	private String nl2br(String str) {
+		  str = str.replaceAll("\r\n", "<br>");
+		  str = str.replaceAll("\r", "<br>");
+		  str = str.replaceAll("\n", "<br>");
+		  
+		  return str;
 	}
 }
