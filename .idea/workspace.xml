@@ -22,7 +22,7 @@
     <favorites_list name="dync_sns" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5281385">
+    <splitter split-orientation="horizontal" split-proportion="0.5292969">
       <split-first>
         <leaf>
           <file leaf-file-name="dync.js" pinned="false" current="false" current-in-tab="false">
@@ -45,21 +45,31 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="dync-controller.js" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/WebContent/js/dync-controller.js">
+          <file leaf-file-name="jquery.base64.js" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/WebContent/js/jquery.base64.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="2790" max-vertical-offset="4237">
-                  <caret line="167" column="16" selection-start-line="167" selection-start-column="16" selection-end-line="167" selection-end-column="30" />
+                <state vertical-scroll-proportion="-5.2413793" vertical-offset="741" max-vertical-offset="2793">
+                  <caret line="47" column="4" selection-start-line="47" selection-start-column="4" selection-end-line="47" selection-end-column="10" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="layout2.css" pinned="false" current="true" current-in-tab="true">
+          <file leaf-file-name="layout2.css" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/WebContent/css/layout2.css">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.44347826" vertical-offset="10866" max-vertical-offset="12787">
-                  <caret line="588" column="18" selection-start-line="588" selection-start-column="18" selection-end-line="588" selection-end-column="18" />
+                <state vertical-scroll-proportion="-14.586206" vertical-offset="5258" max-vertical-offset="12958">
+                  <caret line="299" column="14" selection-start-line="299" selection-start-column="14" selection-end-line="299" selection-end-column="14" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="dync-controller.js" pinned="false" current="true" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/WebContent/js/dync-controller.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.6988906" vertical-offset="5582" max-vertical-offset="6232">
+                  <caret line="317" column="28" selection-start-line="317" selection-start-column="28" selection-end-line="317" selection-end-column="28" />
                   <folding />
                 </state>
               </provider>
@@ -72,8 +82,8 @@
           <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/WebContent/index.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.72861356" vertical-offset="1007" max-vertical-offset="3230">
-                  <caret line="79" column="80" selection-start-line="79" selection-start-column="80" selection-end-line="79" selection-end-column="80" />
+                <state vertical-scroll-proportion="0.6914557" vertical-offset="2052" max-vertical-offset="3325">
+                  <caret line="131" column="43" selection-start-line="131" selection-start-column="43" selection-end-line="131" selection-end-column="43" />
                   <folding />
                 </state>
               </provider>
@@ -101,17 +111,18 @@
         <option value="$PROJECT_DIR$/WebContent/js/ambiance.css" />
         <option value="$PROJECT_DIR$/WebContent/js/active-line.js" />
         <option value="$PROJECT_DIR$/WebContent/css/ambiance.css" />
-        <option value="$PROJECT_DIR$/WebContent/js/dync-controller.js" />
-        <option value="$PROJECT_DIR$/WebContent/index.html" />
+        <option value="$PROJECT_DIR$/WebContent/js/jquery.base64.js" />
         <option value="$PROJECT_DIR$/WebContent/css/layout2.css" />
+        <option value="$PROJECT_DIR$/WebContent/index.html" />
+        <option value="$PROJECT_DIR$/WebContent/js/dync-controller.js" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="142" />
-    <option name="y" value="314" />
-    <option name="width" value="1733" />
-    <option name="height" value="856" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -295,6 +306,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\git\dync_sns\WebContent\js" />
       <recent name="E:\git\dync_sns\WebContent\jsp" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -371,23 +383,23 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="142" y="314" width="1733" height="856" extended-state="0" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25949368" sideWeight="0.521875" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2236459" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31951872" sideWeight="0.4996215" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.11392405" sideWeight="0.5003785" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25949368" sideWeight="0.478125" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -616,26 +628,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WebContent/js/dync-controller.js">
+    <entry file="file://$PROJECT_DIR$/WebContent/css/layout2.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2790" max-vertical-offset="4237">
-          <caret line="167" column="16" selection-start-line="167" selection-start-column="16" selection-end-line="167" selection-end-column="30" />
+        <state vertical-scroll-proportion="-14.586206" vertical-offset="5258" max-vertical-offset="12958">
+          <caret line="299" column="14" selection-start-line="299" selection-start-column="14" selection-end-line="299" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebContent/js/jquery.base64.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.2413793" vertical-offset="741" max-vertical-offset="2793">
+          <caret line="47" column="4" selection-start-line="47" selection-start-column="4" selection-end-line="47" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebContent/js/rangyinputs-jquery-1.1.2.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="636">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/WebContent/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.72861356" vertical-offset="1007" max-vertical-offset="3230">
-          <caret line="79" column="80" selection-start-line="79" selection-start-column="80" selection-end-line="79" selection-end-column="80" />
+        <state vertical-scroll-proportion="0.6914557" vertical-offset="2052" max-vertical-offset="3325">
+          <caret line="131" column="43" selection-start-line="131" selection-start-column="43" selection-end-line="131" selection-end-column="43" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WebContent/css/layout2.css">
+    <entry file="file://$PROJECT_DIR$/WebContent/js/dync-controller.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.44347826" vertical-offset="10866" max-vertical-offset="12787">
-          <caret line="588" column="18" selection-start-line="588" selection-start-column="18" selection-end-line="588" selection-end-column="18" />
+        <state vertical-scroll-proportion="0.6988906" vertical-offset="5582" max-vertical-offset="6232">
+          <caret line="317" column="28" selection-start-line="317" selection-start-column="28" selection-end-line="317" selection-end-column="28" />
           <folding />
         </state>
       </provider>

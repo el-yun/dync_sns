@@ -14,10 +14,9 @@ decode 메소드는 디코딩
 package dync.util;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.net.URLDecoder;
-
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+import java.net.URLEncoder;
+//import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 public class ConvertChar {
 	
 	private String enc;
@@ -32,11 +31,13 @@ public class ConvertChar {
 		
 		try {
 			resultUrlEncode = URLEncoder.encode(str,enc);
+			resultUrlEncode = resultUrlEncode.replaceAll("\\+", "%20");
+
 		} catch (UnsupportedEncodingException e) {
 			System.out.println("인코딩 오류");
 			e.printStackTrace();
 		}
-		resultStr = Base64.encode(resultUrlEncode.getBytes());
+		resultStr = resultUrlEncode;
 		
 		return resultStr;
 	}
@@ -44,8 +45,7 @@ public class ConvertChar {
 	final public String decode(String str){
 		String resultBase64Decode = null;
 		String resultStr = null;
-		
-		resultBase64Decode = new String(Base64.decode(str));
+		resultBase64Decode = new String();
 		try {
 			resultStr = URLDecoder.decode(resultBase64Decode, enc);
 		} catch (UnsupportedEncodingException e) {

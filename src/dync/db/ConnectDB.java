@@ -19,10 +19,10 @@ public class ConnectDB {
 			Class.forName(jdbc_driver);
 
 			conn = DriverManager.getConnection(jdbc_url,"root","root");
-			System.out.println("DB 연결 성공");
+			//System.out.println("DB 연결 성공");
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("DB 연결 실패");
+			//System.out.println("DB 연결 실패");
 		}
 	}
 	

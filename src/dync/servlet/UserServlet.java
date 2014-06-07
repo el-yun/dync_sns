@@ -148,6 +148,13 @@ public class UserServlet extends HttpServlet {
 				obj.put("kakao_hash", loginuser.getUser_kakaohash());
 				out.print(obj.toString());
 				System.out.println(obj.toString());
+			} else {
+				JSONObject obj = new JSONObject();
+				obj.put("logged", "no");
+				obj.put("naver_hash", null);
+				obj.put("kakao_hash", null);
+				out.print(obj.toString());
+				System.out.println(obj.toString());
 			}
 		} else if (action.equals(ACTION_LOGOUT)) {
 

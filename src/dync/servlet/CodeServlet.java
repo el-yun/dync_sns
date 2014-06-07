@@ -168,33 +168,19 @@ public class CodeServlet extends HttpServlet {
 		}else if(action.equals(ACTION_LIST)){
 			System.out.println("codeList 요청");
 			JSONArray jsonArray = new JSONArray();
-			String user_id_String = request.getParameter("USER_ID");
-			int user_id = 0;
-			if(user_id_String.equals("")){
-				System.out.println("USER_ID를 입력하세요");
-				ArrayList<Code> codeList = cpm.getCodeList();
-				
-				jsonArray.addAll(codeList);
-				
+			User Auth = user_session_check(request);
+			if (Auth != null) {
+				long code_repository = Auth.getCode_repository();
+				jsonArray.addAll(cpm.getCodeList("CODE_REPOSITORY",
+						code_repository));
 				out.print(jsonArray.toString());
-				out.close();
-				return;
-			}else{
-				user_id = Integer.parseInt(user_id_String);
-			}
-			
-			if(upm.checkUser(user_id)){
-				User user = upm.getAuth("USER_ID", user_id);
-				long code_repository = user.getCode_repository();
-				jsonArray.addAll(cpm.getCodeList("CODE_REPOSITORY", code_repository));
-				out.print(jsonArray.toString());
-			}else{
+			} else {
 				System.out.println("해당하는 유저 없음");
 				JSONObject jsonObject = new JSONObject();
-				
+
 				jsonObject.put("result", "no");
 				jsonArray.add(jsonObject);
-				
+
 				out.print(jsonArray.toString());
 			}
 		}

@@ -16,6 +16,8 @@
             charset="utf-8"></script>
     <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
     <script src="http://malsup.github.com/jquery.form.js"></script>
+    <script src="./js/jquery.base64.js" charset="utf-8"></script>
+    <script src="./js/rangyinputs-jquery-1.1.2.min.js" charset="utf-8"></script>
     <style>
         .editor {
             width: 100%;
@@ -55,7 +57,7 @@
         </div>
     </div>
     <div id="repository" class="popup" style="display: none">
-        <form id="insertCodeForm" method="post" action="http://localhost:8080/Dync/codecontrol">
+        <form id="insertCodeForm" method="post" action="http://localhost:8080/Dync/codecontrol" onsubmit="return false">
             <input type="hidden" name="action" value="insert"/>
             <input type="hidden" name="CODE_ID" value=""/>
             <input type="hidden" name="USING" value="1"/>
@@ -70,13 +72,11 @@
         <div class="box_content">
             <div class="box_left">
                 <dl id="code_list" class="dotlist">
-                    <li>Code</li>
-                    <li>Code</li>
                 </dl>
             </div>
             <div class="box_right">
                 <div id="editor_code">
-                    <textarea id="texteditor"></textarea>
+                    <textarea id="texteditor" class="texteditor_box"></textarea>
                     <input type="hidden" id="editor_content" name="CODE_CONTENTS" value=""/>
                 </div>
             </div>
@@ -114,7 +114,7 @@
                 <!--
                     Action : insert, update
                 -->
-                <form id="insertIssueForm" name="insertIssueForm" method="post" action="./issuecontrol"
+                <form id="insertIssueForm" name="insertIssueForm" method="post" action="http://localhost:8080/Dync/issuecontrol"
                       enctype="multipart/form-data">
                     <input type="hidden" name="action" value="insert"/>
                     <input type="hidden" name="ISSUE_ID" min="0" max="2100000000" value=""/>
@@ -124,7 +124,7 @@
                     <input type="hidden" name="DISPLAY" value="true"/>
                     <input type="hidden" name="RECOMMAND" value="0"/>
                     <input type="hidden" name="UPLOAD" value=""/>
-                    <textarea class="editor" name="CONTENTS"></textarea>
+                    <textarea id="issue_contents" class="editor" name="CONTENTS"></textarea>
 
                     <div class="writetool">
                         <a id="add-code">+ 코드 삽입하기</a>
@@ -156,8 +156,13 @@
             <%= this.contents %>
         </article>
     </div>
+    <%  }); %>
+</script>
+<script type='text/template' id='listCodeTemplate'>
+    <%
+    $.each(codes, function () { %>
+            <li class="code-li" data-codeid="<%= this.code_id %>"><%= this.code_subject %></li>
     <%  });
-
     %>
 </script>
 <script src="./js/dync-controller.js" type="text/javascript" charset="utf-8"></script>
