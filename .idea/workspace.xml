@@ -58,8 +58,8 @@
           <file leaf-file-name="layout2.css" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/WebContent/css/layout2.css">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-14.586206" vertical-offset="5258" max-vertical-offset="12958">
-                  <caret line="299" column="14" selection-start-line="299" selection-start-column="14" selection-end-line="299" selection-end-column="14" />
+                <state vertical-scroll-proportion="0.0" vertical-offset="7984" max-vertical-offset="12939">
+                  <caret line="430" column="1" selection-start-line="430" selection-start-column="1" selection-end-line="430" selection-end-column="1" />
                   <folding />
                 </state>
               </provider>
@@ -68,8 +68,8 @@
           <file leaf-file-name="dync-controller.js" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/WebContent/js/dync-controller.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.57369256" vertical-offset="4901" max-vertical-offset="6194">
-                  <caret line="277" column="48" selection-start-line="277" selection-start-column="48" selection-end-line="277" selection-end-column="48" />
+                <state vertical-scroll-proportion="0.21236134" vertical-offset="3324" max-vertical-offset="6213">
+                  <caret line="182" column="89" selection-start-line="182" selection-start-column="89" selection-end-line="182" selection-end-column="89" />
                   <folding />
                 </state>
               </provider>
@@ -82,9 +82,11 @@
           <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/WebContent/index.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.6914557" vertical-offset="2052" max-vertical-offset="3325">
-                  <caret line="131" column="43" selection-start-line="131" selection-start-column="43" selection-end-line="131" selection-end-column="43" />
-                  <folding />
+                <state vertical-scroll-proportion="0.3306962" vertical-offset="741" max-vertical-offset="3325">
+                  <caret line="50" column="23" selection-start-line="50" selection-start-column="23" selection-end-line="50" selection-end-column="38" />
+                  <folding>
+                    <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -461,7 +463,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3173">
           <caret line="57" column="18" selection-start-line="57" selection-start-column="18" selection-end-line="57" selection-end-column="32" />
-          <folding />
+          <folding>
+            <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -501,7 +505,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="969" max-vertical-offset="3154">
           <caret line="63" column="16" selection-start-line="63" selection-start-column="16" selection-end-line="63" selection-end-column="16" />
-          <folding />
+          <folding>
+            <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -525,7 +531,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1594" max-vertical-offset="2888">
           <caret line="43" column="36" selection-start-line="43" selection-start-column="36" selection-end-line="43" selection-end-column="36" />
-          <folding />
+          <folding>
+            <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -549,7 +557,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="853" max-vertical-offset="2888">
           <caret line="33" column="41" selection-start-line="33" selection-start-column="41" selection-end-line="33" selection-end-column="41" />
-          <folding />
+          <folding>
+            <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -573,7 +583,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="454" max-vertical-offset="2888">
           <caret line="35" column="18" selection-start-line="35" selection-start-column="18" selection-end-line="35" selection-end-column="18" />
-          <folding />
+          <folding>
+            <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -581,7 +593,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="247" max-vertical-offset="2489">
           <caret line="13" column="29" selection-start-line="13" selection-start-column="29" selection-end-line="13" selection-end-column="29" />
-          <folding />
+          <folding>
+            <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -628,14 +642,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WebContent/css/layout2.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.586206" vertical-offset="5258" max-vertical-offset="12958">
-          <caret line="299" column="14" selection-start-line="299" selection-start-column="14" selection-end-line="299" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/WebContent/js/jquery.base64.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-5.2413793" vertical-offset="741" max-vertical-offset="2793">
@@ -652,18 +658,28 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/WebContent/css/layout2.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="7984" max-vertical-offset="12939">
+          <caret line="430" column="1" selection-start-line="430" selection-start-column="1" selection-end-line="430" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/WebContent/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6914557" vertical-offset="2052" max-vertical-offset="3325">
-          <caret line="131" column="43" selection-start-line="131" selection-start-column="43" selection-end-line="131" selection-end-column="43" />
-          <folding />
+        <state vertical-scroll-proportion="0.3306962" vertical-offset="741" max-vertical-offset="3325">
+          <caret line="50" column="23" selection-start-line="50" selection-start-column="23" selection-end-line="50" selection-end-column="38" />
+          <folding>
+            <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/WebContent/js/dync-controller.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.57369256" vertical-offset="4901" max-vertical-offset="6194">
-          <caret line="277" column="48" selection-start-line="277" selection-start-column="48" selection-end-line="277" selection-end-column="48" />
+        <state vertical-scroll-proportion="0.21236134" vertical-offset="3324" max-vertical-offset="6213">
+          <caret line="182" column="89" selection-start-line="182" selection-start-column="89" selection-end-line="182" selection-end-column="89" />
           <folding />
         </state>
       </provider>

@@ -180,6 +180,7 @@
                 });
             } else {
                 $(".lightbox_container").show();
+                $("#kakao-login-btn iframe").attr("style","width: 222px; height: 49px;");
                 $("#lightbox .close").bind("click", function () {
                     $("#underlayer").hide();
                 });
