@@ -136,6 +136,8 @@ public class IssueServlet extends HttpServlet {
 				if (uploadFile(request, response)) {
 
 					if (ipm.insertIssue(issue)) {
+						//이슈 작성시 태그 삽입[일단 보류]
+						/*
 						if (issue.getTag() != null && ipm.returnid != 0) {
 							String tagNames = issue.getTag();
 							tagNames.replaceAll("\\p{Space}", "");
@@ -150,13 +152,15 @@ public class IssueServlet extends HttpServlet {
 								tpm.insertTag(tag);
 							}
 						}
+						*/
 						print_json_message(response, "result", "ok");
 					} else {
 						print_json_message(response, "result", "no");
 					}
 				} else {
 					if (ipm.insertIssue(issue)) {
-
+						//이슈 작성 시 태그 삽입[일단 보류]
+						/*
 						String tagNames = issue.getTag();
 						tagNames.replaceAll("\\p{Space}", "");
 						String tag_name[] = tagNames.split(",");
@@ -168,6 +172,7 @@ public class IssueServlet extends HttpServlet {
 
 							tpm.insertTag(tag);
 						}
+						*/
 						print_json_message(response, "result", "ok");
 					} else {
 						System.out.println("DB Insert Fail");

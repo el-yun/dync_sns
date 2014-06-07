@@ -9,22 +9,19 @@ package dync.model;
  */
 public class Tag {
 	public static final String USER_ID			= "USER_ID";
-	public static final String ISSUE_ID 		= "ISSUE_ID";
 	public static final String TAG_NAME 		= "TAG_NAME";
 
 	private int user_id;
-	private int issue_id;
 	private String tag_name;
 
 	public Tag() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Tag(int user_id, String tag_name, int issue_id) {
+	public Tag(int user_id, String tag_name) {
 		super();
 		this.user_id = user_id;
 		this.tag_name = tag_name;
-		this.issue_id = issue_id;
 	}
 
 	public int getUser_id() {
@@ -33,14 +30,6 @@ public class Tag {
 
 	public void setUser_id(int user_id) {
 		this.user_id = user_id;
-	}
-
-	public int getIssue_id() {
-		return issue_id;
-	}
-
-	public void setIssue_id(int issue_id) {
-		this.issue_id = issue_id;
 	}
 
 	public String getTag_name() {

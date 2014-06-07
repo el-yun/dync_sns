@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2>TAG</h2>
+	<form method="post" action="../tagcontrol">
+		<input type="hidden" name="action" value="insert">
+		TAG_NAME <input type="text" name="TAG_NAME">
+		<input type="submit" value="삽입">
+	</form>
+	<form method="post" action="../tagcontrol">
+		<input type="hidden" name="action" value="delete">
+		TAG_NAME <input type="text" name="TAG_NAME">
+		<input type="submit" value="삭제">
+	</form>
+	<form method="post" action="../tagcontrol">
+		<input type="hidden" name="action" value="list">
+		<input type="submit" value="세션 유저의 등록된 태그 리스트 출력">
+	</form>
+</body>
+</html>

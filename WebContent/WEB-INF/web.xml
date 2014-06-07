@@ -39,6 +39,16 @@
     <url-pattern>/usercontrol</url-pattern>
   </servlet-mapping>
   <servlet>
+    <description></description>
+    <display-name>TagServlet</display-name>
+    <servlet-name>TagServlet</servlet-name>
+    <servlet-class>dync.servlet.TagServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TagServlet</servlet-name>
+    <url-pattern>/tagcontrol</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <display-name>SearchServlet</display-name>
     <servlet-name>SearchServlet</servlet-name>
     <servlet-class>dync.servlet.SearchServlet</servlet-class>
@@ -57,4 +67,5 @@
     <servlet-name>CommentServlet</servlet-name>
     <url-pattern>/commentcontrol</url-pattern>
   </servlet-mapping>
+  
 </web-app>
