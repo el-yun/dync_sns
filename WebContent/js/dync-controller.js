@@ -77,10 +77,7 @@
 
         },
         refresh: function(){
-            this.collection.sync();
             var that = this;
-            _.bindAll(this, 'render');
-            this.collection = new IssueCollection();
             this.collection.fetch({
                 success: function (data, res) {
                     that.render(res);
@@ -278,6 +275,7 @@
                     resetForm: true,
                     success: function(){
                         alert("이슈를 등록하였습니다!");
+                        viewIssueList.refresh();
                     }
                 };
                 $("#insertIssueForm").ajaxSubmit(options);
