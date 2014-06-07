@@ -3,6 +3,9 @@ package dync.util;
 public class StringCut {
 	public String result = "";
 
+	public void nl2no() {
+		result = result.replaceAll("<br>", " ");
+	}
 	public StringCut(String raw, int len, String encoding) {
 		if (raw != null) {
 			String[] ary = null;

@@ -11,7 +11,7 @@ public class RepositoryPersistentManager extends ConnectDB {
 				+ "values(?,?)";
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, repository.getCode_repository());
+			pstmt.setLong(1, repository.getCode_repository());
 			pstmt.setInt(2, repository.getUser_id());
 
 			pstmt.executeUpdate();
@@ -25,14 +25,14 @@ public class RepositoryPersistentManager extends ConnectDB {
 		return true;
 	}
 
-	public boolean deleteRepository(int code_repository) {
+	public boolean deleteRepository(Long code_repository) {
 		connect();
 
 		String sql = "delete from CODE_REPOSITORY where CODE_REPOSITORY=?";
 
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, code_repository);
+			pstmt.setLong(1, code_repository);
 			pstmt.executeUpdate();
 
 			System.out.println(pstmt.toString());

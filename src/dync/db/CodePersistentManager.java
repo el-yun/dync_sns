@@ -11,19 +11,18 @@ import dync.util.ConvertChar;
 public class CodePersistentManager extends ConnectDB{
 	public boolean insertCode(Code code){
 		connect();
-		String sql = "insert into CODE(CODE_ID,CODE_REPOSITORY,CODE_SUBJECT,BASE_LANGUAGE,CODE_CONTENTS,REVISION,`USING`,REG_DATE)" +
-					"values(?,?,?,?,?,?,?,?)";
+		String sql = "insert into CODE(CODE_REPOSITORY,CODE_SUBJECT,BASE_LANGUAGE,CODE_CONTENTS,REVISION,`USING`,REG_DATE)" +
+					"values(?,?,?,?,?,?,?)";
 		try{
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, code.getCode_id());
-			pstmt.setInt(2, code.getCode_repository());
-			pstmt.setString(3, code.getCode_subject());
-			pstmt.setString(4,code.getBase_language());
-			pstmt.setString(5, code.getCode_contents());
-			pstmt.setInt(6, code.getRevision());
-			if(code.isUsing()) pstmt.setInt(7, 1);
-			else pstmt.setInt(7, 0);
-			pstmt.setTimestamp(8, Timestamp.valueOf(code.getReg_date()));
+			pstmt.setLong(1, code.getCode_repository());
+			pstmt.setString(2, code.getCode_subject());
+			pstmt.setString(3,code.getBase_language());
+			pstmt.setString(4, code.getCode_contents());
+			pstmt.setInt(5, code.getRevision());
+			if(code.isUsing()) pstmt.setInt(6, 1);
+			else pstmt.setInt(6, 0);
+			pstmt.setTimestamp(7, Timestamp.valueOf(code.getReg_date()));
 			
 			pstmt.executeUpdate();
 		}catch(SQLException e){
@@ -63,7 +62,7 @@ public class CodePersistentManager extends ConnectDB{
 		
 		try{
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, code.getCode_repository());
+			pstmt.setLong(1, code.getCode_repository());
 			pstmt.setString(2, code.getCode_subject());
 			pstmt.setString(3, code.getBase_language());
 			pstmt.setString(4, code.getCode_contents());
@@ -158,6 +157,42 @@ public class CodePersistentManager extends ConnectDB{
 		try{
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, value);
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				Code code = new Code();
+			
+				code.setCode_id(rs.getInt("CODE_ID"));
+				code.setCode_repository(rs.getInt("CODE_REPOSITORY"));
+				code.setCode_subject(rs.getString("CODE_SUBJECT"));
+				code.setBase_language(rs.getString("BASE_LANGUAGE"));
+				code.setCode_contents(rs.getString("CODE_CONTENTS"));
+				code.setRevision(rs.getInt("REVISION"));
+				code.setUsing(rs.getBoolean("USING"));
+				if(rs.getInt("USING")==1) code.setUsing(true);
+				else code.setUsing(false);
+				code.setReg_date(rs.getString("REG_DATE"));
+				codeList.add(code);
+			}
+			rs.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		
+		return codeList;
+	}
+	public ArrayList<Code> getCodeList(String key,long value){
+		connect();
+		
+		String sql = "select * from CODE where " + key + "=?";
+		
+		ArrayList<Code> codeList = new ArrayList<Code>();
+		
+		try{
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, value);
 			ResultSet rs = pstmt.executeQuery();
 			
 			while(rs.next()){

@@ -67,7 +67,7 @@ public class CommentServlet extends HttpServlet {
 	}
 	
 	private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("comment servlet 요청");
+		request.setCharacterEncoding("UTF-8");
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(
 				response.getOutputStream(), "UTF8"));
 		response.setContentType("text/html;charset=utf-8");

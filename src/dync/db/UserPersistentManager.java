@@ -19,7 +19,7 @@ public class UserPersistentManager extends ConnectDB{
 			pstmt.setString(3, user.getUser_kakaohash());
 			pstmt.setString(4, user.getUser_name());
 			pstmt.setString(5, user.getUser_description());
-			pstmt.setInt(6, user.getCode_repository());
+			pstmt.setLong(6, user.getCode_repository());
 			
 			pstmt.executeUpdate();
 		}catch(SQLException e){ 
@@ -99,9 +99,9 @@ public class UserPersistentManager extends ConnectDB{
 				user.setUser_kakaohash(rs.getString("USER_KAKAOHASH"));
 				user.setUser_name(rs.getString("USER_NAME"));
 				user.setUser_description(rs.getString("USER_DESCRIPTION"));
-				user.setCode_repository(rs.getInt("CODE_REPOSITORY"));
+				user.setCode_repository(rs.getLong("CODE_REPOSITORY"));
 			}
-			System.out.println(user.getUser_kakaohash());
+			System.out.println(user.getCode_repository());
 		}catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

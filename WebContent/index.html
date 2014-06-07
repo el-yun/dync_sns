@@ -55,13 +55,16 @@
         </div>
     </div>
     <div id="repository" class="popup" style="display: none">
-        <form id="insertCodeForm" method="post" action="../codecontrol?action=list">
+        <form id="insertCodeForm" method="post" action="http://localhost:8080/Dync/codecontrol">
+            <input type="hidden" name="action" value="insert"/>
+            <input type="hidden" name="CODE_ID" value=""/>
+            <input type="hidden" name="USING" value="1"/>
             <div class="box_top">
                 <p class="box_title">나의 코드저장소</p>
                 <p id="window-close" class="winclose">X</p>
                 <p class="code-subject"><a id="put-btn" class="btn ralign">코드삽입</a>
                 <a id="save-btn" class="btn ralign">코드저장</a>
-                <input type="text" name="input-subject" value="" class="code-box" placeholder="저장할 코드의 제목을 적어주세요."/>
+                <input type="text" id="input-subject" name="CODE_SUBJECT" value="" class="code-box" placeholder="저장할 코드의 제목을 적어주세요."/>
                 </p>
             </div>
         <div class="box_content">
@@ -74,6 +77,7 @@
             <div class="box_right">
                 <div id="editor_code">
                     <textarea id="texteditor"></textarea>
+                    <input type="hidden" id="editor_content" name="CODE_CONTENTS" value=""/>
                 </div>
             </div>
         </div>

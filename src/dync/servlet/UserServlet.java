@@ -3,7 +3,9 @@ package dync.servlet;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.Random;
 
 import javax.servlet.RequestDispatcher;
@@ -69,20 +71,20 @@ public class UserServlet extends HttpServlet {
 	}
 
 	private void processRequest(HttpServletRequest request,
-		HttpServletResponse response) throws ServletException, IOException {
-
-	    response.addHeader("Access-Control-Allow-Origin", "*");
-	    response.addHeader("Access-Control-Allow-Methods", "GET, PUT, POST, OPTIONS, DELETE");
-	    response.addHeader("Access-Control-Allow-Headers", "Content-Type");
-	    response.addHeader("Access-Control-Max-Age", "86400");
+			HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.addHeader("Access-Control-Allow-Origin", "*");
+		response.addHeader("Access-Control-Allow-Methods",
+				"GET, PUT, POST, OPTIONS, DELETE");
+		response.addHeader("Access-Control-Allow-Headers", "Content-Type");
+		response.addHeader("Access-Control-Max-Age", "86400");
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(
-				response.getOutputStream(), "KSC5601"));
+				response.getOutputStream(), "UTF8"));
 		HttpSession session = request.getSession(true);
 
 		System.out.println("UserServlet 실행");
 		String contextPath = getServletContext().getContextPath();
 		response.setContentType("text/html; charset=utf-8");
-		request.setCharacterEncoding("utf-8");
 		String action = request.getParameter(REQ_ACTION);
 
 		if (action == null) {
@@ -104,35 +106,42 @@ public class UserServlet extends HttpServlet {
 				throw new ServletException("DB Query Error");
 			}
 		} else if (action.equals(ACTION_LOGIN)) {
+
+			// Request API Hash Data
 			String token = request.getParameter("kakao_hash");
 			User loginuser = upm.getAuth("USER_KAKAOHASH", token);
+
+			// Check Exist
 			if (loginuser.getexist()) {
-				System.out.println("LOGIN SESSION" + loginuser.getUser_kakaohash());
+				// Already User Account
+				System.out.println("LOGIN SESSION"
+						+ loginuser.getUser_kakaohash());
 				createSession(session, loginuser);
+				// Return Json
 				JSONObject obj = new JSONObject();
 				obj.put("logged", "ok");
 				obj.put("naver_hash", loginuser.getUser_naverhash());
 				obj.put("kakao_hash", loginuser.getUser_kakaohash());
 				out.print(obj.toString());
 			} else {
-				System.out.println("NEW USER SESSION");
-				String username = request.getParameter("user_name");
-				User NewUser = new User();
-				NewUser.setUser_kakaohash(token);
-				NewUser.setUser_name(username);
-				upm.insertUser(NewUser);
-				loginuser = upm.getAuth("USER_KAKAOHASH", NewUser.getUser_kakaohash());
-				createSession(session, loginuser);
-				JSONObject obj = new JSONObject();
-				obj.put("logged", "ok");
-				obj.put("naver_hash", NewUser.getUser_naverhash());
-				obj.put("kakao_hash", NewUser.getUser_kakaohash());
-				out.print(obj.toString());
+				// Create New Account
+				if (createAccount(request, token, loginuser)) {
+					createSession(session, loginuser);
+					// Return Json
+					JSONObject obj = new JSONObject();
+					obj.put("logged", "ok");
+					obj.put("naver_hash", loginuser.getUser_naverhash());
+					obj.put("kakao_hash", loginuser.getUser_kakaohash());
+					out.print(obj.toString());
+				} else {
+					print_json_message(response, "result", "no");
+				}
 			}
 		} else if (action.equals(ACTION_AUTH)) {
 			User loginuser = new User();
 			loginuser = getSessions(session);
 			if (loginuser != null) {
+				// Return Json
 				JSONObject obj = new JSONObject();
 				obj.put("logged", "ok");
 				obj.put("naver_hash", loginuser.getUser_naverhash());
@@ -145,6 +154,7 @@ public class UserServlet extends HttpServlet {
 			System.out.println("LOGOUT SESSION");
 			boolean Result = destroySession(session);
 			if (Result == true) {
+				// Return Json
 				JSONObject obj = new JSONObject();
 				obj.put("logged", "no");
 				obj.put("naver_hash", "");
@@ -155,17 +165,49 @@ public class UserServlet extends HttpServlet {
 		out.close();
 	}
 
+	private boolean createAccount(HttpServletRequest request, String token,
+			User loginuser) {
+		try {
+			// Repository New Code (Time Code)
+			Calendar c = Calendar.getInstance();
+			long REPOSITORY_CODE = c.getTimeInMillis() / 1000;
+
+			// Create User Account
+			System.out.println("NEW USER SESSION");
+			String username = request.getParameter("user_name");
+			User NewUser = new User();
+			NewUser.setUser_kakaohash(token);
+			NewUser.setUser_name(username);
+			NewUser.setCode_repository(REPOSITORY_CODE);
+			upm.insertUser(NewUser);
+
+			// Request User Account
+			loginuser = upm.getAuth("USER_KAKAOHASH",
+					NewUser.getUser_kakaohash());
+
+			// Create Repository
+			Code_Repository REPOSITORY = new Code_Repository();
+			REPOSITORY.setUser_id(loginuser.getUser_id());
+			REPOSITORY.setCode_repository(loginuser.getCode_repository());
+			rpm.insertRepository(REPOSITORY);
+		} catch (Exception e) {
+			System.out.println(e);
+			return false;
+		}
+		return true;
+	}
+
 	private boolean createSession(HttpSession session, User auth) {
-		try{
+		try {
 			session.setAttribute("auth_session", auth);
 		} catch (Exception e) {
 			System.out.println(e);
-		}		
+		}
 		return true;
 	}
 
 	private boolean destroySession(HttpSession session) {
-		try{
+		try {
 			session.removeAttribute("auth_session");
 		} catch (Exception e) {
 			System.out.println(e);
@@ -174,9 +216,9 @@ public class UserServlet extends HttpServlet {
 	}
 
 	private User getSessions(HttpSession session) {
-		if(session != null){
+		if (session != null) {
 			Object GetSession = session.getAttribute("auth_session");
-			User auth = (User)GetSession;
+			User auth = (User) GetSession;
 			if (GetSession != null) {
 				return auth;
 			} else {
@@ -205,6 +247,20 @@ public class UserServlet extends HttpServlet {
 				user_name, user_description, code_repository);
 
 		return user;
+	}
+
+	private void print_json_message(HttpServletResponse response, String key,
+			String value) throws UnsupportedEncodingException, IOException {
+
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(
+				response.getOutputStream(), "UTF8"));
+		response.setContentType("text/html;charset=utf-8");
+
+		JSONArray jsonArray = new JSONArray();
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put(key, value);
+		jsonArray.add(jsonObject);
+		out.write(jsonArray.toString());
 	}
 
 }

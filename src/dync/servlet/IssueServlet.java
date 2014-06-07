@@ -87,7 +87,8 @@ public class IssueServlet extends HttpServlet {
 	}
 
 	private void processRequest(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+		HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		response.addHeader("Access-Control-Allow-Origin", "*");
 		response.addHeader("Access-Control-Allow-Methods",
 				"GET, PUT, POST, OPTIONS, DELETE");
@@ -103,6 +104,7 @@ public class IssueServlet extends HttpServlet {
 	}
 	
 	private void print_json_message(HttpServletResponse response, String key,String value) throws UnsupportedEncodingException, IOException{
+		
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(
 				response.getOutputStream(), "UTF8"));
 		response.setContentType("text/html;charset=utf-8");
@@ -117,7 +119,7 @@ public class IssueServlet extends HttpServlet {
 	private void request_action(String action, HttpServletRequest request,
 		HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(
-				response.getOutputStream(), "UTF8"));
+		response.getOutputStream(), "UTF8"));
 		response.setContentType("text/html;charset=utf-8");
 
 		// System.out.println(action);

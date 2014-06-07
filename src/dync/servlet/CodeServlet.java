@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -80,12 +81,7 @@ public class CodeServlet extends HttpServlet {
 		{
 			System.out.println("insert 요청");
 			Code code = makeCodeBean(request);
-			if(!checkCode(code.getCode_id())){
-				request.setAttribute("errorMessage", "CODE 삽입 불가 \n 중복된 CODE_ID");
-				gotoJsp(request, response, "/jsp/errorPage.jsp");
-				return;
-			}
-			if (cpm.insertCode(code)) {
+			if (code != null && cpm.insertCode(code)) {
 				JSONObject jsonObject = new JSONObject();
 				JSONArray jsonArray = new JSONArray();
 				
@@ -189,7 +185,7 @@ public class CodeServlet extends HttpServlet {
 			
 			if(upm.checkUser(user_id)){
 				User user = upm.getAuth("USER_ID", user_id);
-				int code_repository = user.getCode_repository();
+				long code_repository = user.getCode_repository();
 				jsonArray.addAll(cpm.getCodeList("CODE_REPOSITORY", code_repository));
 				out.print(jsonArray.toString());
 			}else{
@@ -204,39 +200,48 @@ public class CodeServlet extends HttpServlet {
 		}
 		out.close();
 	}
-	
-	private Code makeCodeBean(HttpServletRequest request)
-	{
-		String strCode_id = request.getParameter(Code.CODE_ID);
-		ConvertChar cc = new ConvertChar("utf-8");
-		if(strCode_id == null)
-		{
+
+	private Code makeCodeBean(HttpServletRequest request) {
+		int code_id = 0;
+		User Auth = user_session_check(request);
+		if (Auth != null) {
+			ConvertChar cc = new ConvertChar("utf-8");
+			String GetCode = request.getParameter(Code.CODE_ID);
+			if(GetCode != ""){code_id = Integer.parseInt(GetCode);}
+
+			long code_repository = Auth.getCode_repository();
+			String code_subject = request.getParameter(Code.CODE_SUBJECT);
+			String base_language = "text";
+			String code_contents = cc.encode(request.getParameter(Code.CODE_CONTENTS));
+			int revision = 0;
+			boolean using = Boolean.parseBoolean(request.getParameter(Code.USING));
+			
+			// String base_language = request.getParameter(Code.BASE_LANGUAGE); 
+			// int revision = Integer.parseInt(request.getParameter(Code.REVISION));
+			// String reg_date = request.getParameter(Issue.REG_DATE);
+
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Calendar cal = Calendar.getInstance();
+			String reg_date = dateFormat.format(cal.getTime());
+
+			Code code = new Code(code_id, code_repository, code_subject,
+					base_language, code_contents, revision, using, reg_date);
+			return code;
+		}
+		return null;
+	}
+		
+	private User user_session_check(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		if (session != null) {
+			session = request.getSession(true);
+			User auth = (User) session.getAttribute("auth_session");
+			return auth;
+		} else {
 			return null;
 		}
-		int code_id = Integer.parseInt(strCode_id);
-		
-		int code_repository = Integer.parseInt(request.getParameter(Code.CODE_REPOSITORY));
-		String code_subject = request.getParameter(Code.CODE_SUBJECT);
-		String base_language = request.getParameter(Code.BASE_LANGUAGE);
-		String code_contents = cc.encode(request.getParameter(Code.CODE_CONTENTS));
-		int revision = Integer.parseInt(request.getParameter(Code.REVISION));
-		boolean using = Boolean.parseBoolean(request.getParameter(Code.USING));
-		//String reg_date = request.getParameter(Issue.REG_DATE);
-		
-		
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		// get current date time with Date()
-		//Date date = new Date();
-		//System.out.println(dateFormat.format(date));
-
-		// get current date time with Calendar()
-		Calendar cal = Calendar.getInstance();
-		
-		String reg_date = dateFormat.format(cal.getTime());
-		
-		Code code = new Code(code_id,code_repository,code_subject,base_language,code_contents,revision,using,reg_date);		
-		return code;
 	}
+		
 	private void gotoJsp(HttpServletRequest request,
 			HttpServletResponse response, String path) throws ServletException,
 			IOException {

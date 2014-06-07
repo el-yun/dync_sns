@@ -196,6 +196,10 @@ footer {
     font-family: "Nanum Gothic";
     color: #cfcfcf;
     line-height: 100%;
+    width: 500px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .issue article {
@@ -581,19 +585,14 @@ dl.dotlist li:hover {
 .regdate {
     display: inline;
     float: right;
-    height: 40px;
-    margin-top: 20px;
+    height: 20px;
+    margin-top: 13px;
     font-size: 14px;
     font-family: "Nanum Gothic";
     color: #cfcfcf;
     line-height: 100%;
 
 }
-
-.issue {
-
-}
-
 .btn {
     margin: 0px;
     background: #6baf2f;

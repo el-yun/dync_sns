@@ -164,8 +164,10 @@
             });
             Coder.doc.setValue("//코드를 미리 입력하세요!");
         }
+        Coder.on("change", function(cm, n) {
+            $("#editor_content").val(cm.getValue());
+        });
     });
-
     $("#left-menu-timeline").click(function () {
         $("#left-menu-tag").toggle("slow");
     });
@@ -179,6 +181,7 @@
                 var options = {
                     target: '#insertIssueForm',
                     url: 'http://localhost:8080/Dync/issuecontrol',
+                    resetForm: true,
                     success: function (args) {
                         alert("이슈가 등록되었습니다!");
                         location.reload();
@@ -194,6 +197,19 @@
         }
     });
 
+    $("#save-btn").click(function (e) {
+        if (KakaoLogin.get("logged") == "ok") {
+            if ($("#input-subject").val() != ""){
+                $("#insertCodeForm").ajaxSubmit();
+            } else {
+                return false;
+            }
+        } else {
+            alert("로그인 후 등록할 수 있습니다.");
+            return false;
+        }
+        return false;
+    });
     function nl2br(value) {
         return value.replace(/\n/g, "<br />");
     }

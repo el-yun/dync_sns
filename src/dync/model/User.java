@@ -20,7 +20,7 @@ public class User {
 	private String user_kakaohash;
 	private String user_name;
 	private String user_description;
-	private int code_repository;
+	private long code_repository;
 
 	public User() {
 		// TODO Auto-generated constructor stub
@@ -85,11 +85,11 @@ public class User {
 		this.user_description = user_description;
 	}
 
-	public int getCode_repository() {
+	public long getCode_repository() {
 		return code_repository;
 	}
 
-	public void setCode_repository(int code_repository) {
+	public void setCode_repository(long code_repository) {
 		this.code_repository = code_repository;
 	}
 

@@ -20,6 +20,7 @@ public class IssuePersistentManager extends ConnectDB {
 					"values(?,?,?,?,?,?,?,?,?)";
 		try{
 			StringCut Subject = new StringCut(issue.getContents(), 40, "UTF-8");
+			Subject.nl2no();
 			pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			pstmt.setInt(1, issue.getUser_id());
 			pstmt.setString(2, issue.getType());
@@ -121,6 +122,7 @@ public class IssuePersistentManager extends ConnectDB {
 		try{
 
 			StringCut Subject = new StringCut(issue.getContents(), 40, "UTF-8");
+			Subject.nl2no();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, issue.getUser_id());
 			pstmt.setString(2, issue.getType());

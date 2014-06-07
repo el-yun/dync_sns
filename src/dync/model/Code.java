@@ -18,7 +18,7 @@ public class Code {
 	public static final String REG_DATE	 			= "REG_DATE";
 
 	private int code_id;
-	private int code_repository;
+	private long code_repository;
 	private String code_subject;
 	private String base_language;
 	private String code_contents;
@@ -30,7 +30,7 @@ public class Code {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Code(int code_id, int code_repository, String code_subject,
+	public Code(int code_id, long code_repository, String code_subject,
 			String base_language, String code_contents, int revision,
 			boolean using, String reg_date) {
 		this.code_id = code_id;
@@ -51,7 +51,7 @@ public class Code {
 		this.code_id = code_id;
 	}
 
-	public int getCode_repository() {
+	public long getCode_repository() {
 		return code_repository;
 	}
 
