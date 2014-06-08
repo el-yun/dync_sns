@@ -54,7 +54,7 @@
                 cache: false,
                 processData: false,
             }, options);
-            console.log("fetch");
+            //console.log("fetch");
             return $.ajax(params);
         }
     });
@@ -117,7 +117,7 @@
                          hljs.initHighlightingOnLoad();
                     },
                     error: function (e) {
-                        console.log(e.responseText);
+                        //console.log(e.responseText);
                     }
                 });
             }
@@ -164,11 +164,11 @@
                 data: { action: 'code', 'CODE_ID': target_id },
                 success: function (args) {
                     var result = unescape(decodeURIComponent(args[0].code_contents));
-                    console.log(args[0].code_contents);
+                    //console.log(args[0].code_contents);
                     Coder.doc.setValue(result);
                 },
                 error: function (e) {
-                    console.log(e.responseText);
+                    //console.log(e.responseText);
                 }
             });
         }
@@ -192,12 +192,12 @@
         },
         render: function () {
             var status = this.model.get("logged");
-            console.log(status);
+            //console.log(status);
             if (status == "ok") {
                 $(".lightbox_container").hide(); // 로그인 성공시
                 $("#login-btn").html("로그아웃");
             } else {
-                console.log("Do login");
+                //console.log("Do login");
                 $("#login-btn").html("로그인");
             }
         },
@@ -236,7 +236,7 @@
         Kakao.Auth.createLoginButton({
             container: '#kakao-login-btn',
             success: function (authObj) {
-                console.log(authObj);
+                //console.log(authObj);
                 Kakao.API.request({
                     url: '/v1/user/me',
                     success: function (res) {
@@ -270,7 +270,7 @@
     $("#left-menu-code, #add-code").click(function () {
         KakaoLogin.save(null, {
             success: function (model, response) {
-                console.log(response);
+                //console.log(response);
                 if (response.logged == "ok") {
                     $("#repository").toggle({
                         duration: "slow",
@@ -300,7 +300,7 @@
                 }
             },
             error: function (model, response) {
-                console.log("error");
+                //console.log("error");
             }
         });
     });
@@ -339,7 +339,7 @@
                     success: function (res, statusText, xhr, $form) {
 
                         var getdata = JSON.parse(res);
-                        console.log(getdata);
+                        //console.log(getdata);
                         var sel = $('#issue_contents').getSelection();
                         $('#issue_contents').insertText("@" + getdata[0].codeid + "@", sel.end).setSelection(sel.start, sel.end);
                         Codelist.refresh();
@@ -366,7 +366,7 @@
     var timer = null;
     $("#search-text").on("change keyup paste", function() {
             var texts = $('#search-text').val();
-            console.log(texts);
+            //console.log(texts);
             $.ajax({
                 type: "POST",
                 dataType: "json",
@@ -382,9 +382,9 @@
                     }
 
                     $("#search-code-list li").on("click",function(e){
-                        console.log("ck");
+                        //console.log("ck");
                         var target_id = $(e.target).attr("data-code");
-                        console.log(e.target);
+                        //console.log(e.target);
                         if(target_id) {
                             $.ajax({
                                 type: "POST",
@@ -399,7 +399,7 @@
                                     hljs.initHighlightingOnLoad();
                                 },
                                 error: function (e) {
-                                    console.log(e.responseText);
+                                    //console.log(e.responseText);
                                 }
                             });
 
@@ -407,7 +407,7 @@
                     });
                 },
                 error: function (e) {
-                    console.log(e.responseText);
+                    //console.log(e.responseText);
                 }
             });
     });
