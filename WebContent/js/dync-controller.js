@@ -2,6 +2,9 @@
     /*
      BackBone.js Based Application - Dync
      */
+    String.prototype.replaceAt=function(index, character) {
+        return this.substr(0, index) + character + this.substr(index+character.length);
+    }
     var parseURL = 'http://localhost:8080/Dync/usercontrol';
     Kakao.init('07f2d3ff4958ad3553bc8830de72133b');
 // Models
@@ -79,6 +82,7 @@
             while(i < res.length) {
                 var Retxt = res[i].contents.match(/[@.]\d{1,6}[@.]/g);
                 res[i].contents = res[i].contents.replace(/[@.]\d{1,6}[@.]/g, '<div class=\"btn-code\" data-code=\"' + Retxt + '\">코드보기</div>');
+
                 i++;
             }
             $(this.el).html(this.template({ issues: res }));
@@ -258,7 +262,9 @@
     new APIlogin;
 // Operation
     var viewIssueList = new IssuelistView();
-
+    var issueTraker = window.setInterval(function(){
+        viewIssueList.refresh();
+    },5000);
     var Coder = null;
     var Codelist = new CodelistView();
     $("#left-menu-code, #add-code").click(function () {
@@ -357,7 +363,55 @@
     $("#CodeViewer .close-btn").click(function(){
         $("#CodeViewer").hide();
     });
+    var timer = null;
+    $("#search-text").on("change keyup paste", function() {
+            var texts = $('#search-text').val();
+            console.log(texts);
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: "http://localhost:8080/Dync/codecontrol",
+                data: { action: 'search', 'SEARCH_CODE': texts },
+                success: function (args) {
+                    for(var key in args){
+                        var html = "<li class='cdlist' data-code='" + args[key].code_id + "'>";
+                        html += "<h2>" + args[key].code_subject + "</h2>";
+                        html += "<div class='contents'>" + args[key].code_contents + "<</div>";
+                        html += "</li>";
+                        $("#search-code-list").html(html);
+                    }
 
+                    $("#search-code-list li").on("click",function(e){
+                        console.log("ck");
+                        var target_id = $(e.target).attr("data-code");
+                        console.log(e.target);
+                        if(target_id) {
+                            $.ajax({
+                                type: "POST",
+                                dataType: "json",
+                                url: "http://localhost:8080/Dync/codecontrol",
+                                data: { action: 'code', 'CODE_ID': target_id },
+                                success: function (args) {
+                                    var result = decodeURIComponent(args[0].code_contents);
+                                    result = result.replace(/\n/gi,"<br />");
+                                    $("#CodeViewer").show();
+                                    $("#CodeViewer code").html(result);
+                                    hljs.initHighlightingOnLoad();
+                                },
+                                error: function (e) {
+                                    console.log(e.responseText);
+                                }
+                            });
+
+                        }
+                    });
+                },
+                error: function (e) {
+                    console.log(e.responseText);
+                }
+            });
+    });
 //IssueView();
+
 
 })(jQuery);

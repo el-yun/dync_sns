@@ -3,6 +3,7 @@ package dync.servlet;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ public class CodeServlet extends HttpServlet {
 	private static final String ACTION_UPDATE = "update";
 	private static final String ACTION_DELETE = "delete";
 	private static final String ACTION_CODE = "code";
+	private static final String ACTION_SEARCH = "search";
 	
 	CodePersistentManager cpm = new CodePersistentManager();
 	UserPersistentManager upm = new UserPersistentManager();
@@ -171,7 +173,32 @@ public class CodeServlet extends HttpServlet {
 			JSONArray jsonArray = new JSONArray();
 			jsonArray.add(code);
 			out.print(jsonArray.toString());
+		}else if(action.equals(ACTION_SEARCH)){
+			System.out.println("getSearch 요청");
+			String code_text = request.getParameter("SEARCH_CODE");
+			ArrayList<Code> getCode = new ArrayList<Code>();
+			//try {
+				ConvertChar cc = new ConvertChar("utf-8");
+				getCode = cpm.getCodeFinder(cc.encode(code_text));
+				System.out.println(getCode);
+				if (getCode != null) {
+					JSONArray jsonArray = new JSONArray();
+					jsonArray.addAll(getCode);
+					out.print(jsonArray.toString());
+				} else {
+					System.out.println("검색 결과 없음");
+					JSONObject jsonObject = new JSONObject();
+					JSONArray jsonArray = new JSONArray();
+					jsonObject.put("result", "no");
+					jsonArray.add(jsonObject);
+					out.print(jsonArray.toString());
+				}
+			//} catch (Exception e) {
+				//System.out.println(e);
+				//System.out.println("탐색 실패");
+			//}
 			
+		
 		}else if(action.equals(ACTION_LIST)){
 			System.out.println("codeList 요청");
 			JSONArray jsonArray = new JSONArray();

@@ -25,7 +25,7 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 
 public class IndexSearchIssue {
-	private static final String INDEX_LOCATION = "D:/index_lucene/Index";
+	private static final String INDEX_LOCATION = "./";
 	private static boolean ISCREATESUCCESS = true;
 	private static int FINDCONDITIONAND = 0;
 	private static int FINDCONDITIONOR = 1;

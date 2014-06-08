@@ -204,6 +204,46 @@ public class CodePersistentManager extends ConnectDB{
 		
 		return codeList;
 	}
+
+	public ArrayList<Code> getCodeFinder(String value){
+		connect();
+		String sql = "select * from CODE where CODE_CONTENTS LIKE ?";
+		
+		ArrayList<Code> codeList = new ArrayList<Code>();
+		
+		try{
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%" + value + "%");
+			System.out.println(pstmt);
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				Code code = new Code();
+			
+				code.setCode_id(rs.getInt("CODE_ID"));
+				code.setCode_repository(rs.getInt("CODE_REPOSITORY"));
+				code.setCode_subject(rs.getString("CODE_SUBJECT"));
+				code.setBase_language(rs.getString("BASE_LANGUAGE"));
+				code.setCode_contents(rs.getString("CODE_CONTENTS"));
+				code.setRevision(rs.getInt("REVISION"));
+				code.setUsing(rs.getBoolean("USING"));
+				if(rs.getInt("USING")==1) code.setUsing(true);
+				else code.setUsing(false);
+				code.setReg_date(rs.getString("REG_DATE"));
+				codeList.add(code);
+			}
+			rs.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		if (codeList != null) {
+			return codeList;
+		} else {
+			return null;
+		}
+	}
 	public ArrayList<Code> getCodeList(String key,long value){
 		connect();
 		
