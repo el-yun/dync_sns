@@ -5,6 +5,8 @@
     <link rel="stylesheet" href="./css/layout2.css"/>
     <link rel="stylesheet" href="css/mbo.css">
     <link rel="stylesheet" href="./lib/codemirror.css">
+    <link rel="stylesheet" href="./css/default.css">
+    <script src="./js/highlight.pack.js"charset="utf-8"></script>
     <script src="./lib/codemirror.js" type="text/javascript" charset="utf-8"></script>
     <script src="./keymap/sublime.js"></script>
     <script src="./lib/active-line.js" type="text/javascript" charset="utf-8"></script>
@@ -18,6 +20,7 @@
     <script src="http://malsup.github.com/jquery.form.js"></script>
     <script src="./js/jquery.base64.js" charset="utf-8"></script>
     <script src="./js/rangyinputs-jquery-1.1.2.min.js" charset="utf-8"></script>
+    <script src="./js/json2.js"charset="utf-8"></script>
     <style>
         .editor {
             width: 100%;
@@ -55,6 +58,12 @@
 
             <div class="close"></div>
         </div>
+    </div>
+    <div id="CodeViewer">
+        <pre>
+            <code class="xml">123</code>
+        </pre>
+        <div class="close-btn">Close</div>
     </div>
     <div id="repository" class="popup" style="display: none">
         <form id="insertCodeForm" method="post" action="http://localhost:8080/Dync/codecontrol" onsubmit="return false">
@@ -161,7 +170,7 @@
 <script type='text/template' id='listCodeTemplate'>
     <%
     $.each(codes, function () { %>
-            <li class="code-li" data-codeid="<%= this.code_id %>"><%= this.code_subject %></li>
+            <li class="code-li" data-codeid="<%= this.code_id %>"><%= this.code_subject %><span>X</span></li>
     <%  });
     %>
 </script>

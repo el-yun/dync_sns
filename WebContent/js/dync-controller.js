@@ -60,7 +60,9 @@
 // View
     IssuelistView = Backbone.View.extend({
         el: $('div#Issuelist'),
-
+        events: {
+            click: 'handleClick'
+        },
         initialize: function () {
             var that = this;
             _.bindAll(this, 'render');
@@ -73,16 +75,50 @@
         },
         template: _.template($('#listIssueTemplate').html()),
         render: function (res) {
+            var i = 0;
+            while(i < res.length) {
+                var Retxt = res[i].contents.match(/[@.]\d{1,6}[@.]/g);
+                res[i].contents = res[i].contents.replace(/[@.]\d{1,6}[@.]/g, '<div class=\"btn-code\" data-code=\"' + Retxt + '\">코드보기</div>');
+                i++;
+            }
             $(this.el).html(this.template({ issues: res }));
 
+            // /[@.]CODE\d{6}[@.]/g
         },
-        refresh: function(){
+        refresh: function () {
             var that = this;
             this.collection.fetch({
                 success: function (data, res) {
                     that.render(res);
                 }
             });
+        },
+        handleClick: function (e) {
+            e.preventDefault();
+            var target_id = $(e.target).attr("data-code");
+            if(target_id){
+
+                var codeid = target_id.replace(/@/gi,"");
+
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: "http://localhost:8080/Dync/codecontrol",
+                    data: { action: 'code', 'CODE_ID': codeid },
+                    success: function (args) {
+                         var result = unescape(decodeURIComponent(args[0].code_contents));
+                         result = result.replace(/\n/gi,"<br />");
+                         $("#CodeViewer").show();
+                         $("#CodeViewer code").html(result);
+                         hljs.initHighlightingOnLoad();
+                    },
+                    error: function (e) {
+                        console.log(e.responseText);
+                    }
+                });
+            }
+
+
         }
 
     });
@@ -106,7 +142,7 @@
             $(this.el).html(this.template({ codes: res }));
 
         },
-        refresh: function(){
+        refresh: function () {
             var that = this;
             this.collection.fetch({
                 success: function (data, res) {
@@ -114,7 +150,7 @@
                 }
             });
         },
-        handleClick:function (e) {
+        handleClick: function (e) {
             e.preventDefault();
             var target_id = $(e.target).attr("data-codeid");
             $.ajax({
@@ -133,10 +169,11 @@
             });
         }
     });
-    function Base64DecodeUrl(str){
+    function Base64DecodeUrl(str) {
         str = (str + '===').slice(0, str.length + (str.length % 4));
         return Base64.decode(str.replace(/-/g, '+').replace(/_/g, '/'));
     }
+
     LoginView = Backbone.View.extend({
         el: $(".user"),
         events: {
@@ -180,7 +217,7 @@
                 });
             } else {
                 $(".lightbox_container").show();
-                $("#kakao-login-btn iframe").attr("style","width: 222px; height: 49px;");
+                $("#kakao-login-btn iframe").attr("style", "width: 222px; height: 49px;");
                 $("#lightbox .close").bind("click", function () {
                     $("#underlayer").hide();
                 });
@@ -228,7 +265,7 @@
         KakaoLogin.save(null, {
             success: function (model, response) {
                 console.log(response);
-                if(response.logged == "ok"){
+                if (response.logged == "ok") {
                     $("#repository").toggle({
                         duration: "slow",
                         complete: function () {
@@ -274,7 +311,7 @@
                 var options = {
                     url: 'http://localhost:8080/Dync/issuecontrol',
                     resetForm: true,
-                    success: function(){
+                    success: function () {
                         alert("이슈를 등록하였습니다!");
                         viewIssueList.refresh();
                     }
@@ -289,17 +326,22 @@
         }
     });
 
-    $("#save-btn").click(function (e) {
+    $("#put-btn").click(function (e) {
         if (KakaoLogin.get("logged") == "ok") {
-            if ($("#input-subject").val() != ""){
+            if ($("#input-subject").val() != "") {
                 var options = {
-                    success: function(){
-                        alert("코드를 저장하였습니다.");
+                    success: function (res, statusText, xhr, $form) {
+
+                        var getdata = JSON.parse(res);
+                        console.log(getdata);
+                        var sel = $('#issue_contents').getSelection();
+                        $('#issue_contents').insertText("@" + getdata[0].codeid + "@", sel.end).setSelection(sel.start, sel.end);
                         Codelist.refresh();
                     }
                 };
                 $("#insertCodeForm").ajaxSubmit(options);
             } else {
+                alert("코드 제목을 입력하세요 코드를 저장해야 삽입 가능합니다.");
                 return false;
             }
         } else {
@@ -308,15 +350,14 @@
         }
         return false;
     });
-
-    $("#put-btn").click(function (e) {
-        var sel = $('#issue_contents').getSelection();
-        $('#issue_contents').insertText("[CODE:TEST001]", sel.end).setSelection(sel.start, sel.end);
-        return false;
-    });
-    function nl2br(value) {s
+    function nl2br(value) {
+        s
         return value.replace(/\n/g, "<br />");
     }
+    $("#CodeViewer .close-btn").click(function(){
+        $("#CodeViewer").hide();
+    });
+
 //IssueView();
 
 })(jQuery);

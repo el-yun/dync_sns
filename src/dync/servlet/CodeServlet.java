@@ -69,8 +69,12 @@ public class CodeServlet extends HttpServlet {
 		System.out.println("CodeServlet 실행");
 		//response.setContentType("text/html; charset=utf-8");
 		request.setCharacterEncoding("utf-8");
-		out = new PrintWriter(new OutputStreamWriter(response.getOutputStream(), "KSC5601"));
+		out = new PrintWriter(new OutputStreamWriter(
+				response.getOutputStream(), "UTF8"));
 		out.flush();
+
+		response.setContentType("text/html;charset=utf-8");
+		
 		String action = request.getParameter(REQ_ACTION);
 		if(action == null) {
 			System.out.println("action = null");
@@ -82,10 +86,12 @@ public class CodeServlet extends HttpServlet {
 			System.out.println("insert 요청");
 			Code code = makeCodeBean(request);
 			if (code != null && cpm.insertCode(code)) {
+				int putid = cpm.getAutoId();
 				JSONObject jsonObject = new JSONObject();
 				JSONArray jsonArray = new JSONArray();
 				
 				jsonObject.put("result", "ok");
+				jsonObject.put("codeid", putid);
 				jsonArray.add(jsonObject);
 				
 				out.print(jsonArray.toString());
@@ -100,7 +106,8 @@ public class CodeServlet extends HttpServlet {
 				out.print(jsonArray.toString());
 				// throw new ServletException("DB Query Error");
 			}
-		}else if(action.equals(ACTION_DELETE))
+		}
+		else if(action.equals(ACTION_DELETE))
 		{
 			
 			System.out.println("delete 요청");

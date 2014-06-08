@@ -285,7 +285,7 @@ footer {
 }
 
 dl.dotlist {
-    padding: 5px 5px;
+    padding: 5px 0px;
     height: 290px;
     overflow: auto;
     list-style: none;
@@ -293,16 +293,29 @@ dl.dotlist {
 
 dl.dotlist li {
     line-height: 20px;
-    font-size: 12px;
+    font-size: 11px;
     font-family: "Nanum Gothic";
-    padding-left: 10px;
+    padding: 0px 12px;
     cursor: pointer;
-    width: 150px;
+    width: 140px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    overflow:hidden;
+    border:1px solid #4b4b4b;
+    background: #3d3d3d;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    margin-bottom: 3px;
+    position:relative;
 }
-
+dl.dotlist li span {
+    position:absolute;
+    right: 8px;
+    top: 0px;
+    color:#9e9e9e;
+}
 dl.dotlist li:hover {
     background: #2c2c2c;
 }
@@ -315,7 +328,22 @@ dl.dotlist li:hover {
     border-top: 1px solid #F6F6F6;
     background: #fbfbfb;
 }
-
+.btn-code {
+    display:block;
+    width: 100%;
+    height: 25px;
+    border: 1px solid #f1f1f1;
+    text-align: center;
+    line-height: 25px;
+    background: #f4f4f4;
+    color: #252525;
+    font-size: 12px;
+    cursor:pointer;
+    margin: 4px 0px;
+}
+.btn-code:hover {
+    color: #707070;
+}
 .left_btn {
     float: left;
     width: 183px;
@@ -672,4 +700,25 @@ dl.dotlist li:hover {
     color: #FFF;
     margin-left: 5px;
     line-height: 160%;
+}
+
+#CodeViewer {
+    display:none;
+    width:700px;
+    height: 50px;
+    position: absolute;
+    top: 120px;
+    left: 50%;
+    margin-left:-400px;
+    z-index: 100;
+    min-height: 50px;
+}
+#CodeViewer .close-btn {
+    width: 100%;
+    height: 20px;
+    background: #1d1f21;
+    color: #FFF;
+    text-align:center;
+    font-size: 12px;
+    cursor:pointer;
 }
