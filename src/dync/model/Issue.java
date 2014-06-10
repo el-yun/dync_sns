@@ -1,5 +1,7 @@
 package dync.model;
 
+import java.util.ArrayList;
+
 /**
  * File : Issue.java 
  * Description : Dync 프로그램 DO 클래스
@@ -19,6 +21,7 @@ public class Issue {
 	public static final String TAG 			= "TAG";
 	public static final String REG_DATE	 	= "REG_DATE";
 	public static final String UPLOAD		= "UPLOAD";
+	public static final String COMMENT_LIST		= "COMMENT_LIST";
 	
 	
 	private int issue_id;
@@ -31,6 +34,7 @@ public class Issue {
 	private String tag;
 	private String reg_date;
 	private String upload;
+	private ArrayList<Comment> comment;
 	
 	
 
@@ -133,6 +137,14 @@ public class Issue {
 
 	public void setUpload(String upload) {
 		this.upload = upload;
+	}
+
+	public ArrayList<Comment> getCommentList() {
+		return comment;
+	}
+
+	public void setCommentList(ArrayList<Comment> Comments) {
+		this.comment = Comments;
 	}
 	
 	private String nl2br(String str) {

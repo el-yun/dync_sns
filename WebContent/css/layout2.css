@@ -183,10 +183,9 @@ footer {
 }
 
 .issue {
-    width: px;
-    padding: 0px 20px;
+    padding: 10px 20px 20px 20px;
     min-height: 150px;
-    margin: 10px 0px;
+    margin: 10px 0px 25px 0px;
 }
 
 .issue h1 {
@@ -604,6 +603,7 @@ dl.dotlist li:hover {
 }
 
 .writer-icon {
+    clear:both;
     float: left;
     width: 40px;
     height: 40px;
@@ -828,3 +828,36 @@ dl.dotlist li:hover {
     vertical-align: middle;
 }
 
+.comment {
+    float:right;
+    clear:inherit;
+    background: #efefef;
+    width: 600px;
+    padding: 10px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+.comment ul {
+    list-style: none;
+}
+.comment ul li {
+}
+.comment ul li.comment_user {
+    clear:left;
+    float:left;
+    width: 70px;
+    font-weight: bold;
+    font-family: "Nanum Gothic";
+    font-size: 13px;
+}
+.comment ul li.comment_context {
+    float:left;
+    line-height: 14px;
+    font-family: "Nanum Gothic";
+    font-size: 12px;
+    border-left : 3px solid #c1c1c1;
+    padding-left: 10px;
+}

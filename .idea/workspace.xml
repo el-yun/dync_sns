@@ -55,11 +55,21 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="dync-controller.js" pinned="false" current="false" current-in-tab="true">
+          <file leaf-file-name="dync-controller.js" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/WebContent/js/dync-controller.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.45572916" vertical-offset="7136" max-vertical-offset="8018">
-                  <caret line="394" column="55" selection-start-line="394" selection-start-column="55" selection-end-line="394" selection-end-column="55" />
+                <state vertical-scroll-proportion="0.0" vertical-offset="4343" max-vertical-offset="8018">
+                  <caret line="250" column="50" selection-start-line="250" selection-start-column="50" selection-end-line="250" selection-end-column="50" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="layout2.css" pinned="false" current="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/WebContent/css/layout2.css">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="3.3157024" vertical-offset="14334" max-vertical-offset="16511">
+                  <caret line="860" column="36" selection-start-line="860" selection-start-column="36" selection-end-line="860" selection-end-column="36" />
                   <folding />
                 </state>
               </provider>
@@ -69,21 +79,11 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+          <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/WebContent/index.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-12.178572" vertical-offset="2034" max-vertical-offset="3914">
-                  <caret line="125" column="28" selection-start-line="125" selection-start-column="28" selection-end-line="125" selection-end-column="28" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="layout2.css" pinned="false" current="true" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/WebContent/css/layout2.css">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.35771278" vertical-offset="14817" max-vertical-offset="15884">
-                  <caret line="794" column="17" selection-start-line="794" selection-start-column="17" selection-end-line="794" selection-end-column="17" />
+                <state vertical-scroll-proportion="0.48735243" vertical-offset="3150" max-vertical-offset="4085">
+                  <caret line="181" column="49" selection-start-line="181" selection-start-column="49" selection-end-line="181" selection-end-column="49" />
                   <folding />
                 </state>
               </provider>
@@ -115,16 +115,16 @@
         <option value="$PROJECT_DIR$/WebContent/css/default.css" />
         <option value="$PROJECT_DIR$/WebContent/js/json2.js" />
         <option value="$PROJECT_DIR$/WebContent/js/dync-controller.js" />
-        <option value="$PROJECT_DIR$/WebContent/index.html" />
         <option value="$PROJECT_DIR$/WebContent/css/layout2.css" />
+        <option value="$PROJECT_DIR$/WebContent/index.html" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="173" />
-    <option name="y" value="222" />
-    <option name="width" value="1463" />
-    <option name="height" value="918" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -386,15 +386,15 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="173" y="222" width="1463" height="918" extended-state="1" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13130616" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30123457" sideWeight="0.4996215" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.098958336" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30063292" sideWeight="0.4996215" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25949368" sideWeight="0.478125" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -803,26 +803,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WebContent/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.178572" vertical-offset="2034" max-vertical-offset="3914">
-          <caret line="125" column="28" selection-start-line="125" selection-start-column="28" selection-end-line="125" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/WebContent/js/dync-controller.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.45572916" vertical-offset="7136" max-vertical-offset="8018">
-          <caret line="394" column="55" selection-start-line="394" selection-start-column="55" selection-end-line="394" selection-end-column="55" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="4343" max-vertical-offset="8018">
+          <caret line="250" column="50" selection-start-line="250" selection-start-column="50" selection-end-line="250" selection-end-column="50" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/WebContent/css/layout2.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.35771278" vertical-offset="14817" max-vertical-offset="15884">
-          <caret line="794" column="17" selection-start-line="794" selection-start-column="17" selection-end-line="794" selection-end-column="17" />
+        <state vertical-scroll-proportion="3.3157024" vertical-offset="14334" max-vertical-offset="16511">
+          <caret line="860" column="36" selection-start-line="860" selection-start-column="36" selection-end-line="860" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WebContent/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.48735243" vertical-offset="3150" max-vertical-offset="4085">
+          <caret line="181" column="49" selection-start-line="181" selection-start-column="49" selection-end-line="181" selection-end-column="49" />
           <folding />
         </state>
       </provider>

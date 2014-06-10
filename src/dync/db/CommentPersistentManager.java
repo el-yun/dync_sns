@@ -50,8 +50,8 @@ public class CommentPersistentManager extends ConnectDB{
 	public ArrayList<Comment> getCommentList(String key, int value){
 		connect();
 		ArrayList<Comment> commentList = new ArrayList<>();
-		
-		String sql = "select * from COMMENT where " + key + "=?";
+		// SELECT * FROM dyncdb.comment as comments , dyncdb.user as user WHERE comments.USER_ID = user.USER_ID ;
+		String sql = "select * from COMMENT as comments, USER as user where (" + key + "= ? ) AND ( comments.USER_ID = user.USER_ID )";
 		
 		try {
 			
@@ -67,6 +67,7 @@ public class CommentPersistentManager extends ConnectDB{
 				comment.setUser_id(rs.getInt("USER_ID"));
 				comment.setComment_contents(rs.getString("COMMENT_CONTENTS"));
 				comment.setReg_date(rs.getString("REG_DATE"));
+				comment.setUserName(rs.getString("USER_NAME"));
 				
 				commentList.add(comment);
 			}
@@ -78,7 +79,8 @@ public class CommentPersistentManager extends ConnectDB{
 		} finally{
 			disconnect();
 		}
-		return commentList;
+		if(!commentList.isEmpty()) return commentList;
+		else return null;
 	}
 	
 	

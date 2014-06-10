@@ -6,10 +6,12 @@ public class Comment {
 	public static final String USER_ID 			= "USER_ID";
 	public static final String COMMENT_CONTENTS = "COMMENT_CONTENTS";
 	public static final String REG_DATE			= "REG_DATE";
+	public static final String USER_NAME			= "USER_NAME";
 
 	private int comment_id;
 	private int issue_id;
 	private int user_id;
+	private String user_name;
 	private String comment_contents;
 	private String reg_date;
 	
@@ -64,5 +66,13 @@ public class Comment {
 
 	public void setReg_date(String reg_date) {
 		this.reg_date = reg_date;
+	}
+	
+	public String getUserName() {
+		return comment_contents;
+	}
+
+	public void setUserName(String UserName) {
+		this.user_name = UserName;
 	}
 }

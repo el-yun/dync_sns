@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import com.mysql.jdbc.Statement;
 
+import dync.model.Comment;
 import dync.model.Issue;
 import dync.util.StringCut;
 
@@ -170,14 +171,16 @@ public class IssuePersistentManager extends ConnectDB {
 	public ArrayList<Issue> getIssueList(){
 		connect();
 		ArrayList<Issue> issueList = new ArrayList<Issue>();
+		ArrayList<Comment> commentList = new ArrayList<Comment>();
 		
 		String sql = "select * from ISSUE order by REG_DATE DESC";
 		try {
 			pstmt = conn.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
+			CommentPersistentManager ctpm = new CommentPersistentManager();
 			while(rs.next()) {
 				Issue issue = new Issue();
-				
+				commentList = ctpm.getCommentList("comments.ISSUE_ID", rs.getInt("ISSUE_ID"));
 				issue.setIssue_id(rs.getInt("ISSUE_ID"));
 				issue.setUser_id(rs.getInt("USER_ID"));
 				issue.setType(rs.getString("TYPE"));
@@ -189,6 +192,7 @@ public class IssuePersistentManager extends ConnectDB {
 				issue.setTag(rs.getString("TAG"));
 				issue.setReg_date(rs.getString("REG_DATE"));
 				issue.setUpload(rs.getString("UPLOAD"));
+				if(commentList != null) issue.setCommentList(commentList);
 				issueList.add(issue);
 			}
 			rs.close();
