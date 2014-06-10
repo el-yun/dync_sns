@@ -176,6 +176,21 @@
                         <article>
                             <%= this.contents %>
                         </article>
+                        <div class="comment">
+                            <ul>
+                                <textarea name="comment_input" class="comment-input">
+                                </textarea><% 
+                                $.each(this.commentList, function () { 
+                                if(this !== null){
+                                %>
+                                <li class="comment_user"><%= this.user_name %></li>
+                                <li class="comment_context"><%= this.comment_contents %></li>
+                                <%  
+                                }
+                                });
+                                %>
+                            </ul>
+                        </div>
                     </div>
                     <%  }); %>
                 </script>
