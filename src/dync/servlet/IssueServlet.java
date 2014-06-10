@@ -137,22 +137,20 @@ public class IssueServlet extends HttpServlet {
 
 					if (ipm.insertIssue(issue)) {
 						//이슈 작성시 태그 삽입[일단 보류]
-						/*
-						if (issue.getTag() != null && ipm.returnid != 0) {
+						if (issue.getTag() != null && ipm.getAutoId() != 0) {
 							String tagNames = issue.getTag();
 							tagNames.replaceAll("\\p{Space}", "");
 							String tag_name[] = tagNames.split(",");
 							for (String tagName : tag_name) {
 								Tag tag = new Tag();
 
-								tag.setIssue_id(ipm.returnid);
+								tag.setIssue_id(ipm.getAutoId());
 								tag.setTag_name(tagName);
 								tag.setUser_id(issue.getUser_id());
 
 								tpm.insertTag(tag);
 							}
 						}
-						*/
 						print_json_message(response, "result", "ok");
 					} else {
 						print_json_message(response, "result", "no");
@@ -160,19 +158,20 @@ public class IssueServlet extends HttpServlet {
 				} else {
 					if (ipm.insertIssue(issue)) {
 						//이슈 작성 시 태그 삽입[일단 보류]
-						/*
-						String tagNames = issue.getTag();
-						tagNames.replaceAll("\\p{Space}", "");
-						String tag_name[] = tagNames.split(",");
-						for (String tagName : tag_name) {
-							Tag tag = new Tag();
-							tag.setIssue_id(issue.getIssue_id());
-							tag.setTag_name(tagName);
-							tag.setUser_id(issue.getUser_id());
+						if (issue.getTag() != null && ipm.getAutoId() != 0) {
+							String tagNames = issue.getTag();
+							tagNames.replaceAll("\\p{Space}", "");
+							String tag_name[] = tagNames.split(",");
+							for (String tagName : tag_name) {
+								Tag tag = new Tag();
 
-							tpm.insertTag(tag);
+								tag.setIssue_id(ipm.getAutoId());
+								tag.setTag_name(tagName);
+								tag.setUser_id(issue.getUser_id());
+
+								tpm.insertTag(tag);
+							}
 						}
-						*/
 						print_json_message(response, "result", "ok");
 					} else {
 						System.out.println("DB Insert Fail");

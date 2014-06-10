@@ -65,6 +65,19 @@
         </pre>
         <div class="close-btn">Close</div>
     </div>
+    <div id="setup">
+        <div class="box_top">
+            <p class="box_title">환경설정</p>
+        </div>
+        <div class="box_content">
+            <p class="box_field">
+                즐겨찾기 태그 관리 : <input type="text" name="my-tag-add" value=""/>
+                <br>※ 콤마(,) 로 구분합니다. 이슈에 포함된 태그들만 보여집니다.
+            </p>
+            <p class="box_field">이슈 실시간 보기 : <input type="checkbox" name="my-issue-realtime" value="1"/></p>
+            <a id="setup-btn" class="btn ralign">적용하기</a>
+        </div>
+    </div>
     <div id="repository" class="popup" style="display: none">
         <form id="insertCodeForm" method="post" action="http://localhost:8080/Dync/codecontrol" onsubmit="return false">
             <input type="hidden" name="action" value="insert"/>
@@ -81,6 +94,13 @@
         <div class="box_content">
             <div class="box_left">
                 <dl id="code_list" class="dotlist">
+                    <script type='text/template' id='listCodeTemplate'>
+                        <%
+                        $.each(codes, function () { %>
+                        <li class="code-li" data-codeid="<%= this.code_id %>"><%= this.code_subject %><span>X</span></li>
+                        <%  });
+                        %>
+                    </script>
                 </dl>
             </div>
             <div class="box_right">
@@ -144,6 +164,21 @@
                 </form>
             </div>
             <div id="Issuelist">
+                <!-- 목록 출력 -->
+                <script type='text/template' id='listIssueTemplate'>
+                    <%
+                    $.each(issues, function () { %>
+                    <div class="issue">
+                        <div class="writer-icon"></div>
+                        <h1><%= this.subject %></h1>
+
+                        <p class="regdate"><%= this.reg_date %></p>
+                        <article>
+                            <%= this.contents %>
+                        </article>
+                    </div>
+                    <%  }); %>
+                </script>
             </div>
         </div>
         <div class="right-box">
@@ -156,33 +191,11 @@
             </div>
         </div>
     </div>
-    <footer>
-        <p class="copyright">Copyright @ JBNU_ TEAM BUFF All Right
-            Reserved</p>
-    </footer>
 </div>
-<!-- 목록 출력 -->
-<script type='text/template' id='listIssueTemplate'>
-    <%
-    $.each(issues, function () { %>
-    <div class="issue">
-        <div class="writer-icon"></div>
-        <h1><%= this.subject %></h1>
-
-        <p class="regdate"><%= this.reg_date %></p>
-        <article>
-            <%= this.contents %>
-        </article>
-    </div>
-    <%  }); %>
-</script>
-<script type='text/template' id='listCodeTemplate'>
-    <%
-    $.each(codes, function () { %>
-            <li class="code-li" data-codeid="<%= this.code_id %>"><%= this.code_subject %><span>X</span></li>
-    <%  });
-    %>
-</script>
+<footer>
+    <p class="copyright">Copyright @ JBNU_ TEAM BUFF All Right
+        Reserved</p>
+</footer>
 <script src="./js/dync-controller.js" type="text/javascript" charset="utf-8"></script>
 </body>
 </html>

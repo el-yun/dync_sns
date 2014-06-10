@@ -10,12 +10,13 @@ public class TagPersistentManager extends ConnectDB {
 	
 	public boolean insertTag(Tag tag){
 		connect();
-		String sql = "insert into TAG(USER_ID,TAG_NAME) values(?,?)";
+		String sql = "insert into TAG(USER_ID,TAG_NAME,ISSUE_ID) values(?,?,?)";
 		
 		try{
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, tag.getUser_id());
 			pstmt.setString(2, tag.getTag_name());
+			pstmt.setInt(3, tag.getIssue_id());
 			pstmt.executeUpdate();
 		}catch(SQLException e){
 			System.out.println(pstmt.toString());
@@ -79,6 +80,7 @@ public class TagPersistentManager extends ConnectDB {
 				Tag tag = new Tag();
 				tag.setUser_id(rs.getInt("USER_ID"));
 				tag.setTag_name(rs.getString("TAG_NAME"));
+				tag.setIssue_id(rs.getInt("ISSUE_ID"));
 				tagList.add(tag);
 			}
 			rs.close();

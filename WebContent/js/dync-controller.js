@@ -5,13 +5,13 @@
     String.prototype.replaceAt=function(index, character) {
         return this.substr(0, index) + character + this.substr(index+character.length);
     }
-    var parseURL = 'http://localhost:8080/Dync/usercontrol';
+    var parseURL = './usercontrol';
     Kakao.init('07f2d3ff4958ad3553bc8830de72133b');
 // Models
     Issue = Backbone.Model.extend();
     Tag = Backbone.Model.extend();
     Code = Backbone.Model.extend({
-        url: "http://localhost:8080/Dync/codecontrol?action=list"
+        url: "./codecontrol?action=list"
     });
     Login = Backbone.Model.extend({
         url: parseURL + "?action=check"
@@ -19,7 +19,7 @@
 // Collections
     IssueCollection = Backbone.Collection.extend({
         model: Issue,
-        url: 'http://localhost:8080/Dync/issuecontrol?action=list',
+        url: './issuecontrol?action=list',
         parse: function (response) {
             return response.results;
         },
@@ -41,7 +41,7 @@
 
     CodeCollection = Backbone.Collection.extend({
         model: Code,
-        url: 'http://localhost:8080/Dync/codecontrol?action=list',
+        url: './codecontrol?action=list',
         parse: function (response) {
             return response.results;
         },
@@ -107,7 +107,7 @@
                 $.ajax({
                     type: "POST",
                     dataType: "json",
-                    url: "http://localhost:8080/Dync/codecontrol",
+                    url: "./codecontrol",
                     data: { action: 'code', 'CODE_ID': codeid },
                     success: function (args) {
                          var result = unescape(decodeURIComponent(args[0].code_contents));
@@ -160,7 +160,7 @@
             $.ajax({
                 type: "POST",
                 dataType: "json",
-                url: "http://localhost:8080/Dync/codecontrol",
+                url: "./codecontrol",
                 data: { action: 'code', 'CODE_ID': target_id },
                 success: function (args) {
                     var result = unescape(decodeURIComponent(args[0].code_contents));
@@ -315,7 +315,7 @@
             var Send = confirm("새로운 이슈를 등록하시겠습니까?");
             if (Send == true) {
                 var options = {
-                    url: 'http://localhost:8080/Dync/issuecontrol',
+                    url: './issuecontrol',
                     resetForm: true,
                     success: function () {
                         alert("이슈를 등록하였습니다!");
@@ -370,7 +370,7 @@
             $.ajax({
                 type: "POST",
                 dataType: "json",
-                url: "http://localhost:8080/Dync/codecontrol",
+                url: "./codecontrol",
                 data: { action: 'search', 'SEARCH_CODE': texts },
                 success: function (args) {
                     for(var key in args){
@@ -389,7 +389,7 @@
                             $.ajax({
                                 type: "POST",
                                 dataType: "json",
-                                url: "http://localhost:8080/Dync/codecontrol",
+                                url: "./codecontrol",
                                 data: { action: 'code', 'CODE_ID': target_id },
                                 success: function (args) {
                                     var result = decodeURIComponent(args[0].code_contents);

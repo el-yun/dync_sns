@@ -10,9 +10,11 @@ package dync.model;
 public class Tag {
 	public static final String USER_ID			= "USER_ID";
 	public static final String TAG_NAME 		= "TAG_NAME";
+	public static final String ISSUE_ID 		= "ISSUE_ID";
 
 	private int user_id;
 	private String tag_name;
+	private int issue_id;
 
 	public Tag() {
 		// TODO Auto-generated constructor stub
@@ -38,6 +40,14 @@ public class Tag {
 
 	public void setTag_name(String tag_name) {
 		this.tag_name = tag_name;
+	}
+
+	public void setIssue_id(int autoId) {
+		// TODO Auto-generated method stub
+		this.issue_id = autoId;
+	}
+	public int getIssue_id() {
+		return issue_id;
 	}
 
 }

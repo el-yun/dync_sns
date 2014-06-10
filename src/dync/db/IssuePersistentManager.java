@@ -44,7 +44,28 @@ public class IssuePersistentManager extends ConnectDB {
 		}
 		return true;
 	}
-	
+
+	public int getAutoId(){
+		connect();
+		int get_id = 0;
+		String sql = "SHOW TABLE STATUS FROM `dyncdb` LIKE 'ISSUE'";
+		try{
+			pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			
+			rs.next();
+			get_id = rs.getInt("Auto_increment");
+			
+			rs.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		
+		return get_id - 1;
+		
+	}
 	public void get_insert_id(PreparedStatement pstmt){
 		ResultSet rs;
 		try {
