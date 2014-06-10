@@ -3,6 +3,7 @@ package dync.servlet;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -113,6 +114,35 @@ public class CodeServlet extends HttpServlet {
 		{
 			
 			System.out.println("delete 요청");
+			
+			String code_id_String = request.getParameter("CODE_ID");
+			int code_id = 0;
+			
+			if(code_id_String == null || code_id_String.equals("")){
+				System.out.println("code_id를 입력해주세요");
+				print_json_message(response, "result", "no");
+				return;
+			}else{
+				code_id = Integer.parseInt(code_id_String);
+			}
+			
+			
+			if(cpm.checkCode(code_id)){
+				if(cpm.clearCode(code_id)){
+					print_json_message(response, "result", "ok");
+					return;
+				}else{
+					System.out.println("코드 해제 실패");
+					print_json_message(response, "result", "no");
+					return;
+				}
+			}else{
+				System.out.println("유효하지 않은 code_id");
+				print_json_message(response, "result", "no");
+				return;
+			}
+			
+			/*
 			String columnName = request.getParameter("COLUMN_NAME");
 			int columnValue = Integer.parseInt(request.getParameter("COLUMN_VALUE"));
 			if(cpm.deleteCode(columnName, columnValue)){
@@ -132,6 +162,9 @@ public class CodeServlet extends HttpServlet {
 				
 				out.print(jsonArray.toString());
 			}
+			*/
+			
+			
 		}else if(action.equals(ACTION_UPDATE))
 		{
 			System.out.println("update 요청");
@@ -158,7 +191,7 @@ public class CodeServlet extends HttpServlet {
 			System.out.println("getCode 요청");
 			int code_id = Integer.parseInt(request.getParameter("CODE_ID"));
 			
-			if(checkCode(code_id)){
+			if(cpm.checkCode(code_id)){
 				JSONObject jsonObject = new JSONObject();
 				JSONArray jsonArray = new JSONArray();
 				
@@ -270,17 +303,17 @@ public class CodeServlet extends HttpServlet {
 				.getRequestDispatcher(jspPath);
 		dispatcher.forward(request, response);
 	}
-	
-	private boolean checkCode(int code_id){
-		ArrayList<Code> codeList = cpm.getCodeList();
-		boolean flag = true;
-		for(Code code : codeList){
-			if(code.getCode_id() == code_id){
-				flag = false;
-				break;
-			}
-		}
-		return flag;
+	private void print_json_message(HttpServletResponse response, String key,String value) throws UnsupportedEncodingException, IOException{
+		
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(
+				response.getOutputStream(), "UTF8"));
+		response.setContentType("text/html;charset=utf-8");
+		
+		JSONArray jsonArray = new JSONArray();
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put(key, value);
+		jsonArray.add(jsonObject);
+		out.write(jsonArray.toString());
+		out.close();
 	}
-
 }

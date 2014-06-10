@@ -72,7 +72,7 @@ CREATE TABLE `code_repository` (
 
 LOCK TABLES `code_repository` WRITE;
 /*!40000 ALTER TABLE `code_repository` DISABLE KEYS */;
-INSERT INTO `code_repository` VALUES (1402129701,200923397);
+INSERT INTO `code_repository` VALUES (1402129701,200923397),(999999999,1);
 /*!40000 ALTER TABLE `code_repository` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -161,8 +161,35 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (200923397,NULL,'454051','윤지환',NULL,1402129701);
+INSERT INTO `user` VALUES (200923397,NULL,'454051','윤지환',NULL,1402129701),(1,'admin','admin','admin','admin',999999999);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `comment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `comment` (
+  `COMMENT_ID` int(50) NOT NULL AUTO_INCREMENT,
+  `ISSUE_ID` int(20) NOT NULL,
+  `USER_ID` int(50) NOT NULL,
+  `COMMENT_CONTENTS` text DEFAULT NULL,
+  `REG_DATE` datetime DEFAULT NULL,
+  PRIMARY KEY (`COMMENT_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=10000 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `comment`
+--
+
+LOCK TABLES `comment` WRITE;
+/*!40000 ALTER TABLE `comment` DISABLE KEYS */;
+INSERT INTO `comment` VALUES (10002,100012,200923397,'코멘트 입니다','2014-06-07 17:55:10');
+/*!40000 ALTER TABLE `comment` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --

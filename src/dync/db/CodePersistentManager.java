@@ -35,6 +35,26 @@ public class CodePersistentManager extends ConnectDB{
 		return true;
 	}
 	
+	public boolean deleteCode(int value){
+		connect();
+		
+		String sql = "delete from CODE where CODE_ID=?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, value);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println(pstmt.toString());
+			e.printStackTrace();
+			return false;
+		}finally{
+			disconnect();
+		}
+		
+		return true;
+	}
+	
 	public boolean deleteCode(String columnName, int columnValue){
 		connect();
 		
@@ -45,13 +65,37 @@ public class CodePersistentManager extends ConnectDB{
 			pstmt.setInt(1, columnValue);
 			pstmt.executeUpdate();
 			
-			System.out.println(pstmt.toString());
+			
 		}catch(SQLException e){
+			System.out.println(pstmt.toString());
 			e.printStackTrace();
 			return false;
 		}finally{
 			disconnect();
 		}
+		return true;
+	}
+	
+	public boolean clearCode(int code_id){
+		connect();
+		
+		String sql = "update CODE set CODE_REPOSITORY=? where CODE_ID=?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, 999999999);
+			pstmt.setInt(2, code_id);
+			
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println(pstmt.toString());
+			e.printStackTrace();
+			return false;
+		}finally{
+			disconnect();
+		}
+		
+		
 		return true;
 	}
 	
@@ -315,5 +359,17 @@ public class CodePersistentManager extends ConnectDB{
 		}
 		
 		return codeList;
+	}
+	
+	public boolean checkCode(int code_id){
+		ArrayList<Code> codeList = new ArrayList<>();
+		
+		codeList = getCodeList();
+		for(Code code : codeList){
+			if(code.getCode_id() == code_id){
+				return true;
+			}
+		}
+		return false;
 	}
 }
