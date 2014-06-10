@@ -863,7 +863,8 @@ dl.dotlist li:hover {
 }
 
 .comment-input {
-    width: 100%;
+    width: 85%;
+    float:left;
     border: 0px solid;
     border-bottom: 1px solid #BDBDBD;
     background: #efefef;

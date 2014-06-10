@@ -68,6 +68,7 @@
     <div id="setup">
         <div class="box_top">
             <p class="box_title">환경설정</p>
+            <p id="window2-close" class="winclose ralign">X</p>
         </div>
         <div class="box_content">
             <p class="box_field">
@@ -134,7 +135,7 @@
 
                 </ul>
             </div>
-            <div id="left-menu-setup" class="menu"><span>My Code</span></div>
+            <div id="left-menu-setup" class="menu"><span>Setup</span></div>
         </aside>
         <div id="contents">
             <p class="writetitle">새로운 이슈를 써주세요</p>
@@ -178,8 +179,9 @@
                         </article>
                         <div class="comment">
                             <ul>
-                                <textarea name="comment_input" class="comment-input">
-                                </textarea><% 
+                                <textarea id="commentInput" data-issue="<%= this.issue_id %>" name="comment_input" class="comment-input"></textarea>
+                                <a id="send-btn" class="btn ralign">등록하기</a>
+                                <% 
                                 $.each(this.commentList, function () { 
                                 if(this !== null){
                                 %>

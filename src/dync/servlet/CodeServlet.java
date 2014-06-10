@@ -190,7 +190,7 @@ public class CodeServlet extends HttpServlet {
 		}else if(action.equals(ACTION_CODE)){
 			System.out.println("getCode 요청");
 			int code_id = Integer.parseInt(request.getParameter("CODE_ID"));
-			
+			/*
 			if(cpm.checkCode(code_id)){
 				JSONObject jsonObject = new JSONObject();
 				JSONArray jsonArray = new JSONArray();
@@ -201,7 +201,7 @@ public class CodeServlet extends HttpServlet {
 				out.print(jsonArray.toString());
 				System.out.println("존재하지 않는 CODE_ID");
 			}
-			
+			*/
 			Code code = cpm.getCode(code_id);
 			JSONArray jsonArray = new JSONArray();
 			jsonArray.add(code);

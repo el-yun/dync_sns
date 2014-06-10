@@ -262,9 +262,18 @@
     new APIlogin;
 // Operation
     var viewIssueList = new IssuelistView();
+    
+    /*
     var issueTraker = window.setInterval(function(){
-        viewIssueList.refresh();
+        var hasFocus = $('.comment-input').is(':focus');
+            if(hasFocus == true){
+                clearInterval(issueTraker);
+            } else {
+                console.log(hasFocus);
+                issueTraker = window.setInterval(function(){viewIssueList.refresh();},5000);
+            }
     },5000);
+    */
     var Coder = null;
     var Codelist = new CodelistView();
     $("#left-menu-code, #add-code").click(function () {
@@ -363,7 +372,19 @@
     $("#CodeViewer .close-btn").click(function(){
         $("#CodeViewer").hide();
     });
+    $("#left-menu-setup").click(function(){
+        $("#setup").show();
+    });
+    $("#window2-close").click(function(){
+        $("#setup").hide();
+    });
     var timer = null;
+    $('textarea.comment-input').on('keyup', function(e) {
+    //alert(e.keyCode);
+    if(e.keyCode == 13) {
+        alert('Enter key was pressed.');
+    }
+    });
     $("#search-text").on("change keyup paste", function() {
             var texts = $('#search-text').val();
             //console.log(texts);
